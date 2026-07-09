@@ -66,6 +66,45 @@ def stage_phase0():
     print(f"phase0 artifacts -> {RES}")
 
 
+RES1 = ROOT / "results" / "e1b" / "phase1"
+DRIVER = ROOT / "src" / "ribbon_reorder" / "e1b_phase1"
+P1_STRATEGIES = ["reference", "noprefetch", "sort_std", "sort_radix", "partitioned"]
+P1_SIZES = [10_000_000, 100_000_000, 400_000_000]
+P1_REPS = 3
+
+
+def stage_phase1():
+    if not DRIVER.exists():
+        sys.exit("prerequisite missing: make -C src/ribbon_reorder")
+    if not (ROOT / "results" / "e1b" / "ANALYSIS.md").exists():
+        sys.exit("prerequisite missing: phase-0 analysis (gate decision) must exist")
+    RES1.mkdir(parents=True, exist_ok=True)
+    (RES1 / "machine.json").write_text(json.dumps(machine_info(), indent=2))
+    for n in P1_SIZES:
+        for strat in P1_STRATEGIES:
+            for rep in range(P1_REPS):
+                out_path = RES1 / f"{strat}_{n}_rep{rep}.json"
+                if out_path.exists():
+                    print(f"skip (exists): {out_path.name}")
+                    continue
+                r = subprocess.run(
+                    [str(DRIVER), str(n), strat, str(rep)],
+                    capture_output=True, text=True,
+                )
+                if r.returncode != 0:
+                    print(f"FAILED {strat} n={n} rep={rep}: {r.stderr.strip()[:200]}")
+                    sys.exit(1)
+                out_path.write_text(r.stdout)
+                print(r.stdout.strip())
+    print(f"phase1 artifacts -> {RES1}")
+
+
+def stage_analyze1():
+    import analyze_phase1
+
+    analyze_phase1.main()
+
+
 def stage_analyze():
     import analyze
 
@@ -74,10 +113,9 @@ def stage_analyze():
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stage", required=True, choices=["phase0", "analyze"])
+    ap.add_argument("--stage", required=True,
+                    choices=["phase0", "analyze", "phase1", "analyze1"])
     args = ap.parse_args()
     sys.path.insert(0, str(Path(__file__).parent))
-    if args.stage == "phase0":
-        stage_phase0()
-    else:
-        stage_analyze()
+    {"phase0": stage_phase0, "analyze": stage_analyze,
+     "phase1": stage_phase1, "analyze1": stage_analyze1}[args.stage]()
