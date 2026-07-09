@@ -129,3 +129,23 @@ lanes never ≥1.3× over prefetch). Verdict and interpretation, logged before a
   x86-pattern artifact. Note for interpretation: CAX = Neoverse-N1 (OoO, NEON-only, shared
   vCPU) — it tests ISA portability of the E0 null, not the in-order hypothesis; in-order/GPU
   targets remain future work.
+
+## 2026-07-09 — E1a: prior-art audit landed; K2 partially fired; protocol revised and FROZEN
+
+- Adversarial audit (docs/prior-art-construction.md) killed the draft H1 as novelty:
+  Schmidt/Bandle/Giceva (PVLDB 2021) published radix-partitioned filter construction (SWWC +
+  NT stores, up to 9× build gains); fastfilter_cpp has shipped buffered AddAll since 2018;
+  Canim 2010 and Beamer 2017 anticipate the deferred-grouped-update pattern. All revisions
+  made BEFORE any timing data existed.
+- Surviving novelty candidate (audit-verified absence): the READ-FREE apply — partition
+  pre-merged (block, mask) pairs, register OR-aggregation per block, exactly one
+  (non-temporal) store per block, filter memory never read, bit-identical monolithic output.
+  Every located prior system RMWs filter memory; fastfilter's own numbers (buffered blocked
+  AddAll ≈ 0–10%) show buffering without mask pre-merge underperforms — our differentiation
+  argument if H2 confirms.
+- Protocol revised accordingly (H1 = replication claim; H2 = read-free apply ≥1.2× over
+  Schmidt-shaped baseline; K2 fires fully if H2 <1.2× everywhere) and FROZEN.
+- Implemented strategy 5 `build_partitioned_grouped_nt` (x86 _mm256_stream_si256 apply +
+  sfence); all five builders pass the bit-identity gate at three sizes.
+- Required baselines recorded: fastfilter AddAll ids 43/52 (pilot), tum-db/partitioned-filters
+  (paper-level). Framing rule: never claim partitioning/buffering/bulk-build as novel.
