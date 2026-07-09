@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "Transposed Filters: FastLanes-Style Layouts for Approximate Membership Queries"
+authors:
+  - family-names: Sam-Bodden
+    given-names: Brian
+year: 2026
+type: software
+license: MIT

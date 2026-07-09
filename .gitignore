@@ -1,0 +1,14 @@
+.env
+target/
+__pycache__/
+*.pyc
+.venv/
+harness/fastfilter_cpp/
+harness/FastLanes/
+paper/main.aux
+paper/main.bbl
+paper/main.blg
+paper/main.fdb_latexmk
+paper/main.fls
+paper/main.log
+paper/main.out
