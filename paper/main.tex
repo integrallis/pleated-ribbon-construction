@@ -159,7 +159,7 @@ window order. The unmodified reference kernel (its prefetch pipeline included) t
 the permuted array. Everything downstream --- banding, back-substitution, queries --- is the
 ribbon author's code.
 \subsection{Results}
-Table~\ref{tab:ribbon} (100M keys; 400M in artifacts). The partition pass costs
+Table~\ref{tab:ribbon} and Figure~\ref{fig:strategies} (100M keys; 400M in artifacts). The partition pass costs
 5.5--6.1\,ns/key against 23.9--28.1 for ips2ra in our driver (17.3 inside BuRR's own bench);
 banding lands within 13\% of banding-after-full-sort (15.2 vs.\ 13.4\,ns/key), i.e., the
 partition recovers 98.3--98.4\% of the sort's miss reduction (5.75$\to$0.17 vs.\ $\to$0.075
@@ -192,8 +192,37 @@ parallel, 16T (ours) & 5.7 & 2.4 & \textbf{11.9} & --- \\
 \end{tabular}
 \end{table}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.85\linewidth]{figures/strategies_100m.pdf}
+\caption{Construction cost by phase, 100M keys. The partition pass replaces the sort at
+$4\times$ lower reorder cost while banding stays within 13\% of banding-after-full-sort.}
+\label{fig:strategies}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.85\linewidth]{figures/parallel_scaling.pdf}
+\caption{Slot-range parallel construction, 100M keys; every point bit-identical to the
+sequential build.}
+\label{fig:scaling}
+\end{figure}
+
 \section{Order-independence and parallel construction}\label{sec:parallel}
-Across all 45 sequential runs and every parallel run (sizes to 400M, five orderings, thread
+\newtheorem{proposition}{Proposition}
+\begin{proposition}[Order-independence]\label{prop:order}
+Let $E=\{(r_k,b_k)\}$ be equations over $\mathrm{GF}(2)^m$ whose rows are linearly
+independent, each $r_k$ carrying a leading 1 at its start position. Then banding (store each
+reduced row at the slot of its leading position) followed by back-substitution with all free
+slots fixed to zero yields the same solution $Z$ under every insertion order of $E$.
+\end{proposition}
+\emph{Proof sketch.} The occupied-slot set equals the canonical pivot set of
+$V=\mathrm{span}\{r_k\}$ (the set of leading positions realized in $V$), which depends only
+on $V$; the stored system is row-equivalent to $E$; and pinning the order-independent free
+coordinates to zero extends $E$ to a full-rank system with a unique solution. (Full argument
+in the repository, \texttt{docs/order-independence-proof.md}; with dependent rows the
+enforced subset may differ by order, which the per-run fingerprint gate detects.)
+
+Empirically: across all 45 sequential runs and every parallel run (sizes to 400M, five orderings, thread
 counts to 16), the banded solution is \emph{byte-identical} under an FNV fingerprint:
 first-coefficient-always-one banding computes a canonical form of the system regardless of
 insertion order. Reordering is thus provably output-neutral --- the linear-algebra analogue of
@@ -202,7 +231,7 @@ systems problem into a checksum. Our parallel variant assigns disjoint window ra
 equal key counts) to threads; keys starting within $2^{14}$ slots of a range boundary defer to
 a sequential tail (0.015--0.226\% of keys), following parallel BuRR's boundary
 idea~\cite{becht2024parallelburr}. Banding scales 1.81/2.83/4.25/7.56$\times$ at 2/4/8/16
-threads; the residual is Amdahl's: the sequential counting pass (5.7) and back-substitution
+threads (Figure~\ref{fig:scaling}); the residual is Amdahl's: the sequential counting pass (5.7) and back-substitution
 (3.4\,ns/key) now dominate the 11.9\,ns/key total. Both are parallelizable (counting sort
 trivially; back-substitution as in parallel BuRR) --- future work. % C23
 
