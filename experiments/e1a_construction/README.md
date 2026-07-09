@@ -1,8 +1,28 @@
-# E1a — partitioned, register-transposed bulk construction of blocked Bloom filters
+# E1a — read-free bulk construction of blocked Bloom filters
 
-**Status: DRAFT protocol (2026-07-09). Not yet frozen. Freeze checklist before any data
-collection: (1) prior-art audit returned and its findings incorporated below, (2) user commits
-this file. No timing data exists for the new strategies at draft time.**
+**Status: FROZEN (2026-07-09), after pre-data revision for the prior-art audit
+(docs/prior-art-construction.md). No timing data for the new strategies existed at freeze
+time; the bit-identity unit tests were the only code executed.**
+
+## Audit incorporation (pre-freeze revision, 2026-07-09)
+
+The adversarial prior-art audit found the draft's H1 already published: Schmidt, Bandle &
+Giceva (PVLDB 2021) demonstrate radix-partitioned filter construction (SWWC + NT stores, up to
+9× build speedup, "partitioning pays off past L2"), and fastfilter_cpp has shipped
+region-buffered `AddAll` since 2018. Kill criterion K2 therefore PARTIALLY FIRED before data
+collection, and the protocol is revised as follows — this is a hypothesis narrowing, done
+before any timing run, not a post-hoc reframe:
+
+- The `partitioned` strategy is downgraded from novelty candidate to **prior-art-shaped
+  baseline** (Schmidt-style partitioning, but producing a monolithic bit-identical filter).
+- The sole novelty candidate is the **read-free apply** (`partitioned_grouped`): partition
+  pre-merged (block, mask) pairs, OR-aggregate each block's masks in registers, emit exactly
+  one store per block — filter memory is never read (no read-for-ownership traffic). The audit
+  found no anticipation of this combination; the closest systems all RMW filter memory, and
+  fastfilter's own data shows buffering WITHOUT mask pre-merge yields only ~0–10%.
+- fastfilter `AddAll` (ids 43/52) joins the anchors now; Schmidt's tum-db/partitioned-filters
+  harness becomes a required baseline for any paper-level claim (pilot may precede its port).
+- Claim-framing rule adopted: never present partitioning/buffering/bulk-build as novel.
 
 ## Motivation (from measured artifacts + literature)
 
@@ -16,24 +36,25 @@ per-key construction degrades from 2.22 ns/key at 1M keys (0.07 misses/key) to 1
 key. The literature names filter (re)construction cost as an open problem (ribbon = 3–4×
 Bloom's build CPU; RocksDB gates ribbon adoption on it; every LSM compaction rebuilds filters).
 
-## Hypotheses (pre-registered)
+## Hypotheses (pre-registered, post-audit numbering)
 
-- **H1 (partitioning):** two-pass construction — (pass 1) radix-partition `(block_index, mask)`
-  pairs so each partition's filter region fits in L2; (pass 2) per-partition, OR-merge each
-  block's masks in registers and issue **exactly one store per filter block, never a read** —
-  beats per-key insertion by ≥2× at ≥64MiB filter sizes.
-  Derivation of the prediction (honest back-of-envelope, to be tested, not cited as result):
-  per-key at scale ≈ 11.5 ns/key (measured anchor); partitioned traffic ≈ read keys 8B + write
-  pairs ~12B + read pairs ~12B + write filter 1.33B ≈ ~33B/key of *streaming* traffic ≈
-  2–4 ns/key at realistic single-core bandwidth → predicted 3–5× ceiling; H1 claims a
-  conservative ≥2×.
-- **H2 (transposed merge — the FastLanes-flavored part):** within pass 2, lane-structured
-  mask-merging written as plain auto-vectorizable scalar code (process the partition's pairs in
-  W-wide groups, accumulate per-block 8×u32 masks in SIMD registers) adds ≥1.2× over a plain
-  scalar per-pair merge loop. If H1 holds but H2 fails, the honest paper is about partitioned
-  construction (novelty then rests entirely on the prior-art audit), not about transposition.
-- **H3 (portability):** the same scalar source achieves H1's win on ARM NEON (tf-bench-arm,
-  when capacity allows) without code changes.
+- **H1 (replication, NOT novelty — Schmidt et al. PVLDB 2021):** partitioned two-pass
+  construction (`partitioned`: L2-sized spans, counting-sort scatter of (block, mask) pairs,
+  cache-resident RMW merge) beats per-key insertion by ≥2× at ≥64MB filter sizes on a
+  MONOLITHIC filter. Derivation (honest back-of-envelope, not citable): per-key at scale ≈
+  11.5 ns/key measured (CLAIMS C9, one random RMW miss/key); partitioned streaming traffic ≈
+  ~33B/key ≈ 2–4 ns/key at realistic single-core bandwidth.
+- **H2 (the novelty candidate — read-free apply):** `partitioned_grouped` — group each
+  partition's pairs by exact block, OR-aggregate each block's full 8×u32 mask in registers,
+  emit exactly one store per block, never read filter memory — adds ≥1.2× over `partitioned`
+  at ≥64MB, and the x86 non-temporal-store variant adds further by eliminating
+  read-for-ownership traffic (RMW moves ~2 lines of traffic per filter line: RFO read +
+  writeback; read-free NT moves ~1). If H2 fails, K2 has fully fired: no novelty survives;
+  the salvage paths below apply.
+- **H3 (portability):** the safe-Rust grouped builder (no NT stores — portable) still clears
+  H2's ≥1.2× on ARM NEON (tf-bench-arm, when capacity allows) from the same source; the
+  NT-store apply is documented as an x86-specific variant (aarch64 STNP is inline-asm-only and
+  out of scope for this experiment).
 
 ## Kill criteria (pre-registered)
 
@@ -41,10 +62,14 @@ Bloom's build CPU; RocksDB gates ribbon adoption on it; every LSM compaction reb
   does probe misses), construction-side layout work dies too. The project's deliverable becomes
   the measurement study: "batching/layout tricks for filter operations are obsolete on modern
   OoO cores" (E0 + E1a nulls + cross-ISA), target DaMoN/experiments track.
-- **K2:** if the prior-art audit finds the (partition → register-merge → single-store) scheme
-  already published for in-memory filters, H1's novelty dies regardless of numbers; salvage
-  paths: (a) ribbon/binary-fuse construction (their scatter is the expensive one), (b) the
-  cross-ISA/ARM angle, (c) integration into an LSM compaction path with end-to-end numbers.
+- **K2 (partially fired 2026-07-09, see Audit incorporation):** the audit killed broad
+  partitioning novelty (Schmidt 2021, fastfilter AddAll, Canim 2010, Beamer 2017); it did NOT
+  find the read-free (block,mask)-partitioned register-merge apply. K2 fires FULLY if either
+  (i) H2's measured gain over `partitioned` is <1.2× everywhere, or (ii) later review
+  surfaces anticipation of the read-free apply (residual unknowns listed in the audit doc).
+  Salvage paths: (a) ribbon/binary-fuse construction (their scatter is the expensive one),
+  (b) the cross-ISA/ARM angle, (c) LSM-compaction end-to-end integration, (d) measurement
+  study of E0+E1a nulls.
 - **Correctness gate (before any timing is interpreted):** the partitioned builders must produce
   a filter **bit-identical** to per-key construction over the same key set (OR is commutative —
   any deviation is a bug), plus the E0 FPR gate re-applied.
@@ -59,16 +84,22 @@ Bloom's build CPU; RocksDB gates ribbon adoption on it; every LSM compaction reb
 - Sizes: n ∈ {1M, 10M, 53.7M, 100M, 429M} keys → filters ~1.25MB, 12.5MB, 64MB, 125MB, 512MB.
 - Strategies:
   1. `perkey` — existing `BlockedFilter::insert` loop (E0 code, unchanged).
-  2. `perkey_prefetch` — two-phase batched insert with prefetch (control: is MLP alone enough?).
-  3. `partitioned` — two-pass radix scatter/merge, scalar merge loop.
-  4. `partitioned_transposed` — as 3, with the lane-structured register-merge inner loop (H2).
-  P (partition count) chosen so each partition's filter span ≤ 1MB (half of one P-core's L2);
-  partition buffers use software write-combining (64B staging per partition).
+  2. `perkey_prefetch` — two-phase batched insert with prefetch (control: is MLP alone enough?
+     this is the RocksDB-AddAllEntries shape).
+  3. `partitioned` — two-pass radix scatter + cache-resident RMW merge (the Schmidt-shaped
+     baseline, monolithic output).
+  4. `partitioned_grouped` — per-block register OR-merge, one store per block, filter never
+     read (H2 novelty candidate, portable safe Rust).
+  5. `partitioned_grouped_nt` — as 4 with non-temporal stores in the apply (x86 only; zero
+     RFO traffic).
+  P (partition count) chosen so each partition's filter span ≤ 1MB (half of one P-core's L2).
 - Metrics: ns/key (criterion, ≥20 samples), plus one `perf stat` run per (strategy × size) for
   cycles/key, misses/key, IPC when perf is available; peak RSS recorded (partitioning costs
   ~20B/key transient memory — report it, don't hide it).
-- Anchors: fastfilter_cpp `BlockedBloom` (id 51, per-key add) and `BlockedBloom-addAll` (id 52)
-  plus `Bloom8-addAll` (id 43) at the same n on the same machine, same session.
+- Anchors: fastfilter_cpp `BlockedBloom` (id 51, per-key add), `BlockedBloom-addAll` (id 52),
+  `Bloom8-addAll` (id 43) at the same n, same machine, same session. Paper-level claims
+  additionally require the tum-db/partitioned-filters harness (Schmidt et al.) — not required
+  for the pilot.
 - Machines: local i9-14900HX (AVX2) first; tf-bench-arm (NEON) when available; x86 AVX-512
   deferred per user decision.
 
