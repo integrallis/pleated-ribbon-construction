@@ -1,0 +1,44 @@
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles:  64.5/key, instructions: (239.0/key, 3.70/cycle) cache misses:  0.02/key branch misses: 0.00/key effective frequency 5.47 GHz
+0.00%  cycles:  62.3/key, instructions: ( 42.4/key, 0.68/cycle) cache misses:  0.01/key branch misses: 1.00/key effective frequency 5.55 GHz
+0.25%  cycles:  55.8/key, instructions: ( 48.8/key, 0.88/cycle) cache misses:  0.03/key branch misses: 0.75/key effective frequency 5.39 GHz
+0.50%  cycles:  43.0/key, instructions: ( 55.2/key, 1.28/cycle) cache misses:  0.02/key branch misses: 0.49/key effective frequency 5.52 GHz
+0.75%  cycles:  30.1/key, instructions: ( 61.6/key, 2.05/cycle) cache misses:  0.03/key branch misses: 0.25/key effective frequency 5.50 GHz
+1.00%  cycles:  17.7/key, instructions: ( 68.0/key, 3.84/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.56 GHz
+                   Bloom8-addAll   11.80    0.00   11.22   10.34    7.79    5.47    3.18   34.60  2.1837       8.00       5.52    45.0   1.000
+
+1-by-1 add
+             
+add    cycles:   8.9/key, instructions: ( 29.0/key, 3.26/cycle) cache misses:  0.05/key branch misses: 0.00/key effective frequency 5.40 GHz
+0.00%  cycles:  12.0/key, instructions: ( 42.0/key, 3.51/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.54 GHz
+0.25%  cycles:  11.2/key, instructions: ( 42.0/key, 3.74/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.42 GHz
+0.50%  cycles:  11.1/key, instructions: ( 42.0/key, 3.79/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 5.50 GHz
+0.75%  cycles:  11.4/key, instructions: ( 42.0/key, 3.70/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.48 GHz
+1.00%  cycles:  10.8/key, instructions: ( 42.0/key, 3.90/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.43 GHz
+                    BlockedBloom    1.65    0.00    2.16    2.07    2.01    2.07    1.98    7.83  0.9464      10.67       6.72    58.6   1.000
+
+batched add
+             
+add    cycles:  14.0/key, instructions: ( 48.0/key, 3.43/cycle) cache misses:  0.05/key branch misses: 0.00/key effective frequency 5.56 GHz
+0.00%  cycles:  11.3/key, instructions: ( 42.0/key, 3.72/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.43 GHz
+0.25%  cycles:  11.1/key, instructions: ( 42.0/key, 3.77/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.43 GHz
+0.50%  cycles:  10.9/key, instructions: ( 42.0/key, 3.84/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.46 GHz
+0.75%  cycles:  11.9/key, instructions: ( 42.0/key, 3.54/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.46 GHz
+1.00%  cycles:  10.8/key, instructions: ( 42.0/key, 3.87/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.51 GHz
+             BlockedBloom-addAll    2.52    0.00    2.08    2.05    2.00    2.17    1.97    8.68  0.9292      10.67       6.75    58.0   1.000

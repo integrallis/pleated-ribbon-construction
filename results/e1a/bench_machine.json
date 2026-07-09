@@ -1,0 +1,8 @@
+{
+  "cpu": "Intel(R) Core(TM) i9-14900HX",
+  "arch": "x86_64",
+  "kernel": "7.0.11-76070011-generic",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "rustflags": "-C target-cpu=native",
+  "timestamp_utc": "2026-07-09T20:05:25.603203+00:00"
+}
