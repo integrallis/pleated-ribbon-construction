@@ -1,0 +1,16 @@
+[package]
+name = "lanefilter"
+version = "0.1.0"
+edition = "2021"
+description = "Prototype filters and batch-probe strategies for the transposed-filters paper (experiment E0)."
+license = "MIT"
+
+[dependencies]
+fastbloom = "0.9"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "e0"
+harness = false

@@ -1,0 +1,8 @@
+[workspace]
+members = ["src/lanefilter"]
+resolver = "2"
+
+[profile.release]
+debug = true
+codegen-units = 1
+lto = "thin"
