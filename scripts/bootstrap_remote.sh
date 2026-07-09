@@ -27,6 +27,18 @@ rsync -az -e "ssh -i $KEY" \
 echo "== harnesses (pinned) =="
 "${SSH[@]}" 'cd ~/transposed-filters/harness && ./setup_harnesses.sh'
 
+echo "== E1b phase-1 driver (ribbon reorder) =="
+"${SSH[@]}" 'apt-get install -y -qq libtbb-dev 2>/dev/null || true
+  cd ~/transposed-filters/harness && [ -d BuRR ] || git clone --quiet --recursive https://github.com/lorenzhs/BuRR
+  cd ~/transposed-filters/src/ribbon_reorder && make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" && ./e1b_phase1 1000000 partitioned 0'
+
+echo "== E1b phase 1 (full sweep incl. parallel) =="
+"${SSH[@]}" 'cd ~/transposed-filters/experiments/e1b_ribbon_construction &&
+  python3 run.py --stage phase0 && python3 run.py --stage analyze &&
+  python3 run.py --stage phase1 &&
+  cd ../../src/ribbon_reorder &&
+  for T in 1 2 4 8; do ./e1b_phase1 100000000 parallel 0 16 $T > ../../results/e1b/parallel/t${T}_100M_rep0.json || true; done'
+
 echo "== E0 stages =="
 "${SSH[@]}" '. "$HOME/.cargo/env"; cd ~/transposed-filters/experiments/e0_feasibility &&
   python3 run.py --stage check &&
