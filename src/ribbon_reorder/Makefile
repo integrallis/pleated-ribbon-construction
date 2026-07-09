@@ -1,0 +1,13 @@
+# E1b Phase-1 driver. Compiles against the pinned, unmodified fastfilter_cpp headers.
+HARNESS := ../../harness/fastfilter_cpp
+CXX ?= g++
+CXXFLAGS := -O3 -march=native -std=c++17 -Wall -Wextra \
+            -I$(HARNESS)/src/ribbon -I$(HARNESS)/benchmarks
+
+e1b_phase1: e1b_phase1.cc
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+clean:
+	rm -f e1b_phase1
+
+.PHONY: clean
