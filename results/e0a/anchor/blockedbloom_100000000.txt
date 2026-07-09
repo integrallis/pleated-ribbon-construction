@@ -1,0 +1,24 @@
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+1-by-1 add
+             
+add    cycles:  61.0/key, instructions: ( 29.0/key, 0.48/cycle) cache misses:  0.96/key branch misses: 0.00/key effective frequency 5.32 GHz
+0.00%  cycles:  77.7/key, instructions: ( 42.0/key, 0.54/cycle) cache misses:  1.02/key branch misses: 0.00/key effective frequency 5.29 GHz
+0.25%  cycles:  76.5/key, instructions: ( 42.0/key, 0.55/cycle) cache misses:  1.02/key branch misses: 0.00/key effective frequency 5.28 GHz
+0.50%  cycles:  77.9/key, instructions: ( 42.0/key, 0.54/cycle) cache misses:  1.02/key branch misses: 0.00/key effective frequency 5.31 GHz
+0.75%  cycles:  77.9/key, instructions: ( 42.0/key, 0.54/cycle) cache misses:  1.04/key branch misses: 0.00/key effective frequency 5.28 GHz
+1.00%  cycles:  76.9/key, instructions: ( 42.0/key, 0.55/cycle) cache misses:  1.03/key branch misses: 0.00/key effective frequency 5.31 GHz
+                    BlockedBloom   11.48    0.00   14.67   14.51   14.67   14.76   14.48   55.32  0.9398      10.67       6.73    58.4 100.000
