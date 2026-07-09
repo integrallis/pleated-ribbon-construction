@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 48
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 488.2/key, instructions: (697.7/key, 1.43/cycle) cache misses:  0.82/key branch misses: 1.01/key effective frequency 5.16 GHz
+0.00%  cycles:  99.5/key, instructions: (146.6/key, 1.47/cycle) cache misses:  0.04/key branch misses: 1.24/key effective frequency 5.25 GHz
+0.25%  cycles: 102.8/key, instructions: (160.9/key, 1.57/cycle) cache misses:  0.04/key branch misses: 1.04/key effective frequency 5.32 GHz
+0.50%  cycles:  92.9/key, instructions: (175.2/key, 1.89/cycle) cache misses:  0.04/key branch misses: 0.77/key effective frequency 5.26 GHz
+0.75%  cycles:  81.4/key, instructions: (189.6/key, 2.33/cycle) cache misses:  0.04/key branch misses: 0.51/key effective frequency 5.17 GHz
+1.00%  cycles:  71.5/key, instructions: (203.9/key, 2.85/cycle) cache misses:  0.04/key branch misses: 0.26/key effective frequency 5.26 GHz
+          BalancedRibbon64Pack_7   94.59    0.00   18.95   19.34   17.68   15.74   13.59  145.77  0.7785       7.05       7.01     0.6   1.000

@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 46
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 179.5/key, instructions: (194.9/key, 1.09/cycle) cache misses:  0.75/key branch misses: 0.22/key effective frequency 4.51 GHz
+0.00%  cycles:  34.8/key, instructions: ( 40.0/key, 1.15/cycle) cache misses:  0.20/key branch misses: 0.00/key effective frequency 3.28 GHz
+0.25%  cycles:  47.9/key, instructions: ( 46.0/key, 0.96/cycle) cache misses:  0.34/key branch misses: 0.00/key effective frequency 3.84 GHz
+0.50%  cycles:  54.6/key, instructions: ( 46.0/key, 0.84/cycle) cache misses:  0.44/key branch misses: 0.00/key effective frequency 3.57 GHz
+0.75%  cycles:  47.3/key, instructions: ( 42.6/key, 0.90/cycle) cache misses:  0.35/key branch misses: 0.00/key effective frequency 3.16 GHz
+1.00%  cycles:  47.8/key, instructions: ( 46.0/key, 0.96/cycle) cache misses:  0.35/key branch misses: 0.00/key effective frequency 3.65 GHz
+                  XorBinaryFuse8   39.78    0.00   10.63   12.45   15.27   14.98   13.09   79.63  0.3902       9.02       8.00    12.7  10.000

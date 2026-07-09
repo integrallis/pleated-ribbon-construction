@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 46
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 118.4/key, instructions: (195.2/key, 1.65/cycle) cache misses:  0.49/key branch misses: 0.24/key effective frequency 4.40 GHz
+0.00%  cycles:  16.5/key, instructions: ( 46.0/key, 2.78/cycle) cache misses:  0.06/key branch misses: 0.00/key effective frequency 5.29 GHz
+0.25%  cycles:  15.4/key, instructions: ( 46.0/key, 2.99/cycle) cache misses:  0.02/key branch misses: 0.00/key effective frequency 5.30 GHz
+0.50%  cycles:  15.2/key, instructions: ( 46.0/key, 3.02/cycle) cache misses:  0.03/key branch misses: 0.00/key effective frequency 5.25 GHz
+0.75%  cycles:  15.3/key, instructions: ( 46.0/key, 3.01/cycle) cache misses:  0.02/key branch misses: 0.00/key effective frequency 5.40 GHz
+1.00%  cycles:  16.9/key, instructions: ( 46.0/key, 2.72/cycle) cache misses:  0.03/key branch misses: 0.00/key effective frequency 5.35 GHz
+                  XorBinaryFuse8   26.94    0.00    3.12    2.90    2.90    2.83    3.17   35.89  0.3891       9.04       8.01    13.0   1.000

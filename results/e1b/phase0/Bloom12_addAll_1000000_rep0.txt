@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 46
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles:  82.6/key, instructions: (312.0/key, 3.78/cycle) cache misses:  0.07/key branch misses: 0.00/key effective frequency 5.05 GHz
+0.00%  cycles:  59.9/key, instructions: ( 42.6/key, 0.71/cycle) cache misses:  0.05/key branch misses: 0.96/key effective frequency 5.11 GHz
+0.25%  cycles:  60.2/key, instructions: ( 52.7/key, 0.88/cycle) cache misses:  0.09/key branch misses: 0.81/key effective frequency 5.21 GHz
+0.50%  cycles:  47.1/key, instructions: ( 62.8/key, 1.33/cycle) cache misses:  0.08/key branch misses: 0.52/key effective frequency 5.28 GHz
+0.75%  cycles:  36.7/key, instructions: ( 72.9/key, 1.99/cycle) cache misses:  0.07/key branch misses: 0.26/key effective frequency 5.19 GHz
+1.00%  cycles:  26.3/key, instructions: ( 83.0/key, 3.16/cycle) cache misses:  0.03/key branch misses: 0.00/key effective frequency 5.25 GHz
+                  Bloom12-addAll   16.36    0.00   11.72   11.55    8.92    7.07    5.01   42.91  0.3131      12.00       8.32    44.2   1.000

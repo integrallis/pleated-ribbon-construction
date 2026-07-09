@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 46
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 229.5/key, instructions: (163.2/key, 0.71/cycle) cache misses:  4.47/key branch misses: 0.82/key effective frequency 5.01 GHz
+0.00%  cycles: 104.6/key, instructions: (108.7/key, 1.04/cycle) cache misses:  0.20/key branch misses: 1.00/key effective frequency 5.38 GHz
+0.25%  cycles: 114.3/key, instructions: (118.3/key, 1.04/cycle) cache misses:  0.22/key branch misses: 0.80/key effective frequency 5.37 GHz
+0.50%  cycles: 106.9/key, instructions: (127.8/key, 1.20/cycle) cache misses:  0.28/key branch misses: 0.52/key effective frequency 5.35 GHz
+0.75%  cycles:  83.8/key, instructions: (137.4/key, 1.64/cycle) cache misses:  0.16/key branch misses: 0.27/key effective frequency 5.23 GHz
+1.00%  cycles:  70.5/key, instructions: (146.9/key, 2.08/cycle) cache misses:  0.16/key branch misses: 0.02/key effective frequency 5.41 GHz
+                 HomogRibbon64_7   45.79    0.00   19.43   21.26   19.99   16.01   13.02   99.62  0.8085       7.63       6.95     9.8  10.000

@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 48
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 257.5/key, instructions: (345.5/key, 1.34/cycle) cache misses:  3.30/key branch misses: 1.41/key effective frequency 4.20 GHz
+0.00%  cycles:  16.6/key, instructions: ( 50.0/key, 3.00/cycle) cache misses:  0.04/key branch misses: 0.00/key effective frequency 5.16 GHz
+0.25%  cycles:  16.2/key, instructions: ( 50.0/key, 3.08/cycle) cache misses:  0.06/key branch misses: 0.00/key effective frequency 5.17 GHz
+0.50%  cycles:  15.9/key, instructions: ( 50.0/key, 3.15/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.26 GHz
+0.75%  cycles:  15.7/key, instructions: ( 50.0/key, 3.18/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.22 GHz
+1.00%  cycles:  15.7/key, instructions: ( 50.0/key, 3.18/cycle) cache misses:  0.01/key branch misses: 0.00/key effective frequency 5.19 GHz
+                            Xor8   61.38    0.00    3.22    3.14    3.02    3.02    3.03   70.64  0.3899       9.84       8.00    23.0   1.000

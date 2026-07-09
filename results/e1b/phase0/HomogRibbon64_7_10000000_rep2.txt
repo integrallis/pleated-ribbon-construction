@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 48
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles: 230.9/key, instructions: (162.8/key, 0.70/cycle) cache misses:  4.17/key branch misses: 0.82/key effective frequency 5.02 GHz
+0.00%  cycles: 105.9/key, instructions: (108.7/key, 1.03/cycle) cache misses:  0.20/key branch misses: 1.00/key effective frequency 5.41 GHz
+0.25%  cycles: 112.3/key, instructions: (117.5/key, 1.05/cycle) cache misses:  0.21/key branch misses: 0.80/key effective frequency 5.39 GHz
+0.50%  cycles: 101.6/key, instructions: (127.8/key, 1.26/cycle) cache misses:  0.20/key branch misses: 0.53/key effective frequency 5.40 GHz
+0.75%  cycles:  85.4/key, instructions: (137.4/key, 1.61/cycle) cache misses:  0.17/key branch misses: 0.27/key effective frequency 5.19 GHz
+1.00%  cycles:  73.2/key, instructions: (146.9/key, 2.01/cycle) cache misses:  0.18/key branch misses: 0.02/key effective frequency 5.40 GHz
+                 HomogRibbon64_7   46.04    0.00   19.56   20.83   18.80   16.44   13.55   99.55  0.7955       7.63       6.97     9.4  10.000
