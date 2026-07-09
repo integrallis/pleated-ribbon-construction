@@ -1,0 +1,18 @@
+# Claims Ledger
+
+Every quantitative/comparative claim usable in a write-up must have a row here.
+Statuses: `measured` | `derived` | `literature` | `hypothesis`. See INTEGRITY.md.
+
+| id | claim | raw artifact(s) | producing command | machine | date | status |
+|----|-------|-----------------|-------------------|---------|------|--------|
+| C1 | No published work applies FastLanes-style transposed layouts to AMQ filters (as of 2026-07) | docs/literature-survey.md (search log §Thread 2) | 7 web-search formulations, agent-verified | n/a | 2026-07-09 | literature |
+| C2 | A transposed batch-probe loop in plain Rust auto-vectorizes on AVX2 and beats blocked baselines on batch throughput | results/e0a/asm/, results/e0a/criterion/ | e0 run 2 | i9-14900HX | 2026-07-09 | REFUTED (half true: it vectorizes — 138 packed lines — but loses to per-key scalar SBBF at every size; see C6/C7) |
+| C3 | Batch filter probes at ≥L2-resident filter sizes remain compute-bound enough for layout to matter | results/e0a/criterion/ | e0 run 2 | i9-14900HX | 2026-07-09 | REFUTED at RAM sizes (see C7); partially holds ≤4MiB where probing is compute-bound but scalar already wins |
+| C6 | On AVX2 OoO x86, vertical (cross-key) SIMD batch probing of SBBF loses to per-key scalar probing even with all addresses L1-hot: 555 vs 665 Mops/s at 32KiB (hot-control vs scalar) | results/e0a/criterion/ | experiments/e0_feasibility/run.py --stage bench (run 2) + --stage analyze | i9-14900HX, rustc 1.94.1, target-cpu=native | 2026-07-09 | derived |
+| C7 | At RAM-resident sizes (64–512MiB), miss-probing is memory-parallelism-bound, not compute-bound: identical lanes code runs 5.1–6.0× faster when addresses are forced L1-hot; software prefetch recovers 1.45–1.66× over scalar (148 vs 89 Mops/s at 64MiB) but plateaus ~3.6–4.7× below the compute ceiling | results/e0a/criterion/, results/e0a/ANALYSIS.md | same | same | 2026-07-09 | derived |
+| C8 | Cross-harness validation: our scalar RAM-size numbers (11.3–12.8 ns/key) are consistent with fastfilter_cpp BlockedBloom (14.6 ns/key at 133MB, 1.03 DRAM misses/key, IPC 0.54) | results/e0a/anchor/, results/e0a/criterion/ | run.py --stage anchor + bench | same | 2026-07-09 | derived |
+| C9 | Per-key blocked-Bloom CONSTRUCTION degrades 5.2× with scale on this machine: 2.22 ns/key (11.0 cyc, 0.07 miss/key) at 1M keys → 11.48 ns/key (61.0 cyc, 0.96 miss/key, IPC 0.48) at 100M keys — bulk build at scale ≈ one random RMW miss per key | results/e0a/anchor/blockedbloom_1000000.txt, results/e0a/anchor/blockedbloom_100000000.txt | run.py --stage anchor (fastfilter_cpp id 51) | i9-14900HX, gcc 13.3 | 2026-07-09 | measured |
+| C10 | Partitioned single-store construction beats per-key insertion ≥2× at ≥64MB filters (E1a H1) | — | — | — | — | hypothesis |
+| C11 | Lane-structured register mask-merging adds ≥1.2× over scalar merge in pass 2 (E1a H2) | — | — | — | — | hypothesis |
+| C4 | Our SBBF-geometry prototype measures 1.2660% FPR at 10.00 bits/key (1M keys, 4M absent probes); fastbloom 0.9 measures 0.8462% at same budget | results/e0a/summary.json | experiments/e0_feasibility/run.py --stage fpr | i9-14900HX, rustc 1.94.1, target-cpu=native | 2026-07-09 | measured |
+| C5 | fastfilter_cpp BlockedBloom on this machine: 0.9579% FPR at 10.67 bits/key, ~2.6 ns/lookup at 1M keys; ~4.4-4.9 ns/lookup, 23.2 cycles/key, 0.15 cache-misses/key at 10M keys | results/e0a/anchor/ | experiments/e0_feasibility/run.py --stage anchor | i9-14900HX, gcc 13.3 | 2026-07-09 | measured |
