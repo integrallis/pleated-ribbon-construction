@@ -19,6 +19,7 @@
 #include <cstring>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "ribbon_impl.h"        // harness/fastfilter_cpp/src/ribbon (pinned, unmodified)
@@ -89,17 +90,20 @@ static double now_ns() {
 
 // ---- Reorder strategies ----
 
-// Window shift: 1<<16 slots/window x ~12 B/slot banding storage ~= 768 KiB, under half L2.
-static constexpr size_t kWindowShift = 16;
+// Default window shift: 1<<16 slots/window x ~12 B/slot banding storage ~= 768 KiB, under
+// half L2. Phase-1b sweeps this at runtime (identical code path for all sweep points).
+static constexpr size_t kDefaultWindowShift = 16;
 
 static std::vector<uint64_t> reorder_partitioned(const std::vector<uint64_t>& keys,
-                                                 const Hasher& hasher, size_t num_starts) {
-  const size_t n_windows = (num_starts >> kWindowShift) + 2;
+                                                 const Hasher& hasher, size_t num_starts,
+                                                 size_t shift,
+                                                 std::vector<size_t>* counts_out = nullptr) {
+  const size_t n_windows = (num_starts >> shift) + 2;
   std::vector<size_t> counts(n_windows + 1, 0);
   // Pass A: count per window (hash recomputed; no pair materialization — E1a lesson).
   for (uint64_t k : keys) {
     size_t start = hasher.GetStart(hasher.GetHash(k), num_starts);
-    counts[(start >> kWindowShift) + 1]++;
+    counts[(start >> shift) + 1]++;
   }
   for (size_t w = 1; w <= n_windows; w++) counts[w] += counts[w - 1];
   // Pass B: place keys in window order (arrival order preserved within a window).
@@ -107,8 +111,9 @@ static std::vector<uint64_t> reorder_partitioned(const std::vector<uint64_t>& ke
   std::vector<size_t> cursor(counts.begin(), counts.end() - 1);
   for (uint64_t k : keys) {
     size_t start = hasher.GetStart(hasher.GetHash(k), num_starts);
-    out[cursor[start >> kWindowShift]++] = k;
+    out[cursor[start >> shift]++] = k;
   }
+  if (counts_out) *counts_out = std::move(counts);
   return out;
 }
 
@@ -170,7 +175,7 @@ static std::vector<uint64_t> reorder_sort_radix(const std::vector<uint64_t>& key
 
 // ---- One measured run; B = Banding (reference kernel) or NoPrefetchBanding ----
 template <typename B>
-int run(const std::string& strategy, size_t n, int rep) {
+int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned threads) {
   // Sizing copied from HomogRibbonFilter (filterapi.h): w=64, 7 columns.
   const double overhead = 1.0 + (4.0 + kFractionalCols * 0.25) / (8.0 * sizeof(uint64_t));
   const size_t num_slots = InterleavedSoln::RoundUpNumSlots((size_t)(overhead * n));
@@ -185,8 +190,10 @@ int run(const std::string& strategy, size_t n, int rep) {
   // Reorder phase (timed).
   double t0 = now_ns();
   std::vector<uint64_t> ordered;
-  if (strategy == "partitioned") {
-    ordered = reorder_partitioned(keys, hasher, num_starts);
+  std::vector<size_t> wcounts;
+  if (strategy == "partitioned" || strategy == "parallel") {
+    ordered = reorder_partitioned(keys, hasher, num_starts, shift,
+                                  strategy == "parallel" ? &wcounts : nullptr);
   } else if (strategy == "sort_std") {
     ordered = reorder_sort_std(keys, hasher, num_starts);
   } else if (strategy == "sort_radix") {
@@ -204,9 +211,56 @@ int run(const std::string& strategy, size_t n, int rep) {
                            PERF_COUNT_HW_CACHE_MISSES};
   LinuxEvents<PERF_TYPE_HARDWARE> unified(evts);
   std::vector<unsigned long long> results(evts.size(), 0);
+  size_t deferred_count = 0;
+  bool ok = true;
   t0 = now_ns();
   unified.start();
-  const bool ok = ribbon::BandingAddRange(&banding, banding, input.begin(), input.end());
+  if (strategy == "parallel") {
+    // Slot-range parallel banding (H-E1b-2p): thread t owns windows [w_lo, w_hi); keys whose
+    // start lies within G slots of the range's upper slot boundary are deferred to a
+    // sequential tail (parallel-BuRR-style boundary handling). Correctness is checked
+    // end-to-end by the bit-identity fingerprint (order-independence) + false-negative gate.
+    constexpr size_t G = size_t{1} << 14;
+    const size_t n_windows = wcounts.size() - 1;
+    // Split window ranges at ~equal key counts.
+    std::vector<size_t> w_bounds(threads + 1, 0);
+    w_bounds[threads] = n_windows;
+    for (unsigned t = 1; t < threads; t++) {
+      const size_t target = (input.size() * t) / threads;
+      w_bounds[t] = std::lower_bound(wcounts.begin(), wcounts.end(), target) - wcounts.begin();
+    }
+    std::vector<std::vector<uint64_t>> deferred(threads);
+    std::vector<std::thread> pool;
+    for (unsigned t = 0; t < threads; t++) {
+      pool.emplace_back([&, t]() {
+        const size_t k_lo = wcounts[w_bounds[t]];
+        const size_t k_hi = wcounts[w_bounds[t + 1]];
+        const bool last = (t + 1 == threads);
+        const size_t s_hi = w_bounds[t + 1] << shift;
+        std::vector<uint64_t> mine;
+        mine.reserve(k_hi - k_lo);
+        for (size_t i = k_lo; i < k_hi; i++) {
+          const uint64_t k = input[i];
+          if (!last) {
+            const size_t start = hasher.GetStart(hasher.GetHash(k), num_starts);
+            if (start + G >= s_hi) {
+              deferred[t].push_back(k);
+              continue;
+            }
+          }
+          mine.push_back(k);
+        }
+        ribbon::BandingAddRange(&banding, banding, mine.begin(), mine.end());
+      });
+    }
+    for (auto& th : pool) th.join();
+    for (auto& d : deferred) {
+      deferred_count += d.size();
+      ok = ok && ribbon::BandingAddRange(&banding, banding, d.begin(), d.end());
+    }
+  } else {
+    ok = ribbon::BandingAddRange(&banding, banding, input.begin(), input.end());
+  }
   unified.end(results);
   const double banding_ns = now_ns() - t0;
 
@@ -248,29 +302,36 @@ int run(const std::string& strategy, size_t n, int rep) {
       "\"banding_cycles_per_key\":%.2f,\"banding_instr_per_key\":%.2f,"
       "\"banding_miss_per_key\":%.3f,"
       "\"false_negatives\":%zu,\"fpr\":%.6f,\"bits_per_key\":%.3f,"
+      "\"window_shift\":%zu,\"threads\":%u,\"deferred\":%zu,"
       "\"soln_fnv\":\"%016llx\"}\n",
       strategy.c_str(), n, rep, num_slots, reorder_ns / n, banding_ns / n,
       backsubst_ns / n, (reorder_ns + banding_ns + backsubst_ns) / n,
       (double)results[0] / n, (double)results[1] / n, (double)results[2] / n, fn,
-      (double)fp / n_probes, bytes * 8.0 / n, (unsigned long long)fnv);
+      (double)fp / n_probes, bytes * 8.0 / n, shift, threads, deferred_count,
+      (unsigned long long)fnv);
   return fn == 0 ? 0 : 1;
 }
 
 int main(int argc, char** argv) {
-  if (argc != 4) {
-    fprintf(stderr, "usage: %s <n_keys> <strategy> <rep>\n", argv[0]);
+  if (argc < 4 || argc > 6) {
+    fprintf(stderr, "usage: %s <n_keys> <strategy> <rep> [window_shift=16] [threads=8]\n",
+            argv[0]);
     return 2;
   }
   const size_t n = strtoull(argv[1], nullptr, 10);
   const std::string strategy = argv[2];
   const int rep = atoi(argv[3]);
+  const size_t shift = argc > 4 ? strtoull(argv[4], nullptr, 10) : kDefaultWindowShift;
+  const unsigned threads = argc > 5 ? (unsigned)atoi(argv[5]) : 8;
   const bool known =
       strategy == "reference" || strategy == "noprefetch" || strategy == "sort_std" ||
-      strategy == "sort_radix" || strategy == "sort_ips2ra" || strategy == "partitioned";
+      strategy == "sort_radix" || strategy == "sort_ips2ra" ||
+      strategy == "partitioned" || strategy == "parallel";
   if (!known) {
     fprintf(stderr, "unknown strategy %s\n", strategy.c_str());
     return 2;
   }
-  if (strategy == "noprefetch") return run<NoPrefetchBanding>(strategy, n, rep);
-  return run<Banding>(strategy, n, rep);
+  if (strategy == "noprefetch")
+    return run<NoPrefetchBanding>(strategy, n, rep, shift, threads);
+  return run<Banding>(strategy, n, rep, shift, threads);
 }
