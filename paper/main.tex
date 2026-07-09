@@ -1,18 +1,30 @@
 % Draft v0.1 (2026-07-09). Every number in this draft has a CLAIMS.md row (C-refs in comments)
 % backed by committed raw artifacts in results/. Machine: i9-14900HX (AVX2), gcc 13.3 /
 % rustc 1.94.1, -O3 -march=native. ARM replication pending capacity (see Limitations).
-% Draft uses plain article until venue selection; acmart at submission time.
-\documentclass[10pt,twocolumn]{article}
-\usepackage[margin=1in]{geometry}
+% Template: local neurips_2026.sty, following the act-context sample (self-contained,
+% preprint mode; switch options at venue-submission time).
+\documentclass{article}
+\PassOptionsToPackage{numbers, compress}{natbib}
+\usepackage[preprint]{neurips_2026}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
 \usepackage{booktabs}
-\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage{graphicx}
 \newenvironment{acks}{\paragraph*{Artifacts.}}{}
 \title{Ribbon Filter Construction at Bloom-Filter Speed:\\
-\large Partition-Instead-of-Sort, and Where Layout Tricks Cannot Work}
-\author{Brian Sam-Bodden}
-\date{Draft v0.1 --- 2026-07-09}
+Partition-Instead-of-Sort, and Where Layout Tricks Cannot Work}
+\author{%
+  Brian Sam-Bodden \\
+  Integrallis Software \\
+}
 
 \begin{document}
+
+\maketitle
 
 \begin{abstract}
 Space-optimal static filters (ribbon, binary fuse) trade construction CPU for space, and that
@@ -36,8 +48,6 @@ an 11.9\,ns/key total at 16 --- ribbon construction at sequential Bloom-insertio
 number derives from committed raw artifacts; protocols, amendments, and an instrument flaw
 caught by cross-harness anchoring are part of the record.
 \end{abstract}
-
-\maketitle
 
 \section{Introduction}
 Approximate-membership filters guard nearly every read path in LSM-tree storage engines, and
@@ -243,7 +253,7 @@ accompanying repository; \texttt{reproduce.sh} re-derives every number in this p
 committed raw artifacts.
 \end{acks}
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrtnat}
 \bibliography{refs}
 
 \end{document}
