@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RES = ROOT / "results" / "e1b" / "phase1"
 OUT = ROOT / "results" / "e1b" / "PHASE1_ANALYSIS.md"
 
-STRATS = ["reference", "noprefetch", "sort_std", "sort_radix", "partitioned"]
+STRATS = ["reference", "noprefetch", "sort_std", "sort_radix", "sort_ips2ra", "partitioned"]
 SIZES = [10_000_000, 100_000_000, 400_000_000]
 BIG = [100_000_000, 400_000_000]
 
@@ -79,15 +79,18 @@ def main():
         m_ref = mean("reference", n, "banding_miss_per_key")
         m_part = mean("partitioned", n, "banding_miss_per_key")
         m_sort = min(mean("sort_std", n, "banding_miss_per_key"),
-                     mean("sort_radix", n, "banding_miss_per_key"))
+                     mean("sort_radix", n, "banding_miss_per_key"),
+                     mean("sort_ips2ra", n, "banding_miss_per_key"))
         recovery = (m_ref - m_part) / (m_ref - m_sort) if m_ref > m_sort else float("nan")
         ro_part = mean("partitioned", n, "reorder_ns_per_key")
         ro_sort = min(mean("sort_std", n, "reorder_ns_per_key"),
-                      mean("sort_radix", n, "reorder_ns_per_key"))
+                      mean("sort_radix", n, "reorder_ns_per_key"),
+                      mean("sort_ips2ra", n, "reorder_ns_per_key"))
         t_part = mean("partitioned", n, "total_ns_per_key")
         t_ref = mean("reference", n, "total_ns_per_key")
         t_sort = min(mean("sort_std", n, "total_ns_per_key"),
-                     mean("sort_radix", n, "total_ns_per_key"))
+                     mean("sort_radix", n, "total_ns_per_key"),
+                     mean("sort_ips2ra", n, "total_ns_per_key"))
         ok = (recovery >= 0.80 and ro_part < ro_sort and t_part < t_ref and t_part < t_sort)
         within13 = t_part <= 1.3 * t_sort
         verdict_parts.append((n, ok, within13))

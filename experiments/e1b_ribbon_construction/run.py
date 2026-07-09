@@ -68,7 +68,7 @@ def stage_phase0():
 
 RES1 = ROOT / "results" / "e1b" / "phase1"
 DRIVER = ROOT / "src" / "ribbon_reorder" / "e1b_phase1"
-P1_STRATEGIES = ["reference", "noprefetch", "sort_std", "sort_radix", "partitioned"]
+P1_STRATEGIES = ["reference", "noprefetch", "sort_std", "sort_radix", "sort_ips2ra", "partitioned"]
 P1_SIZES = [10_000_000, 100_000_000, 400_000_000]
 P1_REPS = 3
 

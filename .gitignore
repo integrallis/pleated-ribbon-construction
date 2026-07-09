@@ -5,6 +5,8 @@ __pycache__/
 .venv/
 harness/fastfilter_cpp/
 harness/FastLanes/
+harness/ips2ra/
+harness/BuRR/
 paper/main.aux
 paper/main.bbl
 paper/main.blg

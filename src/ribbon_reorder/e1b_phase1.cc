@@ -23,6 +23,7 @@
 
 #include "ribbon_impl.h"        // harness/fastfilter_cpp/src/ribbon (pinned, unmodified)
 #include "linux-perf-events.h"  // harness/fastfilter_cpp/benchmarks (pinned, unmodified)
+#include "ips2ra.hpp"           // harness/BuRR/ips2ra (pinned submodule; BuRR's own sorter, sequential)
 
 // ---- Configuration copied verbatim from filterapi.h (HomogRibbon64_7) ----
 template <typename CoeffType, bool kHomog, uint32_t kNumColumns, bool kSmash = false>
@@ -136,6 +137,17 @@ static std::vector<uint64_t> reorder_sort_std(const std::vector<uint64_t>& keys,
   return out;
 }
 
+// ips2ra full sort (BuRR's own sorter; resolves ledger caveat C19).
+static std::vector<uint64_t> reorder_sort_ips2ra(const std::vector<uint64_t>& keys,
+                                                 const Hasher& hasher, size_t num_starts) {
+  auto pairs = make_pairs(keys, hasher, num_starts);
+  ips2ra::sort(pairs.begin(), pairs.end(),
+               [](const StartKey& p) { return p.start; });
+  std::vector<uint64_t> out(keys.size());
+  for (size_t i = 0; i < pairs.size(); i++) out[i] = pairs[i].key;
+  return out;
+}
+
 // LSD radix sort by start, 3 x 10-bit passes (num_starts < 2^30 at all sizes used here).
 // Weaker than BuRR's ips2ra — declared in the protocol; sort-implementation-independent
 // conclusions come from the separately-reported banding phase.
@@ -179,6 +191,8 @@ int run(const std::string& strategy, size_t n, int rep) {
     ordered = reorder_sort_std(keys, hasher, num_starts);
   } else if (strategy == "sort_radix") {
     ordered = reorder_sort_radix(keys, hasher, num_starts);
+  } else if (strategy == "sort_ips2ra") {
+    ordered = reorder_sort_ips2ra(keys, hasher, num_starts);
   }  // reference / noprefetch: no reorder
   const double reorder_ns = now_ns() - t0;
   const std::vector<uint64_t>& input = ordered.empty() ? keys : ordered;
@@ -252,7 +266,7 @@ int main(int argc, char** argv) {
   const int rep = atoi(argv[3]);
   const bool known =
       strategy == "reference" || strategy == "noprefetch" || strategy == "sort_std" ||
-      strategy == "sort_radix" || strategy == "partitioned";
+      strategy == "sort_radix" || strategy == "sort_ips2ra" || strategy == "partitioned";
   if (!known) {
     fprintf(stderr, "unknown strategy %s\n", strategy.c_str());
     return 2;
