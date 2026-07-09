@@ -1,0 +1,1 @@
+{"strategy":"sort_radix","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":28.302,"banding_ns_per_key":15.003,"backsubst_ns_per_key":3.396,"total_ns_per_key":46.701,"banding_cycles_per_key":67.72,"banding_instr_per_key":92.85,"banding_miss_per_key":0.072,"false_negatives":0,"fpr":0.008082,"bits_per_key":7.629,"soln_fnv":"df8e04c4a1834256"}

@@ -1,0 +1,1 @@
+{"strategy":"partitioned","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":6.167,"banding_ns_per_key":15.042,"backsubst_ns_per_key":3.393,"total_ns_per_key":24.602,"banding_cycles_per_key":81.26,"banding_instr_per_key":97.80,"banding_miss_per_key":0.170,"false_negatives":0,"fpr":0.008115,"bits_per_key":7.629,"soln_fnv":"b947e27fb2919564"}
