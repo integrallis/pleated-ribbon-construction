@@ -1,0 +1,79 @@
+Options:
+  -s, --seed          (size_t)            46
+  -m, --slots         (size_t)            99500000
+  -L, --ribbon_width  (unsigned)          64
+  -d, --depth         (unsigned)          3
+  -e, --epsilon       (double)            -0.005
+  -t, --threads       (unsigned)          32
+  -b, --bsshift       (integer)           0
+  -1, --onebit        (bool)              false
+  -2, --twobit        (bool)              true
+  -S, --sparsecoeffs  (bool)              false
+  -C, --cls           (bool)              false
+  -I, --interleaved   (bool)              true
+  -Q, --noqueries     (bool)              true
+  -r, --read          (string)            ""
+  -w, --write         (string)            ""
+Running simple test with 99500000 slots, eps=-0.005 -> 100000000 items, seed=46 config: L=64 B=128 r=8
+Input generation took 124.576ms
+ribbon_base (MHC) called with 99500000 slots and 0.995 slots per item
+Meta: allocating 194336 entries of 1 Bytes each
+Using 99 and 116 as thresholds
+ribbon_base (MHC) called with 0 slots and 0.995 slots per item
+ribbon_base (MHC) called with 0 slots and 0.995 slots per item
+ribbon_base (MHC) called with 0 slots and 1 slots per item
+Allocation took 227.867ms
+
+Adding rows to filter....
+MHC input transformation took 324.774ms
+Constructing for 99500032 slots, 99499969 starts, 777344 buckets
+	Sorting took 1726.11ms
+	Actual insertion took 4605.82ms
+Insertion of 100000000 items took 6331.97ms
+Bumped 1245853 out of 100000000 = 1.24585 % with 0.995 slots per item => 745885 empty slots = 0.749633 %
+Meta: allocating 2422 entries of 1 Bytes each
+Using 99 and 116 as thresholds
+Constructing for 1239680 slots, 1239617 starts, 9685 buckets
+	Sorting took 19.2378ms
+	Actual insertion took 52.7519ms
+Insertion of 1245853 items took 72.0049ms
+Bumped 15126 out of 1245853 = 1.21411 % with 0.995 slots per item => 8953 empty slots = 0.722203 %
+Meta: allocating 30 entries of 1 Bytes each
+Using 99 and 116 as thresholds
+Constructing for 15104 slots, 15041 starts, 118 buckets
+	Sorting took 0.23481ms
+	Actual insertion took 0.596431ms
+Insertion of 15126 items took 0.83306ms
+Bumped 185 out of 15126 = 1.22306 % with 0.995 slots per item => 163 empty slots = 1.07918 %
+Meta: allocating 1 entries of 1 Bytes each
+Using 99 and 116 as thresholds
+Constructing for 192 slots, 129 starts, 2 buckets
+	Sorting took 0.005859ms
+	Actual insertion took 0.012291ms
+Insertion of 185 items took 0.019194ms
+Bumped 0 out of 185 = 0 % with 1 slots per item => 7 empty slots = 3.64583 %
+Insertion took 6761.05ms in total
+
+Meta: allocating 194336 entries of 1 Bytes each
+Backsubstitution for 99500032 slots took 354.219ms
+Meta: allocating 2422 entries of 1 Bytes each
+Backsubstitution for 1239680 slots took 4.22735ms
+Meta: allocating 30 entries of 1 Bytes each
+Backsubstitution for 15104 slots took 0.054308ms
+Meta: allocating 1 entries of 1 Bytes each
+Backsubstitution for 192 slots took 0.003053ms
+Backsubstitution took 377.95ms in total
+
+	meta size:  777344 * 2 bits -> 194336 Bytes
+Size: 99694376 Bytes for 99500032 slots + 0 Bytes for 0 thresholds
+	meta size:  9685 * 2 bits -> 2422 Bytes
+Size: 1242110 Bytes for 1239680 slots + 0 Bytes for 0 thresholds
+	meta size:  118 * 2 bits -> 30 Bytes
+Size: 15142 Bytes for 15104 slots + 0 Bytes for 0 thresholds
+	meta size:  2 * 2 bits -> 1 Bytes
+Size: 201 Bytes for 192 slots + 0 Bytes for 0 thresholds
+Ribbon size: 100951829 Bytes = 1.00952 Bytes per item = 100.952%
+
+Parallel check with 32 threads successful and took 0.013053ms = 0.00013053ns per key
+Negative queries took 0.001799ms = 1.799e-05ns per key, 0 FPs = 0%, expecting 0.390625% -> ratio = 0
+RESULT n=100000000 m=99500000 eps=-0.005 d=3 L=64 B=128 r=8 mode=2 sparse=0 sol=int fcao=1 idxbits=32 keybits=32 filter=1 bytes=100951829 tlempty=745885 tlbumped=1245853 tlemptyfrac=0.00749633 tlthreshbytes=0 overhead=0.951829 ok=1 tpos=13053 tpospq=0.00013053 tneg=1799 tnegpq=1.799e-05 fps=0 fpr=0 ratio=0 threads=32

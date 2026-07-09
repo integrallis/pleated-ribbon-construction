@@ -1,0 +1,1 @@
+{"strategy":"sort_ips2ra","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":23.734,"banding_ns_per_key":13.285,"backsubst_ns_per_key":3.368,"total_ns_per_key":40.387,"banding_cycles_per_key":69.82,"banding_instr_per_key":95.29,"banding_miss_per_key":0.074,"false_negatives":0,"fpr":0.008108,"bits_per_key":7.629,"soln_fnv":"37ebfa31e46ac84c"}
