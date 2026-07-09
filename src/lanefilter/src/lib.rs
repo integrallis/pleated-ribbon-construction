@@ -205,6 +205,175 @@ impl BlockedFilter {
         }
     }
 
+    // ---------------- E1a bulk-construction strategies ----------------
+    // All builders MUST produce bit-identical output to per-key insertion over the same key
+    // set (OR is commutative); the unit tests enforce this before any timing is meaningful.
+
+    /// E1a strategy 1: per-key insertion (the baseline; identical to insert() in a loop).
+    pub fn build_perkey(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        for &k in keys {
+            f.insert(k);
+        }
+        f
+    }
+
+    /// E1a strategy 2: per-key insertion with two-phase prefetch batches (control: does
+    /// memory-level parallelism alone close the gap?).
+    pub fn build_perkey_prefetch(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        const STRIDE: usize = 64;
+        let mut hashes = [0u64; STRIDE];
+        let mut idx = [0usize; STRIDE];
+        for kc in keys.chunks(STRIDE) {
+            let n = kc.len();
+            for i in 0..n {
+                hashes[i] = mix64(kc[i]);
+                idx[i] = f.block_index(hashes[i]);
+                #[cfg(target_arch = "x86_64")]
+                unsafe {
+                    core::arch::x86_64::_mm_prefetch(
+                        f.blocks.as_ptr().add(idx[i]) as *const i8,
+                        core::arch::x86_64::_MM_HINT_T0,
+                    );
+                }
+            }
+            for i in 0..n {
+                let m = Self::mask(hashes[i] as u32);
+                let blk = &mut f.blocks[idx[i]].0;
+                for w in 0..8 {
+                    blk[w] |= m[w];
+                }
+            }
+        }
+        f
+    }
+
+    /// Partition count such that each partition's filter span is ~1 MiB (≤ half of one
+    /// P-core L2 on the dev box); always a power of two so partition = high bits of block.
+    fn partition_shift(n_blocks: usize) -> u32 {
+        const TARGET_BLOCKS_PER_PART: usize = (1 << 20) / 32; // 1 MiB of 32-byte blocks
+        let parts = n_blocks.div_ceil(TARGET_BLOCKS_PER_PART).next_power_of_two();
+        // shift applied to block index to get partition id
+        (n_blocks.next_power_of_two().trailing_zeros()).saturating_sub(parts.trailing_zeros())
+    }
+
+    /// E1a strategy 3 (`partitioned`, H1): two-pass construction. Pass 1 scatters
+    /// (block, hash32) pairs into partitions whose filter span is L2-resident; pass 2 replays
+    /// each partition, doing cache-resident merges. Each filter line goes to RAM once, on
+    /// natural eviction.
+    pub fn build_partitioned(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        let shift = Self::partition_shift(f.blocks.len());
+        let n_parts = ((f.blocks.len() - 1) >> shift) + 1;
+
+        // Pass 1a: count keys per partition (streaming read of keys).
+        let mut counts = vec![0usize; n_parts + 1];
+        let mut pairs: Vec<u64> = Vec::with_capacity(keys.len());
+        for &k in keys {
+            let h = mix64(k);
+            let b = f.block_index(h) as u64;
+            counts[(b as usize >> shift) + 1] += 1;
+            pairs.push((b << 32) | (h & 0xffff_ffff));
+        }
+        for p in 1..counts.len() {
+            counts[p] += counts[p - 1];
+        }
+        // Pass 1b: scatter pairs into partition order (counting sort by partition id).
+        let mut ordered: Vec<u64> = vec![0; pairs.len()];
+        let mut cursor = counts.clone();
+        for &pair in &pairs {
+            let p = (pair >> 32) as usize >> shift;
+            ordered[cursor[p]] = pair;
+            cursor[p] += 1;
+        }
+        drop(pairs);
+        // Pass 2: per partition, merge into the (now cache-resident) filter span.
+        for p in 0..n_parts {
+            for &pair in &ordered[counts[p]..counts[p + 1]] {
+                let b = (pair >> 32) as usize;
+                let m = Self::mask(pair as u32);
+                let blk = &mut f.blocks[b].0;
+                for w in 0..8 {
+                    blk[w] |= m[w];
+                }
+            }
+        }
+        f
+    }
+
+    /// E1a strategy 4 (`partitioned_grouped`, H2): as strategy 3, but pass 2 additionally
+    /// groups each partition's pairs by exact block (second-level counting sort, streaming),
+    /// then accumulates each block's full 8-word mask in registers and issues ONE store per
+    /// block — the filter array is written exactly once and never read. The accumulate loop
+    /// is lane-structured plain code (the transposition candidate).
+    pub fn build_partitioned_grouped(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        let shift = Self::partition_shift(f.blocks.len());
+        let n_parts = ((f.blocks.len() - 1) >> shift) + 1;
+
+        let mut counts = vec![0usize; n_parts + 1];
+        let mut pairs: Vec<u64> = Vec::with_capacity(keys.len());
+        for &k in keys {
+            let h = mix64(k);
+            let b = f.block_index(h) as u64;
+            counts[(b as usize >> shift) + 1] += 1;
+            pairs.push((b << 32) | (h & 0xffff_ffff));
+        }
+        for p in 1..counts.len() {
+            counts[p] += counts[p - 1];
+        }
+        let mut ordered: Vec<u64> = vec![0; pairs.len()];
+        let mut cursor = counts.clone();
+        for &pair in &pairs {
+            let p = (pair >> 32) as usize >> shift;
+            ordered[cursor[p]] = pair;
+            cursor[p] += 1;
+        }
+        drop(pairs);
+
+        let part_blocks = 1usize << shift;
+        let mut bcounts = vec![0usize; part_blocks + 1];
+        let mut bordered: Vec<u64> = Vec::new();
+        for p in 0..n_parts {
+            let slice = &ordered[counts[p]..counts[p + 1]];
+            let base = p << shift;
+            let span = part_blocks.min(f.blocks.len() - base);
+            // Group by exact block within the partition (counting sort, L2-resident data).
+            bcounts[..=span].fill(0);
+            for &pair in slice {
+                bcounts[((pair >> 32) as usize - base) + 1] += 1;
+            }
+            for b in 1..=span {
+                bcounts[b] += bcounts[b - 1];
+            }
+            bordered.clear();
+            bordered.resize(slice.len(), 0);
+            let mut bcursor: Vec<usize> = bcounts[..=span].to_vec();
+            for &pair in slice {
+                let b = (pair >> 32) as usize - base;
+                bordered[bcursor[b]] = pair;
+                bcursor[b] += 1;
+            }
+            // Register-resident merge: one store per block, never a read of the filter.
+            for b in 0..span {
+                let group = &bordered[bcounts[b]..bcounts[b + 1]];
+                if group.is_empty() {
+                    continue;
+                }
+                let mut acc = [0u32; 8];
+                for &pair in group {
+                    let x = pair as u32;
+                    for w in 0..8 {
+                        acc[w] |= 1u32 << (x.wrapping_mul(SALT[w]) >> 27);
+                    }
+                }
+                f.blocks[base + b].0 = acc;
+            }
+        }
+        f
+    }
+
     /// Measured FPR on `probes` keys known to be absent. Returns (false_positives, probes).
     pub fn measure_fpr(&self, absent_keys: impl Iterator<Item = u64>) -> (usize, usize) {
         let mut fp = 0usize;
@@ -268,6 +437,28 @@ mod tests {
         // Hot variant probes block 0 only — results differ; it exists only as a
         // throughput control and must never be reported as a filter result.
         let _ = (full, hot);
+    }
+
+    /// E1a correctness gate: every bulk builder must produce output bit-identical to
+    /// per-key insertion over the same keys. OR is commutative — any deviation is a bug.
+    #[test]
+    fn builders_bit_identical() {
+        for n in [10_000usize, 300_000, 1_000_000] {
+            let keys: Vec<u64> = KeyStream::new(0xA11CE).take(n).collect();
+            let a = BlockedFilter::build_perkey(n, 10.0, &keys);
+            let b = BlockedFilter::build_perkey_prefetch(n, 10.0, &keys);
+            let c = BlockedFilter::build_partitioned(n, 10.0, &keys);
+            let d = BlockedFilter::build_partitioned_grouped(n, 10.0, &keys);
+            for (name, other) in [("prefetch", &b), ("partitioned", &c), ("grouped", &d)] {
+                assert_eq!(a.blocks.len(), other.blocks.len(), "{name}: block count differs");
+                for i in 0..a.blocks.len() {
+                    assert_eq!(
+                        a.blocks[i].0, other.blocks[i].0,
+                        "{name}: block {i} differs at n={n}"
+                    );
+                }
+            }
+        }
     }
 
     /// Honesty guard: measured FPR must sit near the SBBF design point and must NOT
