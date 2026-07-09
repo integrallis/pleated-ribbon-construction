@@ -200,3 +200,31 @@ Structural post-mortem (written before any rerun decision, per protocol):
 - Strategic note for the user: the fully-open incremental/mergeable-ribbon-for-LSM thread is
   the largest prize surfaced by either audit, but is project-scale; H-E1b-1 is the tractable
   next experiment.
+
+## 2026-07-09 — E1b Phase 1: H-E1b-1 CONFIRMED (first surviving novel result)
+
+Artifacts: results/e1b/phase1/ (45 runs), PHASE1_ANALYSIS.md. All registered conditions met at
+both ≥100M sizes; integrity checks pass.
+
+- **Result (C17):** L2-window partitioning (single counting pass, 5.5–6.1 ns/key) recovers
+  98.3–98.4% of full sorting's banding-miss reduction (5.75→0.17 vs →0.075 miss/key) and makes
+  homogeneous ribbon construction 2.05×/2.24× faster than the reference prefetch-pipelined
+  build at 100M/400M (24.2/24.7 vs 49.6/55.3 ns/key), 1.68–1.73× faster than our best full
+  sort. The ribbon-vs-BlockedBloom construction gap on this machine shrinks from ~4.4× to
+  ~2.2×.
+- **Output-neutrality (the correctness centerpiece):** the banded solution is BIT-IDENTICAL
+  across all insertion orders (45/45 runs, FNV fingerprints match per (n,rep)) — reordering is
+  provably a pure performance transformation. Zero false negatives; FPR ~0.81% at 7.63
+  bits/key (floor 6.97).
+- **Why the E1a echo did not materialize:** unsorted banding pays ~5.8–6.1 misses/key that
+  prefetch cannot fully hide because row reductions are data-dependent chains (unlike Bloom's
+  independent probes — noprefetch control: prefetch worth only 1.5–1.7× here, C18). The
+  partition converts those to L2-resident work WITHOUT trying to eliminate the L2 RMWs
+  (E1a's mistake), and costs 4× less than our radix sort.
+- **Declared limitation (C19):** sort baselines are std::sort and our LSD radix; BuRR's ips2ra
+  would narrow the totals margin (banding-phase numbers are sort-independent). Paper-grade
+  comparison must add ips2ra, ideally BuRR's own construction end-to-end.
+- Next candidates (user to prioritize): ips2ra/BuRR head-to-head; window-size sweep (2^14–2^18);
+  ARM repeat (watch still finds CAX sold out); multithreaded variant (windows are
+  embarrassingly parallel with boundary handling — parallel-BuRR comparison); LSM integration
+  (build-during-compaction); write-up.
