@@ -249,3 +249,19 @@ both ≥100M sizes; integrity checks pass.
 - Paper positioning after this: the honest comparison set is complete on x86 — unsorted,
   prefetch-pipelined, three full sorts incl. the field's best, and BuRR itself. Remaining
   before write-up: window-size sweep, ARM replication, and (optional) parallel windows.
+
+## 2026-07-09 — Phase-1b: window robustness + H-E1b-2p CONFIRMED; ARM still blocked
+
+- Window sweep (C22): totals flat at 23.8-26.9 ns/key across 2^13-2^20 windows; 2^14 best.
+  The Phase-1 headline was measured at 2^16 — conservative. Banding misses grow gently past
+  L2 (0.146->0.306/key); reorder cheapens slightly with fewer windows. Robustness, not a
+  cliff: the technique does not depend on tuning the window.
+- Parallel windows (C23): all three registered conditions PASS. Banding 4.25x at 8T, 7.56x at
+  16T; deferred max 0.226%; bit-identity in every run including 400M. Total 11.93 ns/key at
+  16T = ribbon built as fast as sequential BlockedBloom per-key insertion on this machine.
+  Amdahl: sequential reorder (5.7) + backsubst (3.4) now dominate; parallelizing the counting
+  pass is trivial future work, backsubst parallelization = parallel-BuRR's approach (cite).
+  Honest overhead note: T=1 parallel banding (18.3) > sequential partitioned (15-16) — the
+  filter/defer copy costs ~2-3 ns/key.
+- ARM: Hetzner CAX sold out all day across all types/locations; persistent watcher keeps
+  trying; bootstrap_remote.sh now carries the full e1b pipeline for one-command replication.
