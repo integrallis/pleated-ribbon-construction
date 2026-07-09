@@ -74,6 +74,39 @@ python run.py --stage phase0    # harness runs -> results/e1b/phase0/ raw output
 python run.py --stage analyze   # derives results/e1b/ANALYSIS.md; evaluates go/no-go gates
 ```
 
+## Phase-1 registration (amendment, 2026-07-09 — after Phase-0 data + audit, before any Phase-1 run)
+
+**Gate decision: GO, narrowly.** Phase-0 measured HomogRibbon64_7 construction at 100M keys as
+heavily miss-bound (50.6 ns/key, 256 cyc/key, IPC 0.64, **5.81 cache-misses/key** — vs
+XorBinaryFuse8's 1.08 after its published segment-sort fix). The audit
+(docs/prior-art-ribbon-construction.md) rules on the judgment call: the *sorted* fix is prior
+art (SGAUSS 2019, BuRR 2022) and the *unsorted+prefetch* shape is shipped (RocksDB), so
+neither is claimable — but three specific angles are audit-verified open: partition-instead-
+of-sort, SIMD banding, SIMD/NT back-substitution. Parallel BuRR's own statement that sorting
+dominates its construction time is the motivation quote.
+
+**H-E1b-1 (registered):** replacing BuRR's full radix sort with a single-pass, L2-window
+partition of (start, hash) tuples — approximate ordering only — recovers ≥80% of full
+sorting's construction-miss reduction on homogeneous ribbon at ≥100M keys, at strictly lower
+reordering cost, yielding net construction time below BOTH (i) unsorted homogeneous ribbon
+(fastfilter reference, measured 50.6 ns/key) and (ii) a full-sort SGAUSS/BuRR-shaped build,
+and (iii) the prefetch-pipelined unsorted shape (RocksDB's, to be measured as baseline).
+Measured budget attacked: the ~4.7 excess misses/key (5.81 − 1.08 fuse floor). Window-boundary
+handling reuses parallel BuRR's boundary-bumping idea (cited, not claimed). Failure threshold:
+if partition-only cannot get within 1.3× of full-sort construction time, H-E1b-1 is refuted.
+**Note the E1a echo-risk, pre-registered:** if banding-after-partition turns out to be
+L2-hit-bound the way E1a's apply was, the sort-vs-partition delta may be small; the
+experiment must report the reorder-phase and banding-phase costs separately.
+
+**H-E1b-2 (deferred, NOT registered):** SIMD/NT back-substitution — blocked on a phase-split
+measurement (banding vs back-substitution vs hashing) that Phase 0 could not provide without
+patching the harness. A documented instrumentation patch is a precondition.
+
+**Unregistered strategic options recorded, no claims:** GPU ribbon construction (fully open;
+no GPU provisioned); incremental/mergeable ribbon across LSM compaction (fully open; the
+biggest systems prize; a separate project-scale decision); the prefetch/MLP analysis angle
+(folds into the measurement paper regardless).
+
 ## Threats to validity
 
 - fastfilter_cpp's ribbon uses the author's reference implementation — construction there may

@@ -180,3 +180,23 @@ Structural post-mortem (written before any rerun decision, per protocol):
    perf-counter mechanisms, cross-harness validation, and a methodology story (anchor-caught
    instrument flaw), plus ARM confirmation when capacity lands; (a) as the only remaining
    novelty-bearing thread if hypothesis-hunting continues.
+
+## 2026-07-09 — E1b Phase 0 + audit: GO (narrow); H-E1b-1 registered
+
+- Phase 0 (reference harness, 3 reps, results/e1b/phase0/): homogeneous ribbon construction is
+  the outlier — 5.81 misses/key at 100M (256 cyc/key, IPC 0.64) while binary fuse sits at 1.08
+  after its published segment-sort fix; Xor8's 9.45 vs fuse's 1.08 measures that fix directly.
+  BalancedRibbon (bump machinery) costs 677 cyc/key. RocksDB's ~4.4× Bloom-vs-ribbon build gap
+  replicates on this machine.
+- Code-level audit (docs/prior-art-ribbon-construction.md): sorted banding = SGAUSS/BuRR
+  (dead); unsorted+prefetch = RocksDB shipped (dead as claim, open as analysis); AUDIT-OPEN:
+  SIMD banding, partition-instead-of-sort, SIMD/NT back-substitution, GPU ribbon construction,
+  incremental/mergeable ribbon for LSM. Parallel BuRR names sorting as its dominant
+  construction cost without attacking it — the motivation quote.
+- Gate decision GO; H-E1b-1 registered by amendment (partition-instead-of-sort, ≥80% of full
+  sort's miss reduction at lower reorder cost, must beat unsorted + full-sort + prefetch
+  baselines; E1a echo-risk pre-registered: report reorder and banding phases separately).
+  H-E1b-2 (SIMD/NT backsub) deferred pending a documented harness instrumentation patch.
+- Strategic note for the user: the fully-open incremental/mergeable-ribbon-for-LSM thread is
+  the largest prize surfaced by either audit, but is project-scale; H-E1b-1 is the tractable
+  next experiment.
