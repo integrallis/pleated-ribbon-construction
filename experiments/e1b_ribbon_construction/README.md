@@ -1,0 +1,85 @@
+# E1b — ribbon / binary-fuse construction: characterize, then (maybe) optimize
+
+**Status: Phase 0 FROZEN (2026-07-09). Phase 1 is deliberately UNREGISTERED — its hypotheses
+may only be registered from Phase 0 evidence plus the E1b prior-art audit, as a documented
+amendment. This two-stage structure is the direct lesson of E1a, whose hypotheses were derived
+from a cost model that missed the L2-hit interaction and died on contact with data.**
+
+## Motivation (measured + literature)
+
+Space-optimal static filters trade construction CPU for space: RocksDB reports ~140 ns/key for
+ribbon vs ~32 ns/key for Bloom and gates ribbon adoption on exactly this (filter rebuild on
+every flush/compaction). The E0/E1a results on this machine say: probe-side layout work is
+dead (MSHR-bound), blocked-Bloom construction misses are prefetch-hidable, partitioning caps
+at ~1.7×, and post-reorder read-elimination is worthless because reordering already converts
+the target misses into L2 hits. E1b asks whether ribbon/fuse construction — structurally
+different work: banded row reduction + back-substitution (ribbon), counter-scatter + peel +
+assign (fuse) — contains a bottleneck that is (a) real at scale and (b) NOT already addressed
+by the reordering that BuRR (IPS2Ra bucket sort) and binary fuse (single-pass segment sort)
+already ship. If no such target exists, that null completes the measurement-study arc.
+
+## Phase 0 — characterization (this freeze; descriptive, no novelty claims)
+
+Instrument: pinned fastfilter_cpp binary (the field's reference suite; ribbon IDs contributed
+by the ribbon author). No new benchmark code. Add-phase ns/key and per-phase perf counters
+(cycles/key, instr/key, IPC, cache-misses/key) as printed by the harness.
+
+- Algorithms (≈1%-FPR class + context): HomogRibbon64_7 (1076), BalancedRibbon64Pack_7 (2076),
+  XorBinaryFuse8 (116), XorBinaryFuse8-4wise (118), Xor8 (0), BlockedBloom (51),
+  Bloom12-addAll (44).
+- Sizes: 1M / 10M / 100M keys, three repetitions each (variance), same session, quiet machine.
+- Recorded per run: full harness output (raw artifact), machine json.
+
+Pre-registered descriptive questions:
+- Q1: construction cost ribbon-vs-Bloom on this machine (does RocksDB's ~4× replicate?), and
+  fuse-vs-ribbon.
+- Q2: is each construction miss-bound or compute-bound at 100M (misses/key, IPC)?
+- Q3: how does each scale 1M → 100M (the blocked-Bloom perkey signature was 2.2 → 11.5 ns/key;
+  what's ribbon's)?
+- Q4 (best-effort): banding vs back-substitution split for ribbon — only if obtainable without
+  modifying the harness beyond a documented, committed patch.
+
+## Phase 0 → Phase 1 go/no-go gates (frozen now)
+
+- **GO** (register Phase-1 optimization hypotheses by amendment) iff at 100M keys some
+  construction shows **≥0.5 cache-misses/key in a phase that is not already
+  reordering-based**, or a compute profile with clear data-parallel slack (IPC ≤1.5 with
+  ≥60 cycles/key in independent-iteration work). Any registered hypothesis must name the
+  measured budget it attacks and must beat the strongest existing shape (incl. BuRR's sort and
+  software-pipelined prefetch) — not a naive baseline.
+- **NO-GO**: constructions are compute-bound in serial row-reduction/peeling with modest
+  cycles/key, or miss-bound only in phases already solved by shipped reordering. Then E1b
+  terminates as the third null and the measurement paper gains its final section: "space-
+  optimal filter construction cost is algorithmic, not memory-layout — there is no layout
+  target left."
+- Gate evaluation is mechanical where possible (misses/key and IPC thresholds from the raw
+  harness output); judgment calls (what counts as "already reordering-based") must quote the
+  audit's code-level findings and be logged before Phase 1 registration.
+
+## Prior-art audit (runs alongside Phase 0; gates Phase 1, not Phase 0)
+
+Deep, code-level: BuRR paper+repo (what exactly IPS2Ra sorts; bumping's construction cost);
+parallel BuRR (arXiv:2411.12365); RocksDB `ribbon_impl.h` (insertion order, back-substitution
+layout, any prefetch); fastfilter_cpp / xor_singleheader binary-fuse construction (segment
+sort, counter arrays, peel queue memory behavior); Dietzfelbinger & Walzer ESA 2019
+(sorted-Gaussian linearity); Vigna ε-cost sharding (arXiv:2503.18397); Breyer & Liu
+arXiv:2312.13541 (unchecked residual from the E1a audit); any SIMD banding/back-substitution
+attempt anywhere. Deliverable: docs/prior-art-ribbon-construction.md with a must-cite list and
+"what remains unaddressed" verdict.
+
+## Stages
+
+```bash
+python run.py --stage phase0    # harness runs -> results/e1b/phase0/ raw outputs
+python run.py --stage analyze   # derives results/e1b/ANALYSIS.md; evaluates go/no-go gates
+```
+
+## Threats to validity
+
+- fastfilter_cpp's ribbon uses the author's reference implementation — construction there may
+  differ from RocksDB's production builder (different back-substitution layout); both get
+  cited, only one measured in Phase 0.
+- Shared machine caveats as E0/E1a (i9-14900HX, AVX2, no AVX-512); ARM repeat when capacity
+  lands.
+- 100M is the ceiling here (harness's own recommended scale); 429M-class runs would need
+  harness patches — out of Phase-0 scope.
