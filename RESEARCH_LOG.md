@@ -149,3 +149,34 @@ lanes never ≥1.3× over prefetch). Verdict and interpretation, logged before a
   sfence); all five builders pass the bit-identity gate at three sizes.
 - Required baselines recorded: fastfilter AddAll ids 43/52 (pilot), tum-db/partitioned-filters
   (paper-level). Framing rule: never claim partitioning/buffering/bulk-build as novel.
+
+## 2026-07-09 — E1a full sweep: H1 short, H2 REFUTED; K2 fires; structural post-mortem
+
+Artifacts: results/e1a/ (criterion full sweep 1M–429M, anchors ids 43/51/52, ANALYSIS.md).
+Mechanical outcomes (all ≥64MB sizes): partitioned/perkey = 1.45–1.71× (H1's ≥2× NOT met);
+grouped/partitioned = 0.63–0.65× (H2 catastrophically refuted — the read-free apply is ~1.5×
+SLOWER than partitioned RMW); NT stores change nothing (±2%).
+
+Structural post-mortem (written before any rerun decision, per protocol):
+1. **Partitioning and the read-free apply attack the same misses, so they don't compose.**
+   Once pairs are partitioned to L2-sized spans, the RMW reads the apply would eliminate are
+   L2 HITS; the DRAM read-for-ownership happens once per filter line and is already amortized
+   over ~26 keys/line. The second counting sort that grouping needs costs ~4.5 ns/key against
+   an eliminated-read benefit of ~1 L2 hit/key. fastfilter's historical ~0–10% for buffered
+   AddAll and our 0.63× agree with this accounting from opposite directions.
+2. **Software-pipelined prefetch is the sleeper finding**: perkey_prefetch = 6.08/7.35/8.90
+   ns/key at 53.7M/100M/429M — it BEATS partitioned at 53.7M and 100M and needs no transient
+   memory; partitioned only pulls ahead at 429M (7.71 vs 8.90). RocksDB has shipped this shape
+   (AddAllEntries) since 2019. Any partitioned-construction claim must now also beat this
+   baseline, which Schmidt et al. did not evaluate against.
+3. H1's miss at ≥2× is partly implementation (pass 1 materializes pairs then scatters:
+   ~16B/key of avoidable staging traffic; a fused SWWC scatter would plausibly reach ~2×) —
+   but H1 is a REPLICATION claim; optimizing to reach it creates no paper. Not pursuing an
+   amendment round; recording the estimate instead.
+4. **K2 fires in full.** Per the frozen protocol, salvage paths: (a) ribbon/binary-fuse
+   construction (structurally different — sort/peel over large arrays; partial prior art),
+   (b) cross-ISA/ARM, (c) LSM end-to-end integration, (d) measurement study of the E0+E1a
+   nulls. Recommendation to user: (d) as the paper backbone — two pre-registered nulls with
+   perf-counter mechanisms, cross-harness validation, and a methodology story (anchor-caught
+   instrument flaw), plus ARM confirmation when capacity lands; (a) as the only remaining
+   novelty-bearing thread if hypothesis-hunting continues.
