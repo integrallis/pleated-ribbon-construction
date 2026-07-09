@@ -308,6 +308,35 @@ impl BlockedFilter {
     /// block — the filter array is written exactly once and never read. The accumulate loop
     /// is lane-structured plain code (the transposition candidate).
     pub fn build_partitioned_grouped(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        Self::build_grouped_impl(n_keys, bits_per_key, keys, false)
+    }
+
+    /// E1a strategy 5 (`partitioned_grouped_nt`, x86 only): as strategy 4, but the one store
+    /// per block is a non-temporal store — the filter's memory is neither read nor pulled
+    /// into cache, eliminating read-for-ownership traffic entirely. Falls back to strategy 4
+    /// semantics on non-x86 (documented in the E1a protocol).
+    pub fn build_partitioned_grouped_nt(n_keys: usize, bits_per_key: f64, keys: &[u64]) -> Self {
+        Self::build_grouped_impl(n_keys, bits_per_key, keys, true)
+    }
+
+    #[inline(always)]
+    fn store_block(dst: &mut Block, acc: [u32; 8], nt: bool) {
+        #[cfg(target_arch = "x86_64")]
+        if nt {
+            // Block is #[repr(align(32))]; consecutive 32B NT stores combine into 64B bursts.
+            unsafe {
+                core::arch::x86_64::_mm256_stream_si256(
+                    dst as *mut Block as *mut core::arch::x86_64::__m256i,
+                    core::mem::transmute::<[u32; 8], core::arch::x86_64::__m256i>(acc),
+                );
+            }
+            return;
+        }
+        let _ = nt;
+        dst.0 = acc;
+    }
+
+    fn build_grouped_impl(n_keys: usize, bits_per_key: f64, keys: &[u64], nt: bool) -> Self {
         let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
         let shift = Self::partition_shift(f.blocks.len());
         let n_parts = ((f.blocks.len() - 1) >> shift) + 1;
@@ -368,8 +397,13 @@ impl BlockedFilter {
                         acc[w] |= 1u32 << (x.wrapping_mul(SALT[w]) >> 27);
                     }
                 }
-                f.blocks[base + b].0 = acc;
+                Self::store_block(&mut f.blocks[base + b], acc, nt);
             }
+        }
+        #[cfg(target_arch = "x86_64")]
+        if nt {
+            // Order NT stores before any subsequent read of the filter.
+            unsafe { core::arch::x86_64::_mm_sfence() };
         }
         f
     }
@@ -449,7 +483,10 @@ mod tests {
             let b = BlockedFilter::build_perkey_prefetch(n, 10.0, &keys);
             let c = BlockedFilter::build_partitioned(n, 10.0, &keys);
             let d = BlockedFilter::build_partitioned_grouped(n, 10.0, &keys);
-            for (name, other) in [("prefetch", &b), ("partitioned", &c), ("grouped", &d)] {
+            let e = BlockedFilter::build_partitioned_grouped_nt(n, 10.0, &keys);
+            for (name, other) in
+                [("prefetch", &b), ("partitioned", &c), ("grouped", &d), ("grouped_nt", &e)]
+            {
                 assert_eq!(a.blocks.len(), other.blocks.len(), "{name}: block count differs");
                 for i in 0..a.blocks.len() {
                     assert_eq!(
