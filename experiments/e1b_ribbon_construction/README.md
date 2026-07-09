@@ -116,3 +116,20 @@ biggest systems prize; a separate project-scale decision); the prefetch/MLP anal
   lands.
 - 100M is the ceiling here (harness's own recommended scale); 429M-class runs would need
   harness patches — out of Phase-0 scope.
+
+## Phase-1b registration (amendment, 2026-07-09, before any Phase-1b run)
+
+- **Window-size sweep (descriptive, no threshold):** partitioned strategy with window shift
+  2^13–2^20 slots at 100M keys; reports the reorder/banding trade-off curve. The registered
+  Phase-1 results used 2^16; the sweep tests whether that choice was lucky or robust.
+- **H-E1b-2p (parallel windows, registered):** slot-range parallel banding — T threads own
+  disjoint slot ranges; keys whose start lies within G=2^14 slots of a range boundary are
+  deferred to a sequential tail pass (analogous to parallel BuRR's boundary bumping, made
+  trivially verifiable by the measured order-independence of the solution). Conditions:
+  (a) solution remains BIT-IDENTICAL to the sequential partitioned build (the fingerprint
+  gate catches any cross-range write), (b) deferred fraction <0.5%, (c) banding-phase
+  speedup ≥3× at 8 threads on 100M keys. Failure of (a) at any run invalidates that run's
+  timing and the variant until diagnosed.
+- ARM replication of Phase 1 remains queued on Hetzner CAX capacity (persistent watcher);
+  bootstrap_remote.sh gains the e1b build/run so the replication is one command when
+  capacity lands.
