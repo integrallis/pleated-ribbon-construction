@@ -228,3 +228,24 @@ both ≥100M sizes; integrity checks pass.
   ARM repeat (watch still finds CAX sold out); multithreaded variant (windows are
   embarrassingly parallel with boundary handling — parallel-BuRR comparison); LSM integration
   (build-during-compaction); write-up.
+
+## 2026-07-09 — ips2ra + BuRR head-to-head: C19 resolved, verdict unchanged (C20, C21)
+
+- `sort_ips2ra` strategy added to the driver using BuRR's own vendored ips2ra (sequential; the
+  TBB-parallel path is gated behind _REENTRANT — our first build failed because -pthread set
+  it; documented). Fingerprints bit-identical, as required.
+- Measured: ips2ra reorder 22.3/23.9/28.1 ns/key at 10M/100M/400M in our driver (includes
+  pair materialization + key extraction); 17.3 ns/key inside BuRR's own bench at 100M
+  (in-place MHC sort). Either way, ~3–5× the partition pass (5.5–6.1 ns/key). H-E1b-1's
+  conditions remain ALL MET with ips2ra in the best-sort minimum; best full-sort totals
+  40.7/41.5 vs partitioned 24.2/24.7 at 100M/400M.
+- BuRR end-to-end anchor (pinned 5f588f4; 2-bit, w=64, interleaved, ε=−0.005; -Werror dropped
+  via CLI CFLAGS, source untouched; TBB/ninja/xxhash installed user-space): ~70 ns/key at 100M
+  items = MHC 3.3 + ips2ra 17.3 + banding-with-bumping 46.0 + backsubst 3.5. Cited as anchor
+  only — different structure (r=8, ~1% space overhead vs our homogeneous r=7 at ~9.5%).
+- Process note: an earlier `make bench | tail` pipe masked BuRR's build failure (notification
+  showed the pipe's exit 0); caught when the binary was missing. Rule reinforced: never pipe a
+  build whose exit code matters.
+- Paper positioning after this: the honest comparison set is complete on x86 — unsorted,
+  prefetch-pipelined, three full sorts incl. the field's best, and BuRR itself. Remaining
+  before write-up: window-size sweep, ARM replication, and (optional) parallel windows.
