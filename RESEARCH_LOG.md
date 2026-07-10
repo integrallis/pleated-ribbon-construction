@@ -265,3 +265,28 @@ both ≥100M sizes; integrity checks pass.
   filter/defer copy costs ~2-3 ns/key.
 - ARM: Hetzner CAX sold out all day across all types/locations; persistent watcher keeps
   trying; bootstrap_remote.sh now carries the full e1b pipeline for one-command replication.
+
+## 2026-07-10 — ARM replication (OCI Neoverse-N1): pleating holds, output identical cross-ISA
+
+Box: OCI Always-Free A1.Flex, 4 OCPU/24GB, Ampere Altra Neoverse-N1 (CPU part 0xd0c, NEON,
+no SVE), Ubuntu 24.04, gcc 13.3, rustc 1.97. Artifacts: results/e1b-arm-n1/.
+
+- **Instrument caveat (declared):** hardware perf counters read zero in this VM (perf_event
+  blocked by the hypervisor). So fastfilter_cpp's phase-0 add-timing and all cache-miss/IPC
+  fields on this box are INVALID and not used. The e1b_phase1 driver's wall-clock ns/key
+  (steady_clock) is independent of perf and is what we report; its banding_*_per_key counter
+  fields are likewise zeroed and ignored.
+- **Wall-clock, 100M keys:** reference (unsorted+prefetch) 122.8 ns/key, best full sort 64.6,
+  **partitioned (pleated) 51.7** — pleating 2.37x over reference, 1.25x over the best full
+  sort. Reorder pass 15.9 ns/key vs 36.5 (radix) / 39.4 (ips2ra). The reference banding is far
+  more punished on N1 than on x86 (113.8 vs 46.1 ns/key), consistent with a narrower core
+  hiding the dependent-chain misses even less — the pleating win is LARGER on N1 (2.37x vs
+  2.05x reference on x86), though we cannot cite the miss mechanism from this box (no counters).
+- **Correctness centerpiece, cross-ISA:** per-(n,rep) solution fingerprints identical across
+  all six strategies, 9/9 groups; and x86-vs-ARM partitioned fingerprints identical 9/9 matched
+  (n,rep) pairs. The proven order-independence extends to architecture-independence: same bits
+  on AVX2 x86 and NEON ARM. Zero false negatives on every run.
+- Parallel points (T=1,2,4) finishing on the box; N1 has 4 cores so no 8/16T data here.
+- ACTION: pull remaining parallel, terminate OCI instance. SVE data point still wants GCP
+  Axion / AWS Graviton (both pending). N1 duplicates Hetzner CAX silicon but is the first ARM
+  numbers we have.
