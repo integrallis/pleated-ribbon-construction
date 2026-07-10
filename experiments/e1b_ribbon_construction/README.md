@@ -133,3 +133,26 @@ biggest systems prize; a separate project-scale decision); the prefetch/MLP anal
 - ARM replication of Phase 1 remains queued on Hetzner CAX capacity (persistent watcher);
   bootstrap_remote.sh gains the e1b build/run so the replication is one command when
   capacity lands.
+
+## Phase-1c registration (amendment, 2026-07-10, before any Phase-1c run)
+
+Goal: extend the validity domain with measurements, replacing scoped hedges in the paper with
+covered configurations. Same gates per configuration: fingerprint identity where the theory
+predicts it, zero false negatives, measured FPR reported against its floor.
+
+- **C-w128-std**: standard (non-homogeneous) ribbon, w=128, seeds + backtracking — the RocksDB
+  production shape. New driver template; partition pass unchanged. Success: partitioned wins
+  totals at ≥100M keys as at w=64. This converts the "production variant" wording from scoped
+  to covered.
+- **C-r-sweep**: r ∈ {5, 8, 11} at w=64, 100M. Success: banding-phase benefit within noise of
+  r=7 (construction cost is r-insensitive).
+- **C-endpoints**: 1M and 1B keys. The 1M point measures the applicability boundary (table
+  cache-resident: partition expected to lose — reported as the crossover, a property of the
+  technique, not a caveat); 1B stresses the large end (13GB table at w=64).
+- **C-sorted**: sorted-key input at 100M (LSM compaction shape). Expected: indistinguishable
+  from random (starts derive from hashes); measurement replaces the assumption.
+- **C-gmargin**: parallel deferral margin G ∈ {2^12, 2^14, 2^16} at 100M/8T.
+- **C-pburr**: parallel BuRR (lorenzhs parallel branch) on this machine as the parallel anchor.
+
+Runner: to be added as run.py --stage phase1c with per-config raw JSON artifacts; analyzer
+extends PHASE1B mechanics. ARM replication unchanged (pending capacity; bootstrap covers it).
