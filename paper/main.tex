@@ -63,7 +63,15 @@ Experiment E1a measured five bulk builders at 1M to 429M keys, gated on bit-iden
 
 \section{Partition-instead-of-sort for ribbon}\label{sec:ribbon}
 \subsection{The target, measured}
-Phase-0 characterization (fastfilter\_cpp binary, 3 reps) shows that homogeneous ribbon construction at 100M keys costs 50.6 ns/key at IPC 0.64 with 5.81 cache-misses/key— banding walks a random start per key through a 1.3GB working set, and each row-reduction step depends on the previous XOR. Thus prefetch cannot dissolve the chain as Bloom's independent probes can.
+We first measured where ribbon construction spends its time, using the reference benchmark
+suite unmodified (three repetitions). At 100 million keys, homogeneous ribbon construction
+costs 50.6 ns per key --- and the hardware counters say why: the processor completes only 0.64
+instructions per cycle and takes 5.81 cache misses per key, which is to say it spends most of
+its time waiting on memory. The reason is structural. Each key starts its elimination at an
+effectively random position in a 1.3GB table, and every reduction step needs the result of the
+previous XOR before it can even compute which slot it touches next. A prefetcher cannot run
+ahead of a chain like that. This is exactly the opposite of Bloom construction, where each
+key's memory accesses are independent and the hardware overlaps them for free.
 \subsection{Design}
 We only permute the input. One counting pass buckets keys by floor(s / $2^{16}$) — windows of $2^{16}$ slots, roughly 768KiB of banding state, under half an L2 — recomputing the hash on the fly instead of materializing pairs; a second pass writes the keys back out in window order. The untouched reference kernel, prefetch pipeline and all, then consumes the permuted array. Everything downstream — banding, back-substitution, queries — stays the ribbon author's code.
 \subsection{Results}
@@ -120,7 +128,16 @@ system with a unique solution. (Full argument in the repository,
 \texttt{docs/order-independence-proof.md}; with dependent rows the enforced subset may differ
 by order, which the per-run fingerprint gate detects.)
 
-Empirically: for all sequential and parallel runs (sizes up to 400M, six orderings, thread counts to 16), the banded solution is exactly byte-identical under an FNV fingerprint. Reordering is therefore provably output-neutral (the linear algebra version of OR-commutativity) and it converts parallel construction verification from a distributed-systems problem to a checksum. Our parallel version assigns disjoint window ranges (split at the same key count) to threads; keys starting in $2^{14}$ slots of a range boundary switch to a sequential tail (0.015 - 0.226\% of keys), following parallel BuRR's boundary idea. Banding scales 1.81/2.83/4.25/7.56$\times$ at 2/4/8/16 threads against its own T=1 (3.5/6.3$\times$ at 8/16 threads against the best sequential banding; the parallel path carries $\sim$20\% defer/copy overhead); the residual is Amdahl's: the sequential counting pass (5.7) and back-substitution (3.8 ns/key at 16 threads) now dominate the 11.9 ns/key total. Both are parallelizable (counting sort trivially; back-substitution as in parallel BuRR) — future work.
+Empirically this held everywhere we looked: across every sequential and parallel run --- sizes
+up to 400 million keys, six different insertion orders, thread counts up to 16 --- the finished
+filter came out byte-for-byte identical, checked by hashing the output bits. The practical
+consequence is larger than it first appears. If the output cannot depend on insertion order,
+then any reordering scheme, including a parallel one, can prove its own correctness by
+comparing one checksum against the sequential build. What is normally the hard part of
+parallel data-structure construction --- arguing that no interleaving corrupts the result ---
+becomes a single equality test. Our parallel version assigns disjoint window ranges (split at the same key count) to threads; keys starting in $2^{14}$ slots of a range boundary switch to a sequential tail (0.015 - 0.226\% of keys), following parallel BuRR's boundary idea. Banding scales 1.81/2.83/4.25/7.56$\times$ at 2/4/8/16 threads against its own T=1 (3.5/6.3$\times$ at 8/16 threads against the best sequential banding; the parallel path carries $\sim$20\% defer/copy overhead); what remains is the work we did not parallelize: the counting pass (5.7 ns/key) and
+back-substitution (3.8 ns/key at 16 threads) are still sequential, and together they now
+account for most of the 11.9 ns/key total. Both are parallelizable (counting sort trivially; back-substitution as in parallel BuRR) — future work.
 
 \section{Construction prefetch, evaluated}\label{sec:prefetch}
 RocksDB ships a software-pipelined construction prefetch behind a comment reading “TODO: verify/validate” and the reference harness enables the same pipeline above 1500 slots. Our no-prefetch control isolates it: 1.5-1.7$\times$ on unsorted banding (76.9 $\to$ 46.1 ns/key at 100M). It attacks the start-locating miss but can't touch the dependent reduction chain, which is why partitioning dominates here while the similar prefetch strategy wins for Bloom construction (§3).
