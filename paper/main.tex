@@ -74,6 +74,18 @@ ahead of a chain like that. This is exactly the opposite of Bloom construction, 
 key's memory accesses are independent and the hardware overlaps them for free.
 \subsection{Design}
 We only permute the input. One counting pass buckets keys by floor(s / $2^{16}$) — windows of $2^{16}$ slots, roughly 768KiB of banding state, under half an L2 — recomputing the hash on the fly instead of materializing pairs; a second pass writes the keys back out in window order. The untouched reference kernel, prefetch pipeline and all, then consumes the permuted array. Everything downstream — banding, back-substitution, queries — stays the ribbon author's code.
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/banding_order.pdf}
+\caption{Why insertion order is the whole game. (a) In arrival order, every key starts its
+elimination at a random position in a table three orders of magnitude larger than cache, and
+the steps within each insertion form a dependent chain no prefetcher can run ahead of. (b) A
+single counting pass groups the same keys by table window; banding then works inside one
+cache-resident window at a time. Binary fuse filters apply the same remedy to their counter
+scatter via a segment sort (\S\ref{sec:background}). Numbers: 100M keys, means of 3 runs.}
+\label{fig:order}
+\end{figure}
+
 \subsection{Results}
 Table 1 (100M keys; 400M artifacts). The partition pass costs 5.5-6.1 ns/key against 23.9-28.1 for ips2ra in our driver (17.3 inside BuRR's own bench); banding lands within 13\% of banding-after-full-sort (15.2 vs. 13.4 ns/key), i.e., the partition recovers 98.3-98.4\% of the sort miss reduction (5.75 $\to$ 0.17 vs. 0.075 misses/key). End-to-end we get 24.2 vs. 49.6 (reference) and 40.7 (best full sort): 1.68$\times$ faster than the best full sort at both sizes. As an anchor, BuRR builds end-to-end at about 70 ns/key at its top recursion level on this machine (roughly 75.5 across all levels). It is a different structure — r=8, about 1\% space overhead, bumping — whereas our homogeneous configuration spends 7.63 bits/key at 0.81\% FPR, about 9.5\% overhead. A window sweep from $2^{13}$ to $2^{20}$ slots moves totals only between 23.8 and 26.9 ns/key — no tuning cliff — and our registered choice of $2^{16}$ turns out to have been conservative; $2^{14}$ does mildly better. (Table~\ref{tab:ribbon}, Figure~\ref{fig:strategies}.)
 
