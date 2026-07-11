@@ -290,3 +290,26 @@ no SVE), Ubuntu 24.04, gcc 13.3, rustc 1.97. Artifacts: results/e1b-arm-n1/.
 - ACTION: pull remaining parallel, terminate OCI instance. SVE data point still wants GCP
   Axion / AWS Graviton (both pending). N1 duplicates Hetzner CAX silicon but is the first ARM
   numbers we have.
+
+## 2026-07-10 — ARM #2 (GCP Axion, Neoverse-V2/SVE): pleating replicates, 3-way bit-identity
+
+Box: GCP c4a-standard-8, Ampere/Google Axion Neoverse-V2 (CPU part 0xd4f, SVE+SVE2+bf16+i8mm,
+8 cores, 31GB), Ubuntu 24.04. Artifacts: results/e1b-arm-v2/. Same VM perf caveat as OCI:
+GCE does NOT virtualize the PMU (perf stat -> <not supported> even at paranoid=0 with sudo),
+so cache-miss/IPC fields are invalid on this box and omitted; wall-clock ns/key is the report.
+
+- 100M keys, wall-clock: reference 93.7 ns/key, best full sort 44.8, **partitioned (pleated)
+  34.4** -> 2.72x over reference, 1.30x over best full sort. Reorder pass 6.5 vs 21.8 (radix)
+  / 26.9 (ips2ra). Reference banding 86.3 ns/key (vs 46.1 x86, 113.8 N1) — V2 sits between.
+- **Parallel scaling to 8 cores (first full curve; N1 capped at 4):** banding 24.5 -> 12.6 /
+  6.5 / 3.46 ns/key at T=1/2/4/8 = 1.94x/3.78x/7.07x; total 17.28 ns/key at 8T; deferred
+  <=0.105%; zero false negatives. Near-linear to 8 threads.
+- **3-way cross-ISA bit-identity:** V2 partitioned fingerprints == x86 9/9 AND == N1 9/9 at
+  every (n,rep). The solved filter is byte-identical across AVX2 Raptor Lake, NEON N1, and
+  SVE V2. Order-independence => architecture-independence, now on three microarchitectures.
+
+Cross-arch pleating summary (reference-speedup): x86 2.05x, N1 2.37x, V2 2.72x. The weaker a
+core hides dependent-chain misses, the more pleating helps — but it helps materially on all
+three. ARM miss-MECHANISM still unmeasured (no cloud ARM exposes counters); optional
+bare-metal closer (GH200=V2, or phoenixNAP=N1, or AWS metal) noted, not load-bearing.
+ACTION: terminate OCI + GCP instances now.
