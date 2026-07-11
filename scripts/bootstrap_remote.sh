@@ -7,10 +7,11 @@ HOST="$1"
 KEY="${2:-$HOME/.ssh/tf_bench_ed25519}"
 TAG="${3:-remote}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-SSH=(ssh -i "$KEY" -o StrictHostKeyChecking=accept-new "root@$HOST")
+USER="${SSH_USER:-root}"
+SSH=(ssh -i "$KEY" -o StrictHostKeyChecking=accept-new "$USER@$HOST")
 
 echo "== wait for cloud-init package install to finish =="
-"${SSH[@]}" 'cloud-init status --wait >/dev/null 2>&1 || true; command -v gcc >/dev/null || (apt-get update -qq && apt-get install -y -qq build-essential cmake git python3 binutils curl)'
+"${SSH[@]}" 'cloud-init status --wait >/dev/null 2>&1 || true; command -v gcc >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq build-essential cmake git python3 python3-pip binutils curl rsync)'
 
 echo "== machine identity (recorded with results) =="
 "${SSH[@]}" 'uname -m; grep -E "model name|Features|flags" /proc/cpuinfo | sort -u | head -3; nproc; free -g | head -2'
@@ -21,16 +22,16 @@ echo "== rust toolchain =="
 echo "== sync repo (no target/, no harness clones, no .env) =="
 rsync -az -e "ssh -i $KEY" \
   --exclude target/ --exclude harness/fastfilter_cpp/ --exclude harness/FastLanes/ \
-  --exclude .env --exclude .git/ --exclude results/ \
-  "$REPO_ROOT/" "root@$HOST:~/transposed-filters/"
+  --exclude .env --exclude .git/ --exclude results/ --exclude "e1b_phase1" \
+  "$REPO_ROOT/" "$USER@$HOST:~/transposed-filters/"
 
 echo "== harnesses (pinned) =="
-"${SSH[@]}" 'cd ~/transposed-filters/harness && ./setup_harnesses.sh'
+"${SSH[@]}" 'cd ~/transposed-filters/harness && bash setup_harnesses.sh'
 
 echo "== E1b phase-1 driver (ribbon reorder) =="
-"${SSH[@]}" 'apt-get install -y -qq libtbb-dev 2>/dev/null || true
+"${SSH[@]}" 'sudo apt-get install -y -qq libtbb-dev 2>/dev/null || true
   cd ~/transposed-filters/harness && [ -d BuRR ] || git clone --quiet --recursive https://github.com/lorenzhs/BuRR
-  cd ~/transposed-filters/src/ribbon_reorder && make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" && ./e1b_phase1 1000000 partitioned 0'
+  cd ~/transposed-filters/src/ribbon_reorder && make clean >/dev/null 2>&1; make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" && ./e1b_phase1 1000000 partitioned 0'
 
 echo "== E1b phase 1 (full sweep incl. parallel) =="
 "${SSH[@]}" 'cd ~/transposed-filters/experiments/e1b_ribbon_construction &&
