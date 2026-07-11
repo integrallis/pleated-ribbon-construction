@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 48
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+batched add
+             
+add    cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.00%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.25%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.50%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.75%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+1.00%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+          BalancedRibbon64Pack_7  137.65    0.00   41.25   42.87   41.65   40.36   38.96  260.71  0.7785       7.05       7.01     0.6   1.000
