@@ -2,14 +2,21 @@
 // homogeneous ribbon kernel (StandardBanding/BandingAddRange/InterleavedSoln).
 // See experiments/e1b_ribbon_construction/README.md (H-E1b-1, registered by amendment).
 //
-// Every strategy is exactly: (optional) permutation of the key array -> one call to the
-// reference banding -> reference BackSubstFrom. The banding kernel, its internal prefetch
-// pipeline, and back-substitution are the harness's code, untouched; measured deltas are
-// attributable purely to input order. Configuration replicates HomogRibbon64_7
-// (filterapi.h:520-575; benchmark id 1076 = the Phase-0 baseline).
+// The sequential strategies (reference, noprefetch, sort_std, sort_radix, sort_ips2ra,
+// partitioned) are exactly: (optional) permutation of the key array -> one call to the reference
+// banding -> reference BackSubstFrom. That banding kernel, its prefetch pipeline, and back-
+// substitution are the harness's code, untouched; measured deltas are attributable purely to
+// input order. The `parallel` strategy adds slot-range parallel banding: each thread bands its
+// key range with a boundary-checked replica of the reference BandingAdd + prefetch pipeline
+// (band_range_bounded, below) that is byte-for-byte the reference path for in-range keys but
+// defers any reduction that would cross its slot cap to a sequential tail banded by the reference
+// kernel — so threads write disjoint slot ranges with no data race. Bit-identity to the
+// sequential build is verified every run by the FNV solution fingerprint (+ false-negative gate).
+// Configuration replicates HomogRibbon64_7 (filterapi.h:520-575; benchmark id 1076 = Phase-0).
 //
-// Usage: ./e1b_phase1 <n_keys> <strategy> <rep>
-//   strategy in { reference, noprefetch, sort_std, sort_radix, partitioned }
+// Usage: ./e1b_phase1 <n_keys> <strategy> <rep> [window_shift=16] [threads=8]
+//   strategy in { reference, noprefetch, sort_std, sort_radix, sort_ips2ra, partitioned, parallel }
+//   env PLEAT_PARALLEL_G overrides the boundary margin (slots) to stress the spill path.
 // Output: one JSON line on stdout (the raw artifact). Exit 1 on any false negative.
 
 #include <algorithm>
@@ -17,6 +24,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <memory>
 #include <string>
 #include <thread>
@@ -173,6 +181,79 @@ static std::vector<uint64_t> reorder_sort_radix(const std::vector<uint64_t>& key
   return out;
 }
 
+// ---- Boundary-checked banding for the slot-range parallel strategy ----
+//
+// A thread owns a contiguous slot range and must write only slots below `cap` (= its upper
+// window boundary), so its writes never touch the next thread's range. The G-margin below
+// pre-defers keys whose *start* is near the boundary, but a Gaussian reduction can in principle
+// advance past `cap` from a start further away. These functions replicate the reference banding
+// (ribbon_alg.h: BandingAdd inner loop + the pipelined-prefetch BandingAddRange) byte-for-byte,
+// adding one guard: a reduction that would reach `cap` is reported as *spilled* (its key deferred
+// to the sequential tail) without writing at or beyond `cap`. For keys that stay in range the
+// path — LoadRow/StoreRow, reduction, and the software-prefetch pipeline — is identical to the
+// reference, so timing is preserved; order-independence makes the deferred re-band bit-identical
+// to the sequential build.
+enum class BandOutcome { kStored, kSpilled };
+
+template <typename B>
+static inline BandOutcome band_add_bounded(B* bs, TS::Index start, TS::ResultRow rr,
+                                           TS::CoeffRow cr, size_t cap) {
+  TS::Index i = start;
+  if (!TS::kFirstCoeffAlwaysOne) {
+    const int tz = ribbon::CountTrailingZeroBits(cr);
+    i += static_cast<TS::Index>(tz);
+    cr >>= tz;
+  }
+  for (;;) {
+    if (i >= cap) return BandOutcome::kSpilled;  // would cross into the next thread's range
+    TS::CoeffRow cr_at_i;
+    TS::ResultRow rr_at_i;
+    bs->LoadRow(i, &cr_at_i, &rr_at_i, /*for_back_subst=*/false);
+    if (cr_at_i == 0) {
+      bs->StoreRow(i, cr, rr);
+      return BandOutcome::kStored;
+    }
+    cr ^= cr_at_i;
+    rr ^= rr_at_i;
+    if (cr == 0) return BandOutcome::kStored;  // redundant row (homogeneous: rr == 0, absorbed)
+    const int tz = ribbon::CountTrailingZeroBits(cr);
+    i += static_cast<TS::Index>(tz);
+    cr >>= tz;
+  }
+}
+
+// Band input[lo, hi_idx) into slots below `cap` using the reference prefetch pipeline; keys whose
+// reduction would leave the range are appended to `spill`. Mirrors BandingAddRange's pipelined
+// path exactly (same GetHash/GetStart/GetResultRow order and Prefetch cadence).
+template <typename B>
+static void band_range_bounded(B* bs, const std::vector<uint64_t>& input, size_t lo, size_t hi_idx,
+                               size_t num_starts, size_t cap, std::vector<uint64_t>* spill) {
+  if (lo >= hi_idx) return;
+  size_t idx = lo;
+  TS::Hash h = bs->GetHash(input[idx]);
+  TS::Index start = bs->GetStart(h, num_starts);
+  TS::ResultRow rr = bs->GetResultRowFromInput(input[idx]);
+  bs->Prefetch(start);
+  for (;;) {
+    rr |= bs->GetResultRowFromHash(h);
+    const TS::CoeffRow cr = bs->GetCoeffRow(h);
+    const uint64_t key = input[idx];
+    const size_t next = idx + 1;
+    if (next == hi_idx) {
+      if (band_add_bounded(bs, start, rr, cr, cap) == BandOutcome::kSpilled) spill->push_back(key);
+      return;
+    }
+    h = bs->GetHash(input[next]);
+    const TS::Index next_start = bs->GetStart(h, num_starts);
+    const TS::ResultRow next_rr = bs->GetResultRowFromInput(input[next]);
+    bs->Prefetch(next_start);
+    if (band_add_bounded(bs, start, rr, cr, cap) == BandOutcome::kSpilled) spill->push_back(key);
+    idx = next;
+    start = next_start;
+    rr = next_rr;
+  }
+}
+
 // ---- One measured run; B = Banding (reference kernel) or NoPrefetchBanding ----
 template <typename B>
 int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned threads) {
@@ -212,6 +293,7 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
   LinuxEvents<PERF_TYPE_HARDWARE> unified(evts);
   std::vector<unsigned long long> results(evts.size(), 0);
   size_t deferred_count = 0;
+  size_t spilled_count = 0;
   bool ok = true;
   t0 = now_ns();
   unified.start();
@@ -220,7 +302,11 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
     // start lies within G slots of the range's upper slot boundary are deferred to a
     // sequential tail (parallel-BuRR-style boundary handling). Correctness is checked
     // end-to-end by the bit-identity fingerprint (order-independence) + false-negative gate.
-    constexpr size_t G = size_t{1} << 14;
+    // Boundary safety margin (slots). Default 2^14; overridable to stress the spill path — a
+    // smaller G lets more reductions reach the cap so band_add_bounded must defer them, and the
+    // fingerprint gate must still report bit-identity (which is the whole safety guarantee).
+    size_t G = size_t{1} << 14;
+    if (const char* g = getenv("PLEAT_PARALLEL_G")) G = strtoull(g, nullptr, 10);
     const size_t n_windows = wcounts.size() - 1;
     // Split window ranges at ~equal key counts.
     std::vector<size_t> w_bounds(threads + 1, 0);
@@ -229,7 +315,8 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
       const size_t target = (input.size() * t) / threads;
       w_bounds[t] = std::lower_bound(wcounts.begin(), wcounts.end(), target) - wcounts.begin();
     }
-    std::vector<std::vector<uint64_t>> deferred(threads);
+    std::vector<std::vector<uint64_t>> deferred(threads);  // G-pre-deferred, then any spills
+    std::vector<size_t> spill_counts(threads, 0);  // reductions that actually crossed the cap
     std::vector<std::thread> pool;
     for (unsigned t = 0; t < threads; t++) {
       pool.emplace_back([&, t]() {
@@ -237,6 +324,8 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
         const size_t k_hi = wcounts[w_bounds[t + 1]];
         const bool last = (t + 1 == threads);
         const size_t s_hi = w_bounds[t + 1] << shift;
+        // Hard cap: this thread writes only slots < cap, so ranges stay disjoint (no data race).
+        const size_t cap = last ? num_slots : s_hi;
         std::vector<uint64_t> mine;
         mine.reserve(k_hi - k_lo);
         for (size_t i = k_lo; i < k_hi; i++) {
@@ -250,10 +339,15 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
           }
           mine.push_back(k);
         }
-        ribbon::BandingAddRange(&banding, banding, mine.begin(), mine.end());
+        // Band mine within [_, cap) with the reference prefetch pipeline; a reduction that would
+        // reach cap is spilled into deferred[t] (never written past the boundary) for the tail.
+        const size_t pre = deferred[t].size();
+        band_range_bounded(&banding, mine, 0, mine.size(), num_starts, cap, &deferred[t]);
+        spill_counts[t] = deferred[t].size() - pre;
       });
     }
     for (auto& th : pool) th.join();
+    for (auto s : spill_counts) spilled_count += s;
     for (auto& d : deferred) {
       deferred_count += d.size();
       ok = ok && ribbon::BandingAddRange(&banding, banding, d.begin(), d.end());
@@ -302,13 +396,13 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
       "\"banding_cycles_per_key\":%.2f,\"banding_instr_per_key\":%.2f,"
       "\"banding_miss_per_key\":%.3f,"
       "\"false_negatives\":%zu,\"fpr\":%.6f,\"bits_per_key\":%.3f,"
-      "\"window_shift\":%zu,\"threads\":%u,\"deferred\":%zu,"
+      "\"window_shift\":%zu,\"threads\":%u,\"deferred\":%zu,\"spilled\":%zu,"
       "\"soln_fnv\":\"%016llx\"}\n",
       strategy.c_str(), n, rep, num_slots, reorder_ns / n, banding_ns / n,
       backsubst_ns / n, (reorder_ns + banding_ns + backsubst_ns) / n,
       (double)results[0] / n, (double)results[1] / n, (double)results[2] / n, fn,
       (double)fp / n_probes, bytes * 8.0 / n, shift, threads, deferred_count,
-      (unsigned long long)fnv);
+      spilled_count, (unsigned long long)fnv);
   return fn == 0 ? 0 : 1;
 }
 
