@@ -472,7 +472,7 @@ wheels = [
 ]
 
 [[package]]
-name = "transposed-filters"
+name = "ribbon-catches-bloom"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

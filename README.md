@@ -1,43 +1,55 @@
-# Transposed Filters: Can FastLanes-Style Layouts Accelerate Approximate Membership Queries?
+# Ribbon Catches Bloom: Pleated Construction at Bloom Speed
 
-Working repository for a systems paper investigating whether the FastLanes unified transposed
-layout (Afroozeh & Boncz, VLDB 2023) — which lets plain scalar code auto-vectorize across SIMD
-generations and ISAs — can be applied to the bit/fingerprint arrays of membership filters
-(Bloom-family and successors), where all published SIMD designs instead use cache-line blocking
-(split-block Bloom, register-blocked Bloom, vector quotient filter).
+Research repository for the paper *"Ribbon Catches Bloom: Pleated Construction at Bloom Speed"* —
+the paper, its pre-registered experiments, and the raw artifacts every reported number derives
+from. The production implementation of the technique lives in a separate crate,
+[`pleat`](https://github.com/integrallis/pleat).
 
-**Status: hypothesis-hunting.** No claims yet. A July 2026 literature sweep (~40 papers,
-2014–2026) found zero published work connecting FastLanes-style transposition to any AMQ filter;
-the survey and gap analysis live in `docs/`.
+## What the paper shows
 
-## Research questions (v0, subject to pre-registration before any registered run)
+Ribbon filters match Bloom-filter accuracy in far less memory, but they have not displaced Bloom
+in practice because they cost several times more CPU to *build* — and storage engines rebuild
+filters constantly as data is compacted. This paper closes most of that gap for homogeneous
+ribbon filters.
 
-- **RQ1 (feasibility):** Does a transposed batch-probe loop written as plain Rust/C++ actually
-  auto-vectorize, and is the batch-probe hot path compute-bound enough for layout to matter?
-- **RQ2 (throughput):** At matched bits/key and *measured* FPR, does a transposed-layout filter
-  beat split-block/register-blocked Bloom and `fastbloom` on batch-probe throughput, on AVX2,
-  AVX-512, and ARM?
-- **RQ3 (portability):** Does the same scalar source hit those wins across ISAs without
-  intrinsics — the FastLanes portability thesis, restated for filters?
-- **Kill criterion:** if probes at realistic filter sizes (≥ L2-resident) are memory-bound to the
-  point that layout is irrelevant (E0b), the direction dies and the negative result is written up.
+- **Pleating (partition-instead-of-sort).** A single counting pass groups keys into cache-sized
+  start-windows before banding — a weaker, ~4x cheaper form of the full start-position sort used
+  in prior work. It makes sequential construction **2.05–2.24x faster** at 100–400M keys and
+  recovers 98% of the sort's miss reduction.
+- **Order-independence, put to work.** The solved filter is bit-for-bit identical regardless of
+  insertion order (proved for linearly independent rows, verified by a solution fingerprint on
+  every run). So any reordering — including a slot-range **parallel** build — can verify its own
+  correctness with a single checksum. 16 threads build a ribbon filter about as fast as one thread
+  inserts into a Bloom filter.
+- **Portable across architectures.** Replicated on x86 Raptor Lake (AVX2), Ampere Neoverse-N1
+  (NEON), and Google Axion Neoverse-V2 (SVE): pleating wins 2.05x / 2.37x / 2.72x, output
+  bit-identical across all three.
+- **Two null results that locate the win.** Batched / cross-key SIMD probing does not beat plain
+  per-key probing, and a read-free Bloom-construction scheme does not beat partitioned
+  read-modify-write. Both fail for the same reason, which becomes the paper's one mechanical rule:
+  *layout optimization pays only where memory stalls form data-dependent chains* — ribbon
+  construction has them, Bloom probing and construction do not. (One of these nulls is the
+  FastLanes-style transposed-layout idea this repository was originally created to test; see
+  Provenance.)
 
 ## Layout
 
 ```
-paper/                    LaTeX (skeleton until there are results worth writing)
-src/lanefilter/           Rust crate: the prototype filter(s) under study
-experiments/
-  e0_feasibility/         E0a auto-vectorization check + E0b memory/compute-bound characterization
-harness/                  established third-party benchmark frameworks (see harness/README.md):
-                          fastfilter_cpp (xor/binary-fuse/BuRR/prefix-filter papers' suite),
-                          FastLanes reference implementation
-results/                  raw artifacts (criterion JSON, harness CSV, perf logs, disassembly) —
-                          every reported number derives from files here
-scripts/                  analysis + figure generation + integrity checks
-CLAIMS.md                 the claims ledger (see INTEGRITY.md)
-RESEARCH_LOG.md           dated log of hypotheses, decisions, and dead ends
-INTEGRITY.md              fabrication/hallucination-check protocol
+paper/                        the paper (main.tex), figures, refs, self-contained NeurIPS template
+src/ribbon_reorder/           C++ construction harness (e1b_phase1.cc) around fastfilter_cpp's
+                              UNMODIFIED homogeneous ribbon kernel — the source of the paper's
+                              construction numbers
+src/lanefilter/               Rust prototype for the probe-side experiments (E0/E1a nulls)
+experiments/                  pre-registered protocols + analysis scripts (e0_feasibility,
+  e1a_*, e1b_ribbon_construction)   e1a bulk-construction, e1b ribbon construction)
+harness/                      pinned third-party suites: fastfilter_cpp (xor/binary-fuse/BuRR),
+                              BuRR/ips2ra, FastLanes reference (see harness/README.md)
+results/                      raw artifacts: e1b (x86), e1b-arm-n1, e1b-arm-v2, e0a, e1a — every
+                              reported number derives from files here
+CLAIMS.md                     the claims ledger with provenance and status (incl. refuted claims)
+RESEARCH_LOG.md               dated log of hypotheses, decisions, and dead ends
+INTEGRITY.md                  fabrication/hallucination-check protocol
+scripts/                      analysis, figure generation, integrity checks
 ```
 
 ## Reproduce
@@ -46,9 +58,20 @@ INTEGRITY.md              fabrication/hallucination-check protocol
 ./reproduce.sh   # unit tests + re-derive all analyses from committed raw artifacts + integrity checks
 ```
 
+Construction results (Table 1/2, Figures 2/3) come from `src/ribbon_reorder/e1b_phase1.cc`;
+`experiments/e1b_ribbon_construction/analyze_phase1.py` re-derives the per-phase means and
+standard deviations from `results/e1b*/`.
+
 ## Provenance
 
-Grew out of Bloom-filter work in the barudb LSM-tree project (Harvard CS265). That codebase's
-filter benchmarks were audited in July 2026; only claims backed by raw criterion output are
-carried forward, and none of its report's headline filter claims survived the audit (see
-INTEGRITY.md). This repo starts from zero claims.
+This work began as an investigation of whether the FastLanes unified transposed layout
+(Afroozeh & Boncz, VLDB 2023) could accelerate approximate-membership-filter probing. A July 2026
+literature sweep found no prior work connecting FastLanes-style transposition to AMQ filters; the
+survey lives in `docs/`. The transposed-probe idea was then **measured and refuted** (memory-bound,
+not compute-bound — see CLAIMS.md C2 and §3 of the paper), and the effort pivoted to the
+construction-side win above. The refuted direction is preserved in the ledger and research log
+rather than erased, because the negative result is load-bearing for the paper's argument.
+
+The project itself grew out of Bloom-filter work in the barudb LSM-tree project (Harvard CS265),
+whose filter benchmarks were audited in July 2026; only claims backed by raw artifacts are carried
+forward (see INTEGRITY.md).

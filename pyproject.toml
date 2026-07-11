@@ -1,7 +1,7 @@
 [project]
-name = "transposed-filters"
+name = "ribbon-catches-bloom"
 version = "0.1.0"
-description = "Experiments and analysis for the transposed-filters paper."
+description = "Experiments and analysis for the paper 'Ribbon Catches Bloom: Pleated Construction at Bloom Speed'."
 requires-python = ">=3.12"
 dependencies = [
     "matplotlib>=3.9",

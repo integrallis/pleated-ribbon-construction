@@ -2,7 +2,7 @@
 name = "lanefilter"
 version = "0.1.0"
 edition = "2021"
-description = "Prototype filters and batch-probe strategies for the transposed-filters paper (experiment E0)."
+description = "Prototype filters and batch-probe strategies for the Ribbon Catches Bloom paper (experiment E0)."
 license = "MIT"
 
 [dependencies]
