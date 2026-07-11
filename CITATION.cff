@@ -6,3 +6,11 @@ authors:
 year: 2026
 type: software
 license: MIT
+references:
+  - type: software
+    title: "pleat: ribbon filters with pleated construction"
+    authors:
+      - family-names: Sam-Bodden
+        given-names: Brian
+    repository-code: "https://github.com/integrallis/pleat"
+    license: "MIT OR Apache-2.0"
