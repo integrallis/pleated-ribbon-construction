@@ -35,13 +35,17 @@ def main():
         rs = rows.get((strat, n))
         return statistics.mean(r[field] for r in rs) if rs else None
 
+    def std(strat, n, field):
+        rs = rows.get((strat, n))
+        return statistics.stdev(r[field] for r in rs) if rs and len(rs) > 1 else 0.0
+
     lines = [
         f"generated-by: experiments/e1b_ribbon_construction/analyze_phase1.py over "
         f"results/e1b/phase1/ (machine: {machine['cpu']}, {machine['arch']})",
         "",
         "# E1b Phase-1 analysis (derived — do not hand-edit)",
         "",
-        "## Per-phase construction cost (ns/key, mean over reps)",
+        "## Per-phase construction cost (ns/key, mean +/- sample stdev over reps)",
         "",
         "| n | strategy | reorder | banding | backsubst | TOTAL | banding miss/key | banding cyc/key |",
         "|---|---|---|---|---|---|---|---|",
@@ -51,9 +55,12 @@ def main():
             if (s, n) not in rows:
                 continue
             lines.append(
-                f"| {n:,} | {s} | {mean(s,n,'reorder_ns_per_key'):.2f} "
-                f"| {mean(s,n,'banding_ns_per_key'):.2f} | {mean(s,n,'backsubst_ns_per_key'):.2f} "
-                f"| **{mean(s,n,'total_ns_per_key'):.2f}** | {mean(s,n,'banding_miss_per_key'):.3f} "
+                f"| {n:,} | {s} "
+                f"| {mean(s,n,'reorder_ns_per_key'):.2f}±{std(s,n,'reorder_ns_per_key'):.2f} "
+                f"| {mean(s,n,'banding_ns_per_key'):.2f}±{std(s,n,'banding_ns_per_key'):.2f} "
+                f"| {mean(s,n,'backsubst_ns_per_key'):.2f} "
+                f"| **{mean(s,n,'total_ns_per_key'):.2f}±{std(s,n,'total_ns_per_key'):.2f}** "
+                f"| {mean(s,n,'banding_miss_per_key'):.3f} "
                 f"| {mean(s,n,'banding_cycles_per_key'):.1f} |"
             )
 
