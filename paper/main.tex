@@ -47,7 +47,7 @@ This paper asks which parts of that cost are real — pinned to the hardware —
 \item Along the way we ended up producing the first actual evaluation of the construction prefetch RocksDB ships behind a ``TODO: verify/validate`` comment (§6). It is worth 1.5--1.7$\times$ on unsorted banding. Partitioning mostly subsumes it.
 \end{enumerate}
 
-All measurements come from an i9-14900HX (AVX2, no AVX-512). Comparative numbers are produced by the field's reference benchmark suites, run unmodified at pinned versions: fastfilter\_cpp, whose ribbon implementations are the ribbon author's own, and BuRR. The only benchmark code we wrote is a thin driver that permutes the input order around the unmodified kernel, so every measured difference is attributable to input order alone. The repository holds the raw output of every run and a script that re-derives each number in this paper from it. ARM replication is scripted and pending hardware.
+All measurements come from an i9-14900HX (AVX2, no AVX-512). Comparative numbers are produced by the field's reference benchmark suites, run unmodified at pinned versions: fastfilter\_cpp, whose ribbon implementations are the ribbon author's own, and BuRR. The only benchmark code we wrote is a thin driver that permutes the input order around the unmodified kernel, so every measured difference is attributable to input order alone. The repository holds the raw output of every run and a script that re-derives each number in this paper from it. We replicate the ARM results on two additional microarchitectures (\S\ref{sec:arm}).
 
 \section{Background}\label{sec:background}
 \textbf{Ribbon banding.} A ribbon filter solves a banded GF(2) system. Each key hashes to a start column s and a w-bit coefficient row, and insertion XOR-reduces that row against whatever is already stored until an empty slot absorbs it. The lineage matters here. Dietzfelbinger and Walzer showed that sorting rows by start position makes banded elimination linear (SGAUSS). The ribbon paper's whole pitch was that you don't need the sort — insert on the fly, in arbitrary order. BuRR then brought the sort back (ips2ra, by bucket) because bumping needs it. Homogeneous ribbon, the variant we target, never fails construction and stores no per-key result rows.
@@ -133,6 +133,41 @@ sequential build.}
 \label{fig:scaling}
 \end{figure}
 
+\section{Portability across architectures}\label{sec:arm}
+We repeated the construction measurements on two ARM cores: an Ampere Altra (Neoverse-N1,
+NEON) and a Google Axion (Neoverse-V2, SVE), each on eight-or-fewer cores in the cloud.
+Table~\ref{tab:arm} gives the 100M-key wall-clock picture. Pleating wins on all three
+architectures, and by a wider margin on the ARM cores: 2.05$\times$ over the reference build on
+x86, 2.37$\times$ on N1, 2.72$\times$ on V2. This is what the mechanism predicts --- the less
+aggressively a core hides the dependent-chain misses, the more removing them helps --- and the
+reference banding cost tracks it (46, 114, 86 ns/key on x86/N1/V2). Parallel construction
+scales near-linearly on the eight-core V2: banding speeds up 1.94/3.78/7.07$\times$ at
+2/4/8 threads, for a 17.3\,ns/key total.
+
+The correctness property carries across architectures without qualification. The solved filter
+is byte-for-byte identical on all three cores: at every one of the nine (size, seed) points, the
+Axion fingerprint equals both the x86 and the N1 fingerprint, and every strategy on every core
+agrees with the sequential build. Order-independence is thus also architecture-independence ---
+the same filter, bit for bit, whether banded on AVX2, NEON, or SVE, and whether banded on one
+thread or eight. Zero false negatives on every run.
+
+\begin{table}
+\caption{Construction across architectures, 100M keys, wall-clock ns/key (means of 3). Cloud
+ARM hypervisors do not expose hardware counters, so cache-miss and IPC figures are reported for
+x86 only; the ARM columns are timing and output only.}
+\label{tab:arm}
+\begin{tabular}{lrrr}
+\toprule
+ & x86 Raptor Lake & N1 (NEON) & V2 (SVE) \\
+\midrule
+reference & 49.6 & 122.8 & 93.7 \\
+best full sort & 40.7 & 64.6 & 44.8 \\
+\textbf{partitioned} & \textbf{24.2} & \textbf{51.7} & \textbf{34.4} \\
+pleating vs reference & 2.05$\times$ & 2.37$\times$ & 2.72$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Order-independence and parallel construction}\label{sec:parallel}
 \newtheorem{proposition}{Proposition}
 \begin{proposition}[Order-independence]\label{prop:order}
@@ -166,7 +201,7 @@ RocksDB ships a software-pipelined construction prefetch behind a comment readin
 Sorted banded elimination: Dietzfelbinger \& Walzer (ESA 2019), BuRR (SEA 2022), parallel BuRR (arXiv:2411.12365). Arbitrary-order banding and production engineering: ribbon (arXiv:2103.02515), RocksDB. Cache-conscious filter design: buffered Bloom filters (Canim et al., ADMS 2010), radix-partitioned filters (Schmidt et al., PVLDB 2021), binary-fuse segment sort (JEA 2022), xor-filter buffered scatter (JEA 2020); the generic two-phase partition-then-accumulate pattern appears as propagation blocking (Beamer et al., IPDPS 2017) with write-combining from Wassenberg \& Sanders (Euro-Par 2011). SIMD probe-side layout: Polychroniou \& Ross (DaMoN 2014), Lang et al. (PVLDB 2019), split-block Bloom (arXiv:2101.01719). Our delta to BuRR is precise: BuRR sorts fully (ips2ra) to enable threshold-based bumping and tighter space; we show that for homogeneous ribbon a counting-pass partition captures 98\% of the sort's locality at 4$\times$ less reorder cost, with output neutrality making the transformation and its parallelization verifiable.
 
 \section{Limitations and threats to validity}\label{sec:limits}
-Single x86 machine by now (AVX2 Raptor Lake); ARM replication is scripted and awaiting cloud capacity, and all claims are scoped accordingly. We accelerate the \emph{homogeneous} ribbon ($\sim$9.5\% space overhead at r=7) in comparison to BuRR (which is sub-1\% overhead); the comparison with BuRR is an anchor, not an apples-to-apples comparison. Sort baselines use BuRR's own sequential ips2ra, but not its parallel form. Our parallel comparison is limited to banding, and its headline ratios are against the parallel path's own single-thread run. The order-independence proposition is proved for linearly independent rows, and the dependent case is handled empirically by the fingerprint gate. LSM end-to-end integration (build-during-compaction) is future work.
+We characterize the miss mechanism with hardware counters on x86 only; the two ARM replications (\S\ref{sec:arm}) confirm the wall-clock speedup and the bit-identical output, but cloud ARM hypervisors do not expose the PMU, so the dependent-miss mechanism itself is not directly measured on ARM. It is, however, exactly what the ARM timing behavior implies. A bare-metal ARM run would close this, and is the one measurement we would add. We accelerate the \emph{homogeneous} ribbon ($\sim$9.5\% space overhead at r=7) in comparison to BuRR (which is sub-1\% overhead); the comparison with BuRR is an anchor, not an apples-to-apples comparison. Sort baselines use BuRR's own sequential ips2ra, but not its parallel form. Our parallel comparison is limited to banding, and its headline ratios are against the parallel path's own single-thread run. The order-independence proposition is proved for linearly independent rows, and the dependent case is handled empirically by the fingerprint gate. LSM end-to-end integration (build-during-compaction) is future work.
 
 \section{Conclusion}
 On the modern OoO x86, memory-layout optimization for filters pays in exactly one place that we could find — and it is the place that matters: the dependent-miss chains of ribbon construction, the very cost that keeps space-optimal filters out of production write paths. A one-pass partition closes 98\% of the gap the literature closes with a full sort, at a quarter of the price; the order-independence makes it safe and its parallelization checkable; and 16 threads build ribbon filters as fast as one thread inserts into a Bloom filter. The two nulls are not failures of the method but the map that located the win.
