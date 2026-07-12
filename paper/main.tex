@@ -62,7 +62,7 @@ All measurements come from an i9-14900HX (AVX2, no AVX-512). Comparative numbers
 \textbf{Binary fuse} construction partially sorts keys by segment explicitly to reduce cache misses~\citep{graf2022binaryfuse}; our Phase-0 characterization measures that fix directly (plain xor: 9.45 misses/key; binary fuse: 1.08).
 
 \section{Where layout tricks cannot work}\label{sec:nulls}
-This section is about two optimizations that failed. Both got their best case: the batched probe was timed with every address already in cache, and the read-free builder was the design its own experiment was built around, each protocol fixed before any run. Both lost anyway. That is what makes them worth reporting: an optimization that cannot win even when the conditions are chosen to favor it is telling you something about the hardware, not the setup.
+This section is about two optimizations that failed. Both got their best case: the batched probe was timed with every address already in cache, and the read-free builder was the design its own experiment was built around, each protocol fixed before any run. Both lost anyway, and that is the useful part: an optimization that cannot win even with the conditions chosen to favor it is telling you about the hardware, not the setup.
 
 \subsection{Point probes are MLP-bound}
 Experiment E0 compared probe strategies over identical split-block Bloom filters (Parquet geometry), 32KiB up to 512MiB, with the protocol frozen before any timing run. Our vertical, lane-structured batch probe does auto-vectorize from plain Rust. The packed-SIMD disassembly is committed. It still loses. At every size, even with every address forced L1-hot, per-key scalar probing wins (665 vs. 555 Mops/s), because a split-block check is already SIMD within a single key, and an AVX2 gather cannot beat eight independent scalar loads that the out-of-order window overlaps for free. The RAM-scale picture is starker: the identical instruction stream runs 5–6$\times$ faster when L1-hot. Probing is bound by memory-level parallelism. Prefetch was already at roughly 88\% of the single-core outstanding-miss ceiling. We measured it. There is no compute bottleneck left for a layout to remove.
@@ -139,10 +139,9 @@ reference banding cost tracks it (46, 114, 86 ns/key on x86/N1/V2). Parallel con
 scales near-linearly on the eight-core V2: banding speeds up 1.94/3.78/7.07$\times$ at
 2/4/8 threads, for a 17.3\,ns/key total.
 
-The correctness property carries across architectures without qualification. The solved filter
-is byte-for-byte identical on all three cores: at every one of the nine (size, seed) points, the
-Axion fingerprint equals both the x86 and the N1 fingerprint, and every strategy on every core
-agrees with the sequential build. Order-independence is thus also architecture-independence:
+Correctness held across all three architectures. The solved filter is byte-for-byte identical on
+every core: at each of the nine (size, seed) points the Axion fingerprint matches both the x86 and
+the N1, and every strategy on every core agrees with the sequential build. Order-independence is thus also architecture-independence:
 the same filter, bit for bit, whether banded on AVX2, NEON, or SVE, and whether banded on one
 thread or eight. Zero false negatives on every run.
 
@@ -180,12 +179,11 @@ by order, which the per-run fingerprint gate detects.)
 
 Empirically this held everywhere we looked: across every sequential and parallel run (sizes
 up to 400 million keys, six different insertion orders, thread counts up to 16), the finished
-filter came out byte-for-byte identical, checked by hashing the output bits. The practical
-consequence is larger than it first appears. If the output cannot depend on insertion order,
-then any reordering scheme, including a parallel one, can prove its own correctness by
-comparing one checksum against the sequential build. What is normally the hard part of
-parallel data-structure construction (arguing that no interleaving corrupts the result)
-becomes a single equality test. Our parallel version assigns disjoint window ranges (split at the same key count) to threads; keys starting in $2^{14}$ slots of a range boundary switch to a sequential tail (0.015 - 0.226\% of keys), following parallel BuRR's boundary idea. Banding scales 1.81/2.83/4.25/7.56$\times$ at 2/4/8/16 threads against its own T=1 (Figure~\ref{fig:scaling}) (3.5/6.3$\times$ at 8/16 threads against the best sequential banding; the parallel path carries $\sim$20\% defer/copy overhead); what remains is the work we did not parallelize: the counting pass (5.7 ns/key) and
+filter came out byte-for-byte identical, checked by hashing the output bits. That matters more
+than it looks. When output cannot depend on insertion order, any reordering --- a parallel build
+included --- can prove itself right against the sequential build with a single checksum. The usual
+hard part of parallel data-structure construction, arguing that no interleaving corrupts the
+result, collapses to one equality test. Our parallel version assigns disjoint window ranges (split at the same key count) to threads; keys starting in $2^{14}$ slots of a range boundary switch to a sequential tail (0.015 - 0.226\% of keys), following parallel BuRR's boundary idea. Banding scales 1.81/2.83/4.25/7.56$\times$ at 2/4/8/16 threads against its own T=1 (Figure~\ref{fig:scaling}) (3.5/6.3$\times$ at 8/16 threads against the best sequential banding; the parallel path carries $\sim$20\% defer/copy overhead); what remains is the work we did not parallelize: the counting pass (5.7 ns/key) and
 back-substitution (3.8 ns/key at 16 threads) are still sequential, and together they now
 account for most of the 11.9 ns/key total. Both are parallelizable (counting sort trivially; back-substitution as in parallel BuRR); we leave both to future work.
 \begin{figure}
