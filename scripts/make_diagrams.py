@@ -38,7 +38,7 @@ for x, t in zip(xs, targets):
     ax.add_patch(FancyArrowPatch((x, y - 0.22), (t, 0.75), arrowstyle="-|>",
                                  mutation_scale=6, color=BLUE, lw=0.9,
                                  connectionstyle="arc3,rad=0.08"))
-table(ax)
+table(ax, windows=True)  # same windowed table as (b); only the access pattern differs
 # dependent chain zoom under the table
 for i in range(3):
     ax.add_patch(FancyArrowPatch((3.6 + i * 0.9, -0.55), (4.3 + i * 0.9, -0.55),
@@ -52,9 +52,9 @@ ax.text(5.0, -1.6, "banding 46.1 ns/key · 5.75 misses/key", ha="center",
 # ---- (b) window order ----
 ax = axes[1]
 y = key_row(ax, xs)
-ax.add_patch(Rectangle((3.4, 1.45), 3.2, 0.5, fc="white", ec=BLUE, lw=1.0))
-ax.text(5.0, 1.70, "counting pass (5.5 ns/key)", ha="center", va="center",
-        fontsize=6.5, color=INK)
+ax.add_patch(Rectangle((2.75, 1.44), 4.5, 0.54, fc="white", ec=BLUE, lw=1.0))
+ax.text(5.0, 1.71, "counting pass (5.5 ns/key)", ha="center", va="center",
+        fontsize=6.0, color=INK)
 for x in xs:
     ax.add_patch(FancyArrowPatch((x, y - 0.22), (min(max(x, 3.6), 6.4), 1.98),
                                  arrowstyle="-", color=MID, lw=0.8,

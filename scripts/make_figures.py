@@ -51,7 +51,7 @@ def fig_strategies():
         re_.append(mean(rs, "reorder_ns_per_key"))
         ba.append(mean(rs, "banding_ns_per_key"))
         bs.append(mean(rs, "backsubst_ns_per_key"))
-    fig, ax = plt.subplots(figsize=(3.4, 2.0))
+    fig, ax = plt.subplots(figsize=(3.4, 2.25))
     y = range(len(labels))
     ax.barh(y, re_, height=0.62, color=C_REORDER, label="reorder")
     ax.barh(y, ba, height=0.62, left=re_, color=C_BAND, label="banding")
@@ -63,7 +63,8 @@ def fig_strategies():
     ax.invert_yaxis()
     ax.set_xlabel("construction cost (ns/key), 100M keys")
     ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(frameon=False, fontsize=7, loc="lower right")
+    ax.legend(frameon=False, fontsize=7, loc="upper center",
+              bbox_to_anchor=(0.5, -0.28), ncol=3, columnspacing=1.2, handletextpad=0.5)
     fig.tight_layout()
     fig.savefig(OUT / "strategies_100m.pdf")
 
