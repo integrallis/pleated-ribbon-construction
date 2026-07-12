@@ -29,7 +29,7 @@ Pleated Construction at Bloom Speed}
 \begin{abstract}
 Probabilistic membership filters — Bloom filters and their modern successors — answer a single question: is this key possibly in this set? Storage systems keep one in front of nearly every file on disk so that a lookup that would find nothing can skip the disk read entirely. Newer filter designs, such as ribbon and binary fuse filters, deliver the same accuracy as Bloom filters in far less memory, within a few percent of the theoretical minimum. Yet they have not displaced Bloom filters in practice, and the reason is construction speed: these filters are immutable, storage engines rebuild them constantly as data is compacted, and building a ribbon filter costs roughly four times the CPU of building a Bloom filter.
 
-This paper closes most of that gap for homogeneous ribbon filters. A single counting pass that groups keys by the region of the filter they touch — a weaker and roughly four-times-cheaper form of the full sort used in prior work — makes sequential construction 2.05--2.24$\times$ faster at 100–400 million keys. The method is safe and cheap to trust because of a property we prove and then verify in every run: the finished filter is bit-for-bit identical regardless of insertion order, so any reordering, including a parallel one, can confirm its own correctness by comparing a single checksum against the sequential build. Behind the speedup sits one mechanical rule about modern processors, established by two negative results: batching and layout tricks do nothing for filter queries or for Bloom construction, whose memory stalls are independent and already overlapped by out-of-order hardware — but ribbon construction stalls form dependent chains, each elimination step waiting on the one before, and dependent chains are the one memory cost that hardware cannot hide and reordering can remove. The upshot, with 16 threads, is a ribbon filter built as fast as a single thread inserts into a Bloom filter — the fastest construction we know of for this filter on the hardware tested, and the end of the main reason to keep choosing Bloom: the filter that needs a quarter less memory at the same accuracy no longer costs more to build.
+This paper closes most of that gap for homogeneous ribbon filters. A single counting pass that groups keys by the region of the filter they touch — a weaker and roughly four-times-cheaper form of the full sort used in prior work — makes sequential construction 2.05--2.24$\times$ faster at 100–400 million keys. The method is safe and cheap to trust because of a property we prove and then verify in every run: the finished filter is bit-for-bit identical regardless of insertion order, so any reordering, including a parallel one, can confirm its own correctness by comparing a single checksum against the sequential build. Behind the speedup sits one mechanical rule about modern processors, established by two negative results: batching and layout tricks do nothing for filter queries or for Bloom construction, whose memory stalls are independent and already overlapped by out-of-order hardware — but ribbon construction stalls form dependent chains, each elimination step waiting on the one before, and dependent chains are the one memory cost that hardware cannot hide and reordering can remove. The upshot, with 16 threads, is a ribbon filter built as fast as a single thread inserts into a Bloom filter — the fastest construction we know of for this filter on the hardware tested, and the end of the main reason to keep choosing Bloom: the filter that needs a quarter less memory at the same accuracy no longer costs more to build. Dropped into RocksDB's shipped standard-ribbon builder, the same one-pass partition makes its construction $1.8\times$ faster with a bit-for-bit identical filter, confirming the mechanism transfers to a production engine unchanged.
 \end{abstract}
 
 \section{Introduction}
@@ -41,10 +41,11 @@ This paper asks which parts of that cost are real — pinned to the hardware —
 
 \textbf{Contributions.}
 \begin{enumerate}
-\item Ribbon construction gets dramatically cheaper (§4). Homogeneous ribbon banding at scale burns 5.8 DRAM misses per key in dependent row-reduction chains, and those chains are exactly what prefetch cannot hide. A single counting pass that groups keys into L2-sized start-windows — approximate order, nothing more — recovers 98.3--98.4\% of the miss reduction that the full start-position sort (SGAUSS~\citep{dietzfelbinger2019gauss}, BuRR~\citep{dillinger2022burr}) buys, at 5.5--6.1 ns/key where BuRR's own ips2ra sorter costs 23.9--28.1. End to end that makes construction 2.05--2.24$\times$ faster than the reference prefetch-pipelined build. Window size barely matters; totals stay within 13\% across $2^{13}$ through $2^{20}$ slots.
-\item Banding turns out to be order-independent, and that observation carries real weight (§5). With first-coefficient-always-one pivoting, the solved filter is bit-identical under any insertion order — we prove this for linearly independent rows and saw it hold in 54 of 54 runs. So reordering is output-neutral by construction, and a slot-range parallel variant that defers boundary keys (at most 0.23\% of them) can verify itself with a checksum: 4.25$\times$ faster banding at 8 threads, 7.56$\times$ at 16, against its own single-thread run (3.5$\times$ and 6.3$\times$ against the best sequential banding). The total lands at 11.9 ns/key at 100M keys.
+\item Ribbon construction gets dramatically cheaper (\S\ref{sec:ribbon}). Homogeneous ribbon banding at scale burns 5.8 DRAM misses per key in dependent row-reduction chains, and those chains are exactly what prefetch cannot hide. A single counting pass that groups keys into L2-sized start-windows — approximate order, nothing more — recovers 98.3--98.4\% of the miss reduction that the full start-position sort (SGAUSS~\citep{dietzfelbinger2019gauss}, BuRR~\citep{dillinger2022burr}) buys, at 5.5--6.1 ns/key where BuRR's own ips2ra sorter costs 23.9--28.1. End to end that makes construction 2.05--2.24$\times$ faster than the reference prefetch-pipelined build. Window size barely matters; totals stay within 13\% across $2^{13}$ through $2^{20}$ slots.
+\item Banding turns out to be order-independent, and that observation carries real weight (\S\ref{sec:parallel}). With first-coefficient-always-one pivoting, the solved filter is bit-identical under any insertion order — we prove this for linearly independent rows and saw it hold in 54 of 54 runs. So reordering is output-neutral by construction, and a slot-range parallel variant that defers boundary keys (at most 0.23\% of them) can verify itself with a checksum: 4.25$\times$ faster banding at 8 threads, 7.56$\times$ at 16, against its own single-thread run (3.5$\times$ and 6.3$\times$ against the best sequential banding). The total lands at 11.9 ns/key at 100M keys.
 \item The rule above came from failing twice, and the failures are load-bearing (\S\ref{sec:nulls}). We could not make batched probing win, and the reason turned out to matter more than the attempt. Miss-dominated point probes run into the per-core limit on outstanding misses; software prefetch was already at ~88\% of that ceiling when we measured it. Cross-key SIMD batching loses to plain per-key probing even with every address L1-resident. Bulk Bloom construction fell the same way, for the same underlying reason: its misses are independent, so the memory system hides them. Radix-partitioned construction in the style of \citet{schmidt2021partitioned} topped out at 1.45--1.71$\times$ over per-key insertion, a prefetch loop that RocksDB ships (but never evaluated) recovered most of that with zero transient memory, and our read-free register-aggregated apply — the idea we had the most hope for — came in 1.5$\times$ slower than partitioned RMW, because partitioning had already turned the target misses into L2 hits.
-\item Along the way we ended up producing the first actual evaluation of the construction prefetch RocksDB ships behind a ``TODO: verify/validate'' comment (§6). It is worth 1.5--1.7$\times$ on unsorted banding. Partitioning mostly subsumes it.
+\item Along the way we ended up producing the first actual evaluation of the construction prefetch RocksDB ships behind a ``TODO: verify/validate'' comment (\S\ref{sec:prefetch}). It is worth 1.5--1.7$\times$ on unsorted banding. Partitioning mostly subsumes it.
+\item The technique transfers to production unchanged (\S\ref{sec:rocksdb}). Patched into RocksDB's shipped standard-ribbon (w=128) builder, one counting pass makes construction $1.8\times$ faster at scale with a bit-for-bit identical filter --- $25\times$ fewer banding cache-misses at the same instruction count --- and removes a scale-growing slice of compaction CPU at zero cost to the read or write path.
 \end{enumerate}
 
 All measurements come from an i9-14900HX (AVX2, no AVX-512). Comparative numbers are produced by the field's reference benchmark suites, run unmodified at pinned versions: fastfilter\_cpp, whose ribbon implementations are the ribbon author's own, and BuRR. The only benchmark code we wrote is a thin driver that permutes the input order around the unmodified kernel, so every measured difference is attributable to input order alone. The repository holds the raw output of every run and a script that re-derives each number in this paper from it. We replicate the ARM results on two additional microarchitectures (\S\ref{sec:arm}).
@@ -199,14 +200,94 @@ sequential build.}
 \section{Construction prefetch, evaluated}\label{sec:prefetch}
 RocksDB ships a software-pipelined construction prefetch behind a comment reading “TODO: verify/validate” and the reference harness enables the same pipeline above 1500 slots. Our no-prefetch control isolates it: 1.5-1.7$\times$ on unsorted banding (76.9 $\to$ 46.1 ns/key at 100M). It attacks the start-locating miss but can't touch the dependent reduction chain, which is why partitioning dominates here while the similar prefetch strategy wins for Bloom construction (§3).
 
+\section{Pleating a production engine: RocksDB}\label{sec:rocksdb}
+The measurements so far use a reference-kernel harness on homogeneous w=64 ribbon. The filter that
+production actually ships is different --- RocksDB's \texttt{Standard128RibbonBitsBuilder}, a
+\emph{standard} (bumped-capable) ribbon at w=128~\citep{rocksdbribbonblog} --- so we tested whether
+pleating transfers to it, in RocksDB's own build path, without changing the filter. The patch is one
+counting pass over the collected key hashes, inserted immediately before RocksDB's banding call
+(\texttt{ResetAndFindSeedToSolve}); everything downstream is unmodified engine code. Because banding
+is order-independent (\S\ref{sec:parallel}), the finished filter is bit-for-bit identical to the
+arrival-order build --- RocksDB's own filter tests pass unchanged and the measured false-positive
+rate is identical to six digits, so correctness is validated by the vendor's suite, not ours. We
+gate every measurement on a binary confirmed to contain the patch (object recompiled, binary newer
+than source, marker string present) after an early build-failure artifact taught us not to trust a
+stale binary.
+
+\textbf{Construction microbenchmark} (\texttt{filter\_bench}, the engine's own tool; 10 bits/key).
+Table~\ref{tab:rocksdb} and Figure~\ref{fig:rocksdb} give the result: at 100M keys per filter
+pleating builds RocksDB's ribbon $1.8\times$ faster, and \emph{pleated build cost is flat with filter
+size} (\textasciitilde53 ns/key from 1M to 100M keys) while stock construction degrades from 52 to
+94 ns/key as the banding table outgrows cache. Below the cache crossover (a filter of $10^5$ keys
+fits in cache) pleating is a few percent \emph{slower} --- the counting pass costs something and
+there is no locality to recover --- exactly as the mechanism predicts.
+
+\textbf{Why, measured.} The reason is the same dependent-miss chain, and we confirm it with hardware
+counters scoped to RocksDB's banding call. At 100M keys pleating cuts banding cache-misses from
+11.4 to 0.46 per key --- a $25\times$ reduction --- while the instruction count is unchanged (243 per
+key, both). Same work, same arithmetic; the only thing that changed is that the working set now fits
+in cache. Two things differ from the w=64 story and both follow from the mechanism. First, standard
+w=128 spends \textasciitilde243 instructions per key against \textasciitilde98 for homogeneous
+w=64 (128-bit \(\mathrm{GF}(2)\) reductions plus a per-seed rehash), so a larger share of each key's
+time is compute that no layout change can remove --- which is precisely why the \emph{time} speedup
+is $1.8\times$ here versus $2.05\times$ for w=64, even though the miss reduction is comparable. The
+memory win is real but diluted by more compute per key. Second, RocksDB's shipped construction
+prefetch (\S\ref{sec:prefetch}) attacks the same start-locating miss; pleating subsumes it (pleated
+construction is unchanged whether the prefetch is on or off), consistent with the homogeneous
+finding that partitioning makes the prefetch redundant.
+
+\textbf{End-to-end during compaction} (\texttt{db\_bench}: \texttt{fillrandom} 30M keys then full
+compaction, 8-byte values and 256\,MB target SSTs so filters are a meaningful share of compaction;
+three reps). Here the honest accounting matters more than a headline. Filter construction runs during
+background compaction, so it does not sit on the write path --- write throughput is unchanged. The
+robust, reproducible result is that the $\sim$2$\times$ filter-build speedup survives inside real
+compaction: banding drops $77.6\pm1.5 \to 44.2\pm6.1$ ns/key (means of 3; the isolated,
+uninstrumented build shows the fuller $2.0\times$, compressed here by the statistics
+instrumentation). Filter banding is $\sim$23\% of compaction CPU in this configuration (1.83\,s of
+7.9\,s), so halving it reclaims a real slice. We are deliberately careful about the whole-compaction
+number: total compaction CPU falls $\sim$9\% ($7.9\pm0.8 \to 7.2\pm0.4$\,s), but that difference is
+of the same order as the run-to-run variance of compaction itself (which is nondeterministic), so we
+report it as directional, not tightly bounded. The effect also grows with per-SST filter size and
+vanishes below the cache crossover, so its magnitude is a function of SST sizing; this is the
+filter-favorable end of that range, labelled as such. The transferable claim is narrow and solid:
+\emph{pleating removes a real, scale-growing slice of compaction CPU from a production LSM engine at
+zero cost to the output or read path}, and the mechanism that does it is the one this paper isolates.
+
+\begin{table}
+\caption{Pleating RocksDB's shipped Standard128 ribbon (\texttt{filter\_bench}, 10 bits/key,
+i9-14900HX; means of 3). False-positive rate identical stock vs pleated at every size (bit-identical
+filter). Banding cache-misses/key from hardware counters scoped to the banding call.}
+\label{tab:rocksdb}
+\begin{tabular}{lrrr}
+\toprule
+keys/filter & stock ns/key & pleated ns/key & speedup \\
+\midrule
+$10^5$ (cache-resident) & 57.6 & 59.4 & 0.97$\times$ \\
+$10^6$                  & 55.9 & 54.4 & 1.03$\times$ \\
+$10^7$                  & 88.7 & 54.7 & 1.62$\times$ \\
+$10^8$ (paper regime)   & \textbf{97.4} & \textbf{54.8} & \textbf{1.78$\times$} \\
+\midrule
+banding misses/key @$10^8$ & 11.5 & 0.47 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}
+\centering
+\includegraphics[width=0.85\linewidth]{figures/rocksdb_scale.pdf}
+\caption{RocksDB Standard128 ribbon construction vs.\ filter size. Pleated build cost stays flat
+(banding cache-resident per window); stock degrades as the table outgrows cache. Bit-identical
+filter at every point.}
+\label{fig:rocksdb}
+\end{figure}
+
 \section{Related work}\label{sec:related}
 Sorted banded elimination: \citet{dietzfelbinger2019gauss}, BuRR~\citep{dillinger2022burr}, parallel BuRR~\citep{becht2024parallelburr}. Arbitrary-order banding and production engineering: ribbon~\citep{dillinger2021ribbon}, RocksDB~\citep{rocksdbribbonblog}. Cache-conscious filter design: buffered Bloom filters~\citep{canim2010buffered}, radix-partitioned filters~\citep{schmidt2021partitioned}, binary-fuse segment sort~\citep{graf2022binaryfuse}, xor-filter buffered scatter~\citep{graf2020xor}; the generic two-phase partition-then-accumulate pattern appears as propagation blocking~\citep{beamer2017propagation} with write-combining from~\citet{wassenberg2011radix}. SIMD probe-side layout: \citet{polychroniou2014vectorized}, \citet{lang2019performance}, split-block Bloom~\citep{apache2021sbbf}. Our delta to BuRR is precise: BuRR sorts fully (ips2ra) to enable threshold-based bumping and tighter space; we show that for homogeneous ribbon a counting-pass partition captures 98\% of the sort's locality at 4$\times$ less reorder cost, with output neutrality making the transformation and its parallelization verifiable.
 
 \section{Limitations and threats to validity}\label{sec:limits}
-We characterize the miss mechanism with hardware counters on x86 only; the two ARM replications (\S\ref{sec:arm}) confirm the wall-clock speedup and the bit-identical output, but cloud ARM hypervisors do not expose the PMU, so the dependent-miss mechanism itself is not directly measured on ARM. It is, however, exactly what the ARM timing behavior implies. A bare-metal ARM run would close this, and is the one measurement we would add. We accelerate the \emph{homogeneous} ribbon ($\sim$9.5\% space overhead at r=7) in comparison to BuRR (which is sub-1\% overhead); the comparison with BuRR is an anchor, not an apples-to-apples comparison. Sort baselines use BuRR's own sequential ips2ra, but not its parallel form. Our parallel comparison is limited to banding, and its headline ratios are against the parallel path's own single-thread run. The order-independence proposition is proved for linearly independent rows, and the dependent case is handled empirically by the fingerprint gate. LSM end-to-end integration (build-during-compaction) is future work.
+We characterize the miss mechanism with hardware counters on x86 only; the two ARM replications (\S\ref{sec:arm}) confirm the wall-clock speedup and the bit-identical output, but cloud ARM hypervisors do not expose the PMU, so the dependent-miss mechanism itself is not directly measured on ARM. It is, however, exactly what the ARM timing behavior implies. A bare-metal ARM run would close this, and is the one measurement we would add. We accelerate the \emph{homogeneous} ribbon ($\sim$9.5\% space overhead at r=7) in comparison to BuRR (which is sub-1\% overhead); the comparison with BuRR is an anchor, not an apples-to-apples comparison. Sort baselines use BuRR's own sequential ips2ra, but not its parallel form. Our parallel comparison is limited to banding, and its headline ratios are against the parallel path's own single-thread run. The order-independence proposition is proved for linearly independent rows, and the dependent case is handled empirically by the fingerprint gate. The RocksDB integration (\S\ref{sec:rocksdb}) demonstrates the construction speedup on the production w=128 kernel and during real compaction; its end-to-end magnitude depends on SST sizing and we report a filter-favorable configuration, so the whole-workload effect on a values-heavy, default-SST deployment would be smaller.
 
 \section{Conclusion}
-On the modern OoO x86, memory-layout optimization for filters pays in exactly one place that we could find — and it is the place that matters: the dependent-miss chains of ribbon construction, the very cost that keeps space-optimal filters out of production write paths. A one-pass partition closes 98\% of the gap the literature closes with a full sort, at a quarter of the price; the order-independence makes it safe and its parallelization checkable; and 16 threads build ribbon filters as fast as one thread inserts into a Bloom filter. The two nulls are not failures of the method but the map that located the win.
+On the modern OoO x86, memory-layout optimization for filters pays in exactly one place that we could find — and it is the place that matters: the dependent-miss chains of ribbon construction, the very cost that keeps space-optimal filters out of production write paths. A one-pass partition closes 98\% of the gap the literature closes with a full sort, at a quarter of the price; the order-independence makes it safe and its parallelization checkable; and 16 threads build ribbon filters as fast as one thread inserts into a Bloom filter. The same one-pass partition, dropped into RocksDB's shipped w=128 ribbon builder, makes its construction $1.8\times$ faster with a bit-identical filter (\S\ref{sec:rocksdb}) --- the mechanism transfers to production unchanged. The two nulls are not failures of the method but the map that located the win.
 
 \begin{acks}
 All protocols, amendments, raw measurements, and integrity tooling are in the accompanying

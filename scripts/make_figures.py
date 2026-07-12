@@ -90,7 +90,43 @@ def fig_scaling():
     fig.savefig(OUT / "parallel_scaling.pdf")
 
 
+def fig_rocksdb():
+    """Banding ns/key vs per-filter size for RocksDB's Standard128 ribbon, stock vs pleated.
+    Reads the committed sweep CSV (experiments/e2_rocksdb/results/sweep_fb.csv)."""
+    import csv
+    from collections import defaultdict
+    src = ROOT / "experiments" / "e2_rocksdb" / "results" / "sweep_fb.csv"
+    if not src.exists():
+        print(f"skip fig_rocksdb: {src} not found")
+        return
+    vals = defaultdict(list)  # (mode, size) -> [banding_ns_per_key]
+    with src.open() as fh:
+        for row in csv.DictReader(fh):
+            try:
+                vals[(row["mode"], int(row["size"]))].append(float(row["banding_ns_per_key"]))
+            except (ValueError, KeyError):
+                continue
+    sizes = sorted({s for _, s in vals})
+    if not sizes:
+        print("skip fig_rocksdb: no rows")
+        return
+    stock = [statistics.mean(vals[("stock", s)]) for s in sizes]
+    pleat = [statistics.mean(vals[("pleated", s)]) for s in sizes]
+    fig, ax = plt.subplots(figsize=(3.4, 2.1))
+    ax.plot(sizes, stock, "-o", color=MUTED, ms=4, lw=2, label="stock (arrival order)")
+    ax.plot(sizes, pleat, "-s", color=C_BAND, ms=4, lw=2, label="pleated")
+    ax.set_xscale("log")
+    ax.set_xlabel("keys per filter")
+    ax.set_ylabel("banding ns/key")
+    ax.set_ylim(0, None)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(frameon=False, fontsize=7, loc="upper left")
+    fig.tight_layout()
+    fig.savefig(OUT / "rocksdb_scale.pdf")
+
+
 if __name__ == "__main__":
     fig_strategies()
     fig_scaling()
+    fig_rocksdb()
     print(f"figures -> {OUT}")
