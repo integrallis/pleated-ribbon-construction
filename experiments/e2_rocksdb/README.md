@@ -49,19 +49,24 @@ PLEAT_RIBBON=1 PLEAT_PROFILE=1 ./filter_bench -impl 2 ... -quick # pleated: ~0.4
 
 Raw output is in `results/filter_bench.md`.
 
-## Results (filter_bench, verified reproducible)
+## Results (filter_bench, 3 reps; the paper's Table 3 / Figure 4)
 
-**Construction cost, ns/key** (`-quick`, `-net_includes_hashing`; FP rate identical stock vs pleated
-to 6 digits at every size, confirming bit-identical filters):
+Raw per-rep data: `results/sweep_fb.csv` (5+1 sizes x 2 modes x 3 reps). Means below. FP rate
+identical stock vs pleated to 6 digits at every size, confirming bit-identical filters.
+
+**Total construction cost, ns/key** (`filter_bench` "Build avg ns/key", means of 3):
 
 | keys/filter | stock | pleated | speedup |
 |---|---|---|---|
-| 100,000 (banding table fits cache) | 52.3 | 54.4 | 0.96x (pleating slightly slower below crossover) |
-| 1,000,000 | 62.8 | 54.4 | 1.15x |
-| 100,000,000 (paper regime) | ~95.3 (95.8, 94.9) | ~53.8 (54.1, 53.6) | **1.77x** |
+| 100,000 (fits cache) | 57.6 | 59.4 | 0.97x (pleating slightly slower below crossover) |
+| 1,000,000 | 55.9 | 54.4 | 1.03x (near crossover) |
+| 10,000,000 | 88.7 | 54.7 | 1.62x |
+| 100,000,000 (paper regime) | 97.4 | 54.8 | **1.78x** |
 
-Pleated build cost is ~flat (~54 ns/key) across all sizes because banding stays cache-resident;
-stock degrades (52 -> 63 -> 94) as the table outgrows cache.
+Pleated build cost is ~flat (~55 ns/key) across all sizes because banding stays cache-resident;
+stock degrades (56 -> 89 -> 97) as the table outgrows cache. The banding phase alone (from the
+`PLEAT_BUILD_TIME` accumulator) goes stock 80.0 -> pleated 31.8 ns/key at 100M (2.5x), the purest
+measure of the effect.
 
 **Banding-phase hardware counters at 100M keys/filter** (scoped to the banding call):
 
@@ -80,12 +85,15 @@ unpleated build (stock ~95 vs no-prefetch ~122 at 20M/filter), and pleating subs
 (pleated-with-prefetch approximately equals pleated-without) — matching the paper's homogeneous
 finding that partitioning mostly subsumes the prefetch.
 
-## db_bench (end-to-end build-during-compaction)
+## db_bench (end-to-end build-during-compaction, 3 reps)
 
-See `results/db_bench.md`. Reported as an honest decomposition: filter-construction time is a
-*fraction* of compaction wall-clock (which is dominated by merge + I/O), so the end-to-end delta is
-diluted; we report filter-build savings, its share of compaction, and the net compaction effect
-rather than a headline whole-system number.
+Raw per-rep data: `results/dbbench_reps.csv`. Reported as an honest decomposition: filter-build is a
+*fraction* of compaction (which is dominated by merge + I/O), so the end-to-end delta is diluted.
+3-rep means: the filter-build speedup survives inside real compaction (banding 77.6+/-1.5 ->
+44.2+/-6.1 ns/key, statistics-instrumented; ~2x uninstrumented); filter build is ~23% of compaction
+CPU (1.83s of 7.9s); total compaction CPU falls ~9% (7.9+/-0.8 -> 7.2+/-0.4 s) **but that difference
+is within run-to-run variance at n=3**, so it is directional, not tightly bounded. Write path
+unaffected. `results/db_bench.md` has the earlier single-run detail and the integrity note.
 
 ## Integrity note
 
