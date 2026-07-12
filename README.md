@@ -24,6 +24,11 @@ ribbon filters.
 - **Portable across architectures.** Replicated on x86 Raptor Lake (AVX2), Ampere Neoverse-N1
   (NEON), and Google Axion Neoverse-V2 (SVE): pleating wins 2.05x / 2.37x / 2.72x, output
   bit-identical across all three.
+- **Transfers to production RocksDB, unchanged.** Patched into RocksDB's shipped Standard128
+  (w=128) ribbon builder, one counting pass before the banding call makes construction **1.78x
+  faster** at 100M keys/filter with a **bit-for-bit identical** filter (RocksDB's own tests pass,
+  FPR unchanged) — 25x fewer banding cache-misses at the same instruction count. In `db_bench`
+  the ~2x filter-build speedup survives inside real compaction. See `experiments/e2_rocksdb/`.
 - **Two null results that locate the win.** Batched / cross-key SIMD probing does not beat plain
   per-key probing, and a read-free Bloom-construction scheme does not beat partitioned
   read-modify-write. Both fail for the same reason, which becomes the paper's one mechanical rule:
@@ -41,7 +46,9 @@ src/ribbon_reorder/           C++ construction harness (e1b_phase1.cc) around fa
                               construction numbers
 src/lanefilter/               Rust prototype for the probe-side experiments (E0/E1a nulls)
 experiments/                  pre-registered protocols + analysis scripts (e0_feasibility,
-  e1a_*, e1b_ribbon_construction)   e1a bulk-construction, e1b ribbon construction)
+  e1a_*, e1b_ribbon_construction,   e1a bulk-construction, e1b ribbon construction);
+  e2_rocksdb)                 e2_rocksdb: the RocksDB integration (patch + filter_bench/db_bench
+                              results + repro commands, RocksDB v10.2.0)
 harness/                      pinned third-party suites: fastfilter_cpp (xor/binary-fuse/BuRR),
                               BuRR/ips2ra, FastLanes reference (see harness/README.md)
 results/                      raw artifacts: e1b (x86), e1b-arm-n1, e1b-arm-v2, e0a, e1a — every
@@ -60,7 +67,9 @@ scripts/                      analysis, figure generation, integrity checks
 
 Construction results (Table 1/2, Figures 2/3) come from `src/ribbon_reorder/e1b_phase1.cc`;
 `experiments/e1b_ribbon_construction/analyze_phase1.py` re-derives the per-phase means and
-standard deviations from `results/e1b*/`.
+standard deviations from `results/e1b*/`. The RocksDB results (Table 3, Figure 4) come from
+`experiments/e2_rocksdb/` — apply `pleat-rocksdb.patch` to RocksDB v10.2.0 and run the
+`filter_bench`/`db_bench` commands in its README; raw CSVs and the figure generator are committed.
 
 ## Provenance
 
