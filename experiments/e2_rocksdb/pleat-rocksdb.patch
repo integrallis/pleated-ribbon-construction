@@ -1,0 +1,183 @@
+diff --git a/table/block_based/filter_policy.cc b/table/block_based/filter_policy.cc
+index 3df973aa4..061621ed3 100644
+--- a/table/block_based/filter_policy.cc
++++ b/table/block_based/filter_policy.cc
+@@ -9,14 +9,23 @@
+ 
+ #include "rocksdb/filter_policy.h"
+ 
++#include <cstdlib>
+ #include <array>
+ #include <atomic>
+ #include <climits>
++#include <cstdio>
+ #include <cstring>
+ #include <deque>
+ #include <limits>
+ #include <memory>
+ 
++#if defined(__linux__)
++#include <linux/perf_event.h>
++#include <sys/ioctl.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++#endif
++
+ #include "cache/cache_entry_roles.h"
+ #include "cache/cache_reservation_manager.h"
+ #include "logging/logging.h"
+@@ -50,6 +59,77 @@ namespace {
+ // meanings.
+ static constexpr uint32_t kMetadataLen = 5;
+ 
++// Experimental banding-phase hardware-counter probe (env PLEAT_PROFILE). Uses perf_event_open
++// self-monitoring (no sudo required when kernel.perf_event_paranoid <= 2) to scope cache-misses
++// and instructions to exactly the banding call, so pleat-on vs pleat-off memory behavior can be
++// compared directly. A no-op unless PLEAT_PROFILE is set. Not for production.
++class PleatBandingProfiler {
++ public:
++  explicit PleatBandingProfiler(size_t num_keys) : num_keys_(num_keys) {
++    static const bool kOn = (std::getenv("PLEAT_PROFILE") != nullptr);
++    enabled_ = kOn && num_keys > 4096;
++  }
++  void Start() {
++#if defined(__linux__)
++    if (!enabled_) return;
++    miss_fd_ = Open(PERF_COUNT_HW_CACHE_MISSES);
++    insn_fd_ = Open(PERF_COUNT_HW_INSTRUCTIONS);
++    Reset(miss_fd_);
++    Reset(insn_fd_);
++    Enable(miss_fd_);
++    Enable(insn_fd_);
++#endif
++  }
++  void StopAndReport() {
++#if defined(__linux__)
++    if (!enabled_) return;
++    Disable(miss_fd_);
++    Disable(insn_fd_);
++    uint64_t misses = Read(miss_fd_);
++    uint64_t insns = Read(insn_fd_);
++    if (miss_fd_ >= 0) close(miss_fd_);
++    if (insn_fd_ >= 0) close(insn_fd_);
++    std::fprintf(stderr,
++                 "PLEAT_PROFILE banding: keys=%zu cache_misses/key=%.4f instr/key=%.2f\n",
++                 num_keys_, static_cast<double>(misses) / num_keys_,
++                 static_cast<double>(insns) / num_keys_);
++#endif
++  }
++
++ private:
++  size_t num_keys_;
++  bool enabled_ = false;
++#if defined(__linux__)
++  int miss_fd_ = -1;
++  int insn_fd_ = -1;
++  static int Open(uint64_t config) {
++    struct perf_event_attr pea;
++    std::memset(&pea, 0, sizeof(pea));
++    pea.type = PERF_TYPE_HARDWARE;
++    pea.size = sizeof(pea);
++    pea.config = config;
++    pea.disabled = 1;
++    pea.exclude_kernel = 1;
++    pea.exclude_hv = 1;
++    return static_cast<int>(syscall(__NR_perf_event_open, &pea, 0, -1, -1, 0));
++  }
++  static void Reset(int fd) {
++    if (fd >= 0) ioctl(fd, PERF_EVENT_IOC_RESET, 0);
++  }
++  static void Enable(int fd) {
++    if (fd >= 0) ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
++  }
++  static void Disable(int fd) {
++    if (fd >= 0) ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
++  }
++  static uint64_t Read(int fd) {
++    uint64_t v = 0;
++    if (fd >= 0 && read(fd, &v, sizeof(v)) != sizeof(v)) v = 0;
++    return v;
++  }
++#endif
++};
++
+ Slice FinishAlwaysFalse(std::unique_ptr<const char[]>* /*buf*/) {
+   // Missing metadata, treated as zero entries
+   return Slice(nullptr, 0);
+@@ -738,10 +818,52 @@ class Standard128RibbonBitsBuilder : public XXPH3FilterBitsBuilder {
+         "TamperHashEntries",
+         &hash_entries_info_.entries);
+ 
++    // --- Pleated construction (experimental; enabled by env PLEAT_RIBBON) --------------------
++    // One counting pass groups the collected key-hashes into start-window order before banding,
++    // so banding's memory traffic stays inside one cache-resident window at a time
++    // (partition-instead-of-sort). Banding is order-independent (first-coefficient pivoting), so
++    // the finished filter is bit-for-bit identical to the arrival-order build: this changes
++    // construction speed only, never output (RocksDB's filter tests and the post-banding hash
++    // checksum still pass unchanged; the checksum is an XOR, invariant under reordering). Windows
++    // are computed under the starting seed; a rare re-seed keeps a valid permutation, just less
++    // local. Below the cache crossover this costs slightly more, as expected.
++    static const bool kPleatRibbon = (std::getenv("PLEAT_RIBBON") != nullptr);
++    if (kPleatRibbon && hash_entries_info_.entries.size() > 4096) {
++      ribbon::StandardHasher<Standard128RibbonTypesAndSettings> ph;
++      ph.SetOrdinalSeed(static_cast<uint32_t>(entropy & 255));
++      const uint32_t num_starts = num_slots - 128 + 1;  // num_slots - kCoeffBits + 1
++      constexpr int kPleatShift = 16;                   // ~L2-sized start windows
++      const size_t nw = (static_cast<size_t>(num_starts) >> kPleatShift) + 2;
++      auto& entries = hash_entries_info_.entries;
++      const size_t n = entries.size();
++      // One rehash+GetStart per key (not two): stash each key's window, then counting-sort.
++      std::vector<uint32_t> win(n);
++      std::vector<uint32_t> counts(nw + 1, 0);
++      for (size_t i = 0; i < n; ++i) {
++        uint32_t w = static_cast<uint32_t>(
++            static_cast<size_t>(ph.GetStart(ph.GetHash(entries[i]), num_starts)) >> kPleatShift);
++        win[i] = w;
++        ++counts[w + 1];
++      }
++      for (size_t w = 1; w <= nw; ++w) counts[w] += counts[w - 1];
++      std::deque<uint64_t> ordered(n);  // entries is a std::deque; swap must be deque-with-deque
++      for (size_t i = 0; i < n; ++i) {
++        ordered[counts[win[i]]++] = entries[i];
++      }
++      entries.swap(ordered);
++    }
++    // --- end pleated construction ------------------------------------------------------------
++
++    // Experimental: env PLEAT_PROFILE scopes hardware counters (cache-misses + instructions)
++    // to just the banding call, via perf_event_open self-monitoring (no sudo; paranoid<=2).
++    // Reports per-key on stderr so pleat-on vs pleat-off banding locality can be compared.
++    PleatBandingProfiler pleat_prof(hash_entries_info_.entries.size());
++    pleat_prof.Start();
+     bool success = banding.ResetAndFindSeedToSolve(
+         num_slots, hash_entries_info_.entries.begin(),
+         hash_entries_info_.entries.end(),
+         /*starting seed*/ entropy & 255, /*seed mask*/ 255);
++    pleat_prof.StopAndReport();
+     if (!success) {
+       ROCKS_LOG_WARN(
+           info_log_, "Too many re-seeds (256) for Ribbon filter, %llu / %llu",
+diff --git a/util/ribbon_impl.h b/util/ribbon_impl.h
+index 7ab8b5148..5808f3024 100644
+--- a/util/ribbon_impl.h
++++ b/util/ribbon_impl.h
+@@ -5,6 +5,7 @@
+ 
+ #pragma once
+ 
++#include <cstdlib>
+ #include <cmath>
+ 
+ #include "port/port.h"  // for PREFETCH
+@@ -519,7 +520,10 @@ class StandardBanding : public StandardHasher<TypesAndSettings> {
+   inline bool UsePrefetch() const {
+     // A rough guesstimate of when prefetching during construction pays off.
+     // TODO: verify/validate
+-    return num_starts_ > 1500;
++    // Experimental: env PLEAT_NO_PREFETCH disables the construction prefetch so pleating can be
++    // measured against a no-prefetch baseline (the two attack the same start-locating miss).
++    static const bool kNoPrefetch = (std::getenv("PLEAT_NO_PREFETCH") != nullptr);
++    return num_starts_ > 1500 && !kNoPrefetch;
+   }
+   inline void Prefetch(Index i) const {
+     PREFETCH(&coeff_rows_[i], 1 /* rw */, 1 /* locality */);
