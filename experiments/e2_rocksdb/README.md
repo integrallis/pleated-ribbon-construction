@@ -26,25 +26,36 @@ To apply and build:
 
 ```bash
 cd ~/Code/hes/rocksdb              # v10.2.0, commit 31b239747
-git apply /path/to/pleat-rocksdb.patch
+git apply --check /path/to/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch
+git apply /path/to/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch
 make -j"$(nproc)" DEBUG_LEVEL=0 filter_bench db_bench
+test table/block_based/filter_policy.o -nt table/block_based/filter_policy.cc
+strings ./filter_bench | rg -F 'PLEAT_PROFILE banding'
 ```
+
+The final two commands are measurement gates: confirm the patched object was rebuilt and the
+instrumentation marker is present in the executable. Do not record a run if either check fails.
 
 ## Reproduce (filter_bench — construction microbenchmark)
 
 `-impl 2` selects the Ribbon128 filter; "Build avg ns/key" is the reported construction cost.
 
 ```bash
-# stock vs pleated across scale
-for kpf in 100000 1000000 100000000; do
-  ./filter_bench -impl 2 -m_keys_total_max $((kpf/1000000*3<40?40:kpf/1000000*3)) \
-      -average_keys_per_filter $kpf -net_includes_hashing -quick
-  PLEAT_RIBBON=1 ./filter_bench -impl 2 -m_keys_total_max ... (same) ...
+# stock vs pleated across scale; three repetitions are recorded in the committed sweep
+for kpf in 100000 1000000 3000000 10000000 30000000 100000000; do
+  max_m=$((kpf / 1000000 * 3))
+  if (( max_m < 40 )); then max_m=40; fi
+  ./filter_bench -impl 2 -m_keys_total_max "$max_m" \
+      -average_keys_per_filter "$kpf" -net_includes_hashing -quick
+  PLEAT_RIBBON=1 ./filter_bench -impl 2 -m_keys_total_max "$max_m" \
+      -average_keys_per_filter "$kpf" -net_includes_hashing -quick
 done
 
-# banding-phase hardware counters (why it is faster)
-PLEAT_PROFILE=1              ./filter_bench -impl 2 ... -quick   # stock:   ~11.4 misses/key
-PLEAT_RIBBON=1 PLEAT_PROFILE=1 ./filter_bench -impl 2 ... -quick # pleated: ~0.46 misses/key
+# banding-phase hardware counters at 100M keys/filter
+PLEAT_PROFILE=1 ./filter_bench -impl 2 -m_keys_total_max 300 \
+    -average_keys_per_filter 100000000 -net_includes_hashing -quick
+PLEAT_RIBBON=1 PLEAT_PROFILE=1 ./filter_bench -impl 2 -m_keys_total_max 300 \
+    -average_keys_per_filter 100000000 -net_includes_hashing -quick
 ```
 
 Raw output is in `results/filter_bench.md`.

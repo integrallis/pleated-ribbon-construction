@@ -59,17 +59,41 @@ INTEGRITY.md                  fabrication/hallucination-check protocol
 scripts/                      analysis, figure generation, integrity checks
 ```
 
-## Reproduce
+## Reproduce the paper
 
 ```bash
-./reproduce.sh   # unit tests + re-derive all analyses from committed raw artifacts + integrity checks
+./reproduce.sh   # integrity checks + re-derive analyses and figures from committed measurements
 ```
 
-Construction results (Table 1/2, Figures 2/3) come from `src/ribbon_reorder/e1b_phase1.cc`;
-`experiments/e1b_ribbon_construction/analyze_phase1.py` re-derives the per-phase means and
-standard deviations from `results/e1b*/`. The RocksDB results (Table 3, Figure 4) come from
-`experiments/e2_rocksdb/` — apply `pleat-rocksdb.patch` to RocksDB v10.2.0 and run the
-`filter_bench`/`db_bench` commands in its README; raw CSVs and the figure generator are committed.
+The script checks integrity, runs the Rust unit tests, re-derives the experiment analyses, and
+regenerates the figures from committed raw measurements. It does not rerun the hardware
+benchmarks. To rerun the experiments, use the protocols and setup notes in `experiments/` and
+`harness/README.md`; E2's RocksDB version, patch, configuration, raw CSVs, and recorded commands
+are documented in `experiments/e2_rocksdb/README.md`.
+
+| Paper result | Committed raw data | Re-derivation or experiment guide |
+|---|---|---|
+| Probe and blocked-Bloom experiments | `results/e0a/`, `results/e1a/` | `experiments/e0_feasibility/`, `experiments/e1a_construction/` |
+| Ribbon construction, x86 | `results/e1b/` | `experiments/e1b_ribbon_construction/analyze.py`, `analyze_phase1.py`, `analyze_phase1b.py` |
+| Ribbon construction, ARM N1 and V2 | `results/e1b-arm-n1/`, `results/e1b-arm-v2/` | `experiments/e1b_ribbon_construction/` protocols and analysis scripts |
+| RocksDB construction and compaction | `experiments/e2_rocksdb/results/sweep_fb.csv`, `dbbench_reps.csv` | `experiments/e2_rocksdb/README.md` |
+
+See `CLAIMS.md` for each paper claim's artifact paths and status, and `INTEGRITY.md` for the
+provenance and validation rules applied to measurements.
+
+## Scope and limitations
+
+- The order-independence proof applies to linearly independent rows. Dependent-row behavior is
+  checked empirically against the arrival-order fingerprint and with a false-negative check; the
+  measured outputs matched across the reported runs. The full argument and dependent-row
+  discussion are in [`docs/order-independence-proof.md`](docs/order-independence-proof.md).
+- BuRR is a mechanistic anchor, not a like-for-like performance baseline: it uses a bumped
+  structure with tighter space overhead than the homogeneous ribbon configuration studied here.
+- Timing replication covers x86 AVX2 and two ARM microarchitectures, but ARM cloud hosts do not
+  expose PMU counters. The cache-miss mechanism is measured on x86 only.
+- The RocksDB filter-construction gain is measured on its shipped Standard128 builder. The
+  end-to-end compaction result comes from a filter-favorable configuration and is directional;
+  its whole-workload impact depends on per-SST filter size and run-to-run compaction variation.
 
 ## Provenance
 
