@@ -32,7 +32,7 @@ sizes, transposition of the compute cannot matter. That is E0b, and it is the ki
 **Framework decision.** Cross-filter comparisons will run in fastfilter_cpp (the suite used by the
 xor-filter, binary-fuse, BuRR, and prefix-filter papers). Rust prototype microbenches use
 Criterion.rs and must cross-validate against fastfilter_cpp on an overlapping configuration before
-their numbers are used (policy in CLAUDE.md).
+their numbers are used (standing project policy).
 
 ## 2026-07-09 — E0 protocol frozen; FPR gate passed
 

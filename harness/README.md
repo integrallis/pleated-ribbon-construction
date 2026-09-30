@@ -16,6 +16,6 @@ Rust-side baselines come from crates.io (pinned in Cargo.lock): `fastbloom` (use
 benchmarks and widely deployed), `sbbf-rs` / `parquet`'s split-block Bloom (the productionized
 SIMD filter design, Apache Parquet spec).
 
-Policy (from CLAUDE.md): new benchmark code is written only where no harness covers the question
+Policy: new benchmark code is written only where no harness covers the question
 (e.g., our own prototype's kernels), and its numbers are used only after cross-validating an
 overlapping configuration against fastfilter_cpp on the same machine.
