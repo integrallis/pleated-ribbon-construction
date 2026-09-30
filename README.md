@@ -16,19 +16,22 @@ ribbon filters.
   start-windows before banding — a weaker, ~4x cheaper form of the full start-position sort used
   in prior work. It makes sequential construction **2.05–2.24x faster** at 100–400M keys and
   recovers 98% of the sort's miss reduction.
-- **Order-independence, put to work.** The solved filter is bit-for-bit identical regardless of
-  insertion order (proved for linearly independent rows, verified by a solution fingerprint on
-  every run). So any reordering — including a slot-range **parallel** build — can verify its own
-  correctness with a single checksum. 16 threads build a ribbon filter about as fast as one thread
-  inserts into a Bloom filter.
+- **Order-independence, put to work.** For linearly independent rows, the proof shows that
+  insertion order does not change the solved filter. Dependent rows can be dropped differently, so
+  each measured homogeneous build is compared with the arrival-order fingerprint and checked for
+  false negatives; the reported outputs matched. The slot-range **parallel** build uses the same
+  checks. At 16 threads, its measured construction time is about one thread's Bloom insertion time
+  in the evaluated configuration.
 - **Portable across architectures.** Replicated on x86 Raptor Lake (AVX2), Ampere Neoverse-N1
   (NEON), and Google Axion Neoverse-V2 (SVE): pleating wins 2.05x / 2.37x / 2.72x, output
   bit-identical across all three.
-- **Transfers to production RocksDB, unchanged.** Patched into RocksDB's shipped Standard128
-  (w=128) ribbon builder, one counting pass before the banding call makes construction **1.78x
-  faster** at 100M keys/filter with a **bit-for-bit identical** filter (RocksDB's own tests pass,
-  FPR unchanged) — 25x fewer banding cache-misses at the same instruction count. In `db_bench`
-  the ~2x filter-build speedup survives inside real compaction. See `experiments/e2_rocksdb/`.
+- **Transfers to production RocksDB.** Patched into RocksDB's shipped Standard128 (w=128) ribbon
+  builder, one counting pass before the banding call makes construction **1.78x faster** at 100M
+  keys/filter, with 25x fewer banding cache misses at the same instruction count. RocksDB's tests
+  pass and the measured false-positive rates match stock to six digits. The committed E2 artifacts
+  do not include a byte-for-byte output comparison, so they do not establish bit identity. In
+  `db_bench` the ~2x filter-build speedup survives inside real compaction. See
+  `experiments/e2_rocksdb/`.
 - **Two null results that locate the win.** Batched / cross-key SIMD probing does not beat plain
   per-key probing, and a read-free Bloom-construction scheme does not beat partitioned
   read-modify-write. Both fail for the same reason, which becomes the paper's one mechanical rule:
@@ -91,9 +94,11 @@ provenance and validation rules applied to measurements.
   structure with tighter space overhead than the homogeneous ribbon configuration studied here.
 - Timing replication covers x86 AVX2 and two ARM microarchitectures, but ARM cloud hosts do not
   expose PMU counters. The cache-miss mechanism is measured on x86 only.
-- The RocksDB filter-construction gain is measured on its shipped Standard128 builder. The
-  end-to-end compaction result comes from a filter-favorable configuration and is directional;
-  its whole-workload impact depends on per-SST filter size and run-to-run compaction variation.
+- The RocksDB filter-construction gain is measured on its shipped Standard128 builder. E2 records
+  passing RocksDB tests and matching false-positive rates to six digits, but not a byte-for-byte
+  output comparison. The end-to-end compaction result comes from a filter-favorable configuration
+  and is directional; its whole-workload impact depends on per-SST filter size and run-to-run
+  compaction variation.
 
 ## Provenance
 
