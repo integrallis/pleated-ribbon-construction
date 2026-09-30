@@ -1,0 +1,233 @@
+  10f0f4:	4e080ca1 	dup	v1.2d, x5
+  10f110:	4e080d62 	dup	v2.2d, x11
+  10f118:	4e080c20 	dup	v0.2d, x1
+  10f11c:	4e080d43 	dup	v3.2d, x10
+  10f144:	6f6204d0 	ushr	v16.2d, v6.2d, #30
+  10f148:	6f6204a7 	ushr	v7.2d, v5.2d, #30
+  10f14c:	6e261e06 	eor	v6.16b, v16.16b, v6.16b
+  10f150:	6e251ce5 	eor	v5.16b, v7.16b, v5.16b
+  10f154:	04e260c6 	mul	z6.d, z6.d, z2.d
+  10f158:	04e260a5 	mul	z5.d, z5.d, z2.d
+  10f15c:	6f6504d0 	ushr	v16.2d, v6.2d, #27
+  10f160:	6f6504a7 	ushr	v7.2d, v5.2d, #27
+  10f164:	6e261e06 	eor	v6.16b, v16.16b, v6.16b
+  10f168:	6e251ce5 	eor	v5.16b, v7.16b, v5.16b
+  10f16c:	04e360c6 	mul	z6.d, z6.d, z3.d
+  10f170:	6f6104d0 	ushr	v16.2d, v6.2d, #31
+  10f174:	04e360a5 	mul	z5.d, z5.d, z3.d
+  10f178:	6f6104a7 	ushr	v7.2d, v5.2d, #31
+  10f17c:	6e261e06 	eor	v6.16b, v16.16b, v6.16b
+  10f180:	6e251ce5 	eor	v5.16b, v7.16b, v5.16b
+  10f184:	6f6004d0 	ushr	v16.2d, v6.2d, #32
+  10f188:	6f6004a7 	ushr	v7.2d, v5.2d, #32
+  10f18c:	04e06210 	mul	z16.d, z16.d, z0.d
+  10f190:	04e060e7 	mul	z7.d, z7.d, z0.d
+  10f194:	6f6004e7 	ushr	v7.2d, v7.2d, #32
+  10f198:	4e211cf1 	and	v17.16b, v7.16b, v1.16b
+  10f19c:	6f600607 	ushr	v7.2d, v16.2d, #32
+  10f1a0:	4e211cf0 	and	v16.16b, v7.16b, v1.16b
+  10f1cc:	6f6204f2 	ushr	v18.2d, v7.2d, #30
+  10f1d4:	6e271e47 	eor	v7.16b, v18.16b, v7.16b
+  10f1d8:	04e260e7 	mul	z7.d, z7.d, z2.d
+  10f1dc:	6f6504f2 	ushr	v18.2d, v7.2d, #27
+  10f1e0:	6e271e47 	eor	v7.16b, v18.16b, v7.16b
+  10f1e4:	04e360e7 	mul	z7.d, z7.d, z3.d
+  10f1e8:	6f6104f2 	ushr	v18.2d, v7.2d, #31
+  10f1ec:	6e271e47 	eor	v7.16b, v18.16b, v7.16b
+  10f1f0:	6f6004f2 	ushr	v18.2d, v7.2d, #32
+  10f1f4:	04e06252 	mul	z18.d, z18.d, z0.d
+  10f1f8:	6f600652 	ushr	v18.2d, v18.2d, #32
+  10f1fc:	4e211e52 	and	v18.16b, v18.16b, v1.16b
+  10f220:	6f620611 	ushr	v17.2d, v16.2d, #30
+  10f224:	6e301e30 	eor	v16.16b, v17.16b, v16.16b
+  10f228:	04e26210 	mul	z16.d, z16.d, z2.d
+  10f22c:	6f650611 	ushr	v17.2d, v16.2d, #27
+  10f230:	6e301e30 	eor	v16.16b, v17.16b, v16.16b
+  10f234:	04e36210 	mul	z16.d, z16.d, z3.d
+  10f238:	6f610611 	ushr	v17.2d, v16.2d, #31
+  10f23c:	6e301e30 	eor	v16.16b, v17.16b, v16.16b
+  10f240:	6f600611 	ushr	v17.2d, v16.2d, #32
+  10f244:	04e06231 	mul	z17.d, z17.d, z0.d
+  10f248:	6f600631 	ushr	v17.2d, v17.2d, #32
+  10f24c:	4e211e31 	and	v17.16b, v17.16b, v1.16b
+  10f280:	a540a9e5 	ld1w	{z5.s}, p2/z, [x15]
+  10f28c:	a541acf7 	ld1w	{z23.s}, p3/z, [x7, #1, mul vl]
+  10f298:	a540a8f8 	ld1w	{z24.s}, p2/z, [x7]
+  10f2a8:	a541ade6 	ld1w	{z6.s}, p3/z, [x15, #1, mul vl]
+  10f2d0:	04b360d6 	mul	z22.s, z6.s, z19.s
+  10f2d4:	04b360b3 	mul	z19.s, z5.s, z19.s
+  10f2d8:	04659673 	lsr	z19.s, z19.s, #27
+  10f2dc:	046596d6 	lsr	z22.s, z22.s, #27
+  10f2e8:	04979096 	lslr	z22.s, p4/m, z22.s, z4.s
+  10f2ec:	04979093 	lslr	z19.s, p4/m, z19.s, z4.s
+  10f2f0:	04383273 	and	z19.d, z19.d, z24.d
+  10f2f4:	043732d6 	and	z22.d, z22.d, z23.d
+  10f2f8:	04b460d7 	mul	z23.s, z6.s, z20.s
+  10f2fc:	04b460b4 	mul	z20.s, z5.s, z20.s
+  10f300:	258092d6 	cmpne	p6.s, p4/z, z22.s, #0
+  10f304:	25809277 	cmpne	p7.s, p4/z, z19.s, #0
+  10f308:	a541ae73 	ld1w	{z19.s}, p3/z, [x19, #1, mul vl]
+  10f30c:	a540aa76 	ld1w	{z22.s}, p2/z, [x19]
+  10f310:	046596f7 	lsr	z23.s, z23.s, #27
+  10f314:	04659694 	lsr	z20.s, z20.s, #27
+  10f31c:	04979097 	lslr	z23.s, p4/m, z23.s, z4.s
+  10f320:	04979094 	lslr	z20.s, p4/m, z20.s, z4.s
+  10f328:	04373273 	and	z19.d, z19.d, z23.d
+  10f338:	25809276 	cmpne	p6.s, p4/z, z19.s, #0
+  10f33c:	043432d3 	and	z19.d, z22.d, z20.d
+  10f340:	04b560d6 	mul	z22.s, z6.s, z21.s
+  10f344:	04b560b5 	mul	z21.s, z5.s, z21.s
+  10f348:	a540aa94 	ld1w	{z20.s}, p2/z, [x20]
+  10f34c:	25809277 	cmpne	p7.s, p4/z, z19.s, #0
+  10f350:	a541ae93 	ld1w	{z19.s}, p3/z, [x20, #1, mul vl]
+  10f354:	046596b5 	lsr	z21.s, z21.s, #27
+  10f358:	046596d6 	lsr	z22.s, z22.s, #27
+  10f360:	04979096 	lslr	z22.s, p4/m, z22.s, z4.s
+  10f364:	04979095 	lslr	z21.s, p4/m, z21.s, z4.s
+  10f36c:	04353294 	and	z20.d, z20.d, z21.d
+  10f370:	04363273 	and	z19.d, z19.d, z22.d
+  10f374:	04b260d5 	mul	z21.s, z6.s, z18.s
+  10f378:	04b260b2 	mul	z18.s, z5.s, z18.s
+  10f380:	04659652 	lsr	z18.s, z18.s, #27
+  10f38c:	25809276 	cmpne	p6.s, p4/z, z19.s, #0
+  10f390:	a541acd3 	ld1w	{z19.s}, p3/z, [x6, #1, mul vl]
+  10f394:	25809297 	cmpne	p7.s, p4/z, z20.s, #0
+  10f398:	a540a8d4 	ld1w	{z20.s}, p2/z, [x6]
+  10f39c:	046596b5 	lsr	z21.s, z21.s, #27
+  10f3a0:	04979095 	lslr	z21.s, p4/m, z21.s, z4.s
+  10f3a4:	04979092 	lslr	z18.s, p4/m, z18.s, z4.s
+  10f3b0:	04353273 	and	z19.d, z19.d, z21.d
+  10f3b4:	04323292 	and	z18.d, z20.d, z18.d
+  10f3b8:	04b160d4 	mul	z20.s, z6.s, z17.s
+  10f3bc:	04b160b1 	mul	z17.s, z5.s, z17.s
+  10f3cc:	25809276 	cmpne	p6.s, p4/z, z19.s, #0
+  10f3d0:	25809257 	cmpne	p7.s, p4/z, z18.s, #0
+  10f3d4:	a541ac92 	ld1w	{z18.s}, p3/z, [x4, #1, mul vl]
+  10f3d8:	a540a893 	ld1w	{z19.s}, p2/z, [x4]
+  10f3dc:	04659631 	lsr	z17.s, z17.s, #27
+  10f3e0:	04659694 	lsr	z20.s, z20.s, #27
+  10f3e4:	04979094 	lslr	z20.s, p4/m, z20.s, z4.s
+  10f3e8:	04979091 	lslr	z17.s, p4/m, z17.s, z4.s
+  10f3f4:	04313271 	and	z17.d, z19.d, z17.d
+  10f3f8:	04343252 	and	z18.d, z18.d, z20.d
+  10f3fc:	04b060d3 	mul	z19.s, z6.s, z16.s
+  10f400:	04b060b0 	mul	z16.s, z5.s, z16.s
+  10f410:	25809256 	cmpne	p6.s, p4/z, z18.s, #0
+  10f414:	25809237 	cmpne	p7.s, p4/z, z17.s, #0
+  10f418:	a541ae11 	ld1w	{z17.s}, p3/z, [x16, #1, mul vl]
+  10f41c:	a540aa12 	ld1w	{z18.s}, p2/z, [x16]
+  10f420:	04659610 	lsr	z16.s, z16.s, #27
+  10f424:	04659673 	lsr	z19.s, z19.s, #27
+  10f428:	04979093 	lslr	z19.s, p4/m, z19.s, z4.s
+  10f42c:	04979090 	lslr	z16.s, p4/m, z16.s, z4.s
+  10f438:	04333231 	and	z17.d, z17.d, z19.d
+  10f43c:	04303250 	and	z16.d, z18.d, z16.d
+  10f458:	25809236 	cmpne	p6.s, p4/z, z17.s, #0
+  10f45c:	a540aa51 	ld1w	{z17.s}, p2/z, [x18]
+  10f460:	25809217 	cmpne	p7.s, p4/z, z16.s, #0
+  10f464:	a541ae50 	ld1w	{z16.s}, p3/z, [x18, #1, mul vl]
+  10f468:	04659652 	lsr	z18.s, z18.s, #27
+  10f470:	04979092 	lslr	z18.s, p4/m, z18.s, z4.s
+  10f47c:	04273227 	and	z7.d, z17.d, z7.d
+  10f480:	04323210 	and	z16.d, z16.d, z18.d
+  10f484:	a540aa31 	ld1w	{z17.s}, p2/z, [x17]
+  10f49c:	25809216 	cmpne	p6.s, p4/z, z16.s, #0
+  10f4a0:	a541ae30 	ld1w	{z16.s}, p3/z, [x17, #1, mul vl]
+  10f4ec:	04253225 	and	z5.d, z17.d, z5.d
+  10f4f0:	04263206 	and	z6.d, z16.d, z6.d
+  10f568:	4e040e02 	dup	v2.4s, w16
+  10f574:	4f000424 	movi	v4.4s, #0x1
+  10f58c:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f590:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f594:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f598:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f59c:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f5a0:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f5a8:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f5ac:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f5b0:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f5b4:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f60c:	4e040e22 	dup	v2.4s, w17
+  10f614:	4f000424 	movi	v4.4s, #0x1
+  10f61c:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f620:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f624:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f628:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f62c:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f630:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f638:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f63c:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f640:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f644:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f69c:	4e040e22 	dup	v2.4s, w17
+  10f6a4:	4f000424 	movi	v4.4s, #0x1
+  10f6ac:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f6b0:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f6b4:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f6b8:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f6bc:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f6c0:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f6c8:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f6cc:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f6d0:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f6d4:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f72c:	4e040e22 	dup	v2.4s, w17
+  10f734:	4f000424 	movi	v4.4s, #0x1
+  10f73c:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f740:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f744:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f748:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f74c:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f750:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f758:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f75c:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f760:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f764:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f7bc:	4e040e22 	dup	v2.4s, w17
+  10f7c4:	4f000424 	movi	v4.4s, #0x1
+  10f7cc:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f7d0:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f7d4:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f7d8:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f7dc:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f7e0:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f7e8:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f7ec:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f7f0:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f7f4:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f850:	4e040e22 	dup	v2.4s, w17
+  10f858:	4f000424 	movi	v4.4s, #0x1
+  10f860:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f864:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f868:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f86c:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f870:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f874:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f87c:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f880:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f884:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f888:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f8e0:	4e040e02 	dup	v2.4s, w16
+  10f8e8:	4f000424 	movi	v4.4s, #0x1
+  10f8f0:	4ea09c43 	mul	v3.4s, v2.4s, v0.4s
+  10f8f4:	4ea19c42 	mul	v2.4s, v2.4s, v1.4s
+  10f8f8:	6f250442 	ushr	v2.4s, v2.4s, #27
+  10f8fc:	6f250463 	ushr	v3.4s, v3.4s, #27
+  10f900:	6ea34483 	ushl	v3.4s, v4.4s, v3.4s
+  10f904:	6ea24482 	ushl	v2.4s, v4.4s, v2.4s
+  10f90c:	4e231c83 	and	v3.16b, v4.16b, v3.16b
+  10f910:	4e221ca2 	and	v2.16b, v5.16b, v2.16b
+  10f914:	4ea09863 	cmeq	v3.4s, v3.4s, #0
+  10f918:	4ea09842 	cmeq	v2.4s, v2.4s, #0
+  10f970:	4e040d42 	dup	v2.4s, w10
+  10f97c:	4ea09c40 	mul	v0.4s, v2.4s, v0.4s
+  10f980:	4ea19c41 	mul	v1.4s, v2.4s, v1.4s
+  10f984:	4f000422 	movi	v2.4s, #0x1
+  10f988:	6f250421 	ushr	v1.4s, v1.4s, #27
+  10f98c:	6f250400 	ushr	v0.4s, v0.4s, #27
+  10f990:	6ea04440 	ushl	v0.4s, v2.4s, v0.4s
+  10f994:	6ea14441 	ushl	v1.4s, v2.4s, v1.4s
+  10f99c:	4e201c40 	and	v0.16b, v2.16b, v0.16b
+  10f9a0:	4e211c61 	and	v1.16b, v3.16b, v1.16b
+  10f9a4:	4ea09800 	cmeq	v0.4s, v0.4s, #0
+  10f9a8:	4ea09821 	cmeq	v1.4s, v1.4s, #0

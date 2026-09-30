@@ -25,6 +25,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <fstream>
 #include <memory>
 #include <string>
 #include <thread>
@@ -95,6 +96,15 @@ static double now_ns() {
              std::chrono::steady_clock::now().time_since_epoch())
       .count();
 }
+
+#if defined(__aarch64__)
+static bool has_neoverse_v2_l2_read_miss_event() {
+  std::ifstream event_file(
+      "/sys/bus/event_source/devices/armv8_pmuv3_0/events/l2d_cache_lmiss_rd");
+  std::string event_spec;
+  return std::getline(event_file, event_spec) && event_spec.find("event=0x4009") != std::string::npos;
+}
+#endif
 
 // ---- Reorder strategies ----
 
@@ -288,15 +298,36 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
   // Banding phase (timed; perf counters scoped to this phase only). The call below is
   // byte-for-byte what StandardBanding::AddRange does (ribbon_impl.h:589-596), made
   // explicit so UsePrefetch() resolves against B statically.
+#if !defined(__aarch64__)
   std::vector<int> evts = {PERF_COUNT_HW_CPU_CYCLES, PERF_COUNT_HW_INSTRUCTIONS,
                            PERF_COUNT_HW_CACHE_MISSES};
   LinuxEvents<PERF_TYPE_HARDWARE> unified(evts);
   std::vector<unsigned long long> results(evts.size(), 0);
+#else
+  // The Neoverse-specific event is measured alone below. This avoids PMU multiplexing, which
+  // the pinned LinuxEvents wrapper does not scale for when multiple event groups compete.
+  std::vector<unsigned long long> results(3, 0);
+#endif
+#if defined(__aarch64__)
+  // Arm's generic PERF_COUNT_HW_CACHE_MISSES mapping is implementation-specific. Also record
+  // Neoverse V2's L2 read-miss event (0x4009 in armv8_pmuv3_0's sysfs event table), which is a
+  // closer proxy for the dependent off-core misses discussed in the paper.
+  std::unique_ptr<LinuxEvents<PERF_TYPE_RAW>> arm_pmu;
+  if (has_neoverse_v2_l2_read_miss_event()) {
+    arm_pmu = std::make_unique<LinuxEvents<PERF_TYPE_RAW>>(std::vector<int>{0x4009});
+  }
+  std::vector<unsigned long long> arm_results(1, 0);
+#endif
   size_t deferred_count = 0;
   size_t spilled_count = 0;
   bool ok = true;
   t0 = now_ns();
+#if !defined(__aarch64__)
   unified.start();
+#endif
+#if defined(__aarch64__)
+  if (arm_pmu) arm_pmu->start();
+#endif
   if (strategy == "parallel") {
     // Slot-range parallel banding (H-E1b-2p): thread t owns windows [w_lo, w_hi); keys whose
     // start lies within G slots of the range's upper slot boundary are deferred to a
@@ -355,7 +386,12 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
   } else {
     ok = ribbon::BandingAddRange(&banding, banding, input.begin(), input.end());
   }
+#if !defined(__aarch64__)
   unified.end(results);
+#endif
+#if defined(__aarch64__)
+  if (arm_pmu) arm_pmu->end(arm_results);
+#endif
   const double banding_ns = now_ns() - t0;
 
   if (!ok) {
@@ -389,19 +425,38 @@ int run(const std::string& strategy, size_t n, int rep, size_t shift, unsigned t
     fp += soln.FilterQuery(mix64(s) ^ UINT64_C(0x5555555555555555), hasher);
   }
 
+#if defined(__aarch64__)
+  char arm_counter_json[96];
+  if (arm_pmu) {
+    snprintf(arm_counter_json, sizeof(arm_counter_json),
+             "\"banding_l2d_lmiss_rd_per_key\":%.3f,", (double)arm_results[0] / n);
+  } else {
+    snprintf(arm_counter_json, sizeof(arm_counter_json),
+             "\"banding_l2d_lmiss_rd_per_key\":null,");
+  }
+#endif
   printf(
       "{\"strategy\":\"%s\",\"n\":%zu,\"rep\":%d,\"num_slots\":%zu,"
       "\"reorder_ns_per_key\":%.3f,\"banding_ns_per_key\":%.3f,"
       "\"backsubst_ns_per_key\":%.3f,\"total_ns_per_key\":%.3f,"
+#if defined(__aarch64__)
+      "\"banding_cycles_per_key\":null,\"banding_instr_per_key\":null,"
+      "\"banding_miss_per_key\":null,%s"
+#else
       "\"banding_cycles_per_key\":%.2f,\"banding_instr_per_key\":%.2f,"
       "\"banding_miss_per_key\":%.3f,"
+#endif
       "\"false_negatives\":%zu,\"fpr\":%.6f,\"bits_per_key\":%.3f,"
       "\"window_shift\":%zu,\"threads\":%u,\"deferred\":%zu,\"spilled\":%zu,"
       "\"soln_fnv\":\"%016llx\"}\n",
       strategy.c_str(), n, rep, num_slots, reorder_ns / n, banding_ns / n,
       backsubst_ns / n, (reorder_ns + banding_ns + backsubst_ns) / n,
-      (double)results[0] / n, (double)results[1] / n, (double)results[2] / n, fn,
-      (double)fp / n_probes, bytes * 8.0 / n, shift, threads, deferred_count,
+#if defined(__aarch64__)
+      arm_counter_json,
+#else
+      (double)results[0] / n, (double)results[1] / n, (double)results[2] / n,
+#endif
+      fn, (double)fp / n_probes, bytes * 8.0 / n, shift, threads, deferred_count,
       spilled_count, (unsigned long long)fnv);
   return fn == 0 ? 0 : 1;
 }

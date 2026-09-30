@@ -1,0 +1,25 @@
+Using sequential ordering rotated by 48
+checking match size... 
+                       
+generating samples with probability 0 ... 
+                                                                                         
+generating samples with probability 0.25 ... 
+                                                                                         
+generating samples with probability 0.5 ... 
+                                                                                         
+generating samples with probability 0.75 ... 
+                                                                                         
+generating samples with probability 1 ... 
+                                                                                         
+                                                    find    find    find    find    find  1*add+                       optimal  wasted million
+                                     add  remove      0%     25%     50%     75%    100%  3*find      ε%  bits/item  bits/item  space%    keys
+
+1-by-1 add
+             
+add    cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.00%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.25%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.50%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+0.75%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+1.00%  cycles:   0.0/key, instructions: (  0.0/key,  nan/cycle) cache misses:  0.00/key branch misses: 0.00/key effective frequency 0.00 GHz
+                    BlockedBloom   11.84    0.00   20.19   20.30   19.92   20.16   19.79   72.06  0.6334      12.80       7.30    75.3  10.000

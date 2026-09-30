@@ -21,6 +21,12 @@ only — every RQ3 portability claim needs at least one AVX-512 x86 machine and 
 - One-command remote run: `scripts/bootstrap_remote.sh <ip> ~/.ssh/tf_bench_ed25519 <tag>` —
   installs toolchain, syncs repo, builds pinned harnesses, runs all E0 stages, pulls results
   back to `results/e0a-<tag>/`.
+- The bootstrap sets `kernel.perf_event_paranoid=-1` so user-space PMU events can be read. Check
+  that setting and confirm counters are nonzero before trusting a run; some cloud instances
+  expose the PMU but deny access by default. Generic `cache-misses` mappings vary by ISA. On
+  Neoverse-V2, E1b records `l2d_cache_lmiss_rd` separately as the banding-scoped mechanism counter;
+  do not compare its absolute count directly with x86 generic or DRAM-miss events. See the
+  [Graviton4 PMU reproduction](../results/e1b-arm-graviton4-pmu-20260930/REPORT.md).
 - **Teardown when idle** (billing): `DELETE /v1/servers/<id>` — confirm with user first.
 
 ## Setup (any Linux box)

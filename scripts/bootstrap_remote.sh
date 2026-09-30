@@ -16,6 +16,14 @@ echo "== wait for cloud-init package install to finish =="
 echo "== machine identity (recorded with results) =="
 "${SSH[@]}" 'uname -m; grep -E "model name|Features|flags" /proc/cpuinfo | sort -u | head -3; nproc; free -g | head -2'
 
+echo "== enable user-space PMU access (required for nonzero perf counters) =="
+"${SSH[@]}" 'if [ "$(id -u)" -eq 0 ]; then
+  sysctl -w kernel.perf_event_paranoid=-1
+else
+  sudo sysctl -w kernel.perf_event_paranoid=-1
+fi
+test "$(cat /proc/sys/kernel/perf_event_paranoid)" -le -1'
+
 echo "== rust toolchain =="
 "${SSH[@]}" 'command -v cargo >/dev/null || (curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -q); . "$HOME/.cargo/env"; rustc --version'
 

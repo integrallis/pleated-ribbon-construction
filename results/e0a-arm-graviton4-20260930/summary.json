@@ -1,0 +1,27 @@
+{
+  "n_keys": 1000000,
+  "n_probes": 4000000,
+  "filters": [
+    {
+      "name": "lanefilter_sbbf",
+      "family": "bloom",
+      "bits_per_key": 10.0,
+      "measured_fpr": 0.01266,
+      "false_positives": 50639
+    },
+    {
+      "name": "fastbloom_0.9",
+      "family": "bloom",
+      "bits_per_key": 10.0,
+      "measured_fpr": 0.008367,
+      "false_positives": 33469
+    }
+  ],
+  "machine": {
+    "cpu": "",
+    "kernel": "7.0.0-1013-aws",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "rustflags": "-C target-cpu=native",
+    "timestamp_utc": "2026-09-30T22:46:20.078464+00:00"
+  }
+}
