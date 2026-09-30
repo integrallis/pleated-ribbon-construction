@@ -1,6 +1,6 @@
 # Order-independence of homogeneous ribbon banding: proposition and proof
 
-Backs the paper's §5 claim (empirically: 45/45 runs bit-identical). Reviewed status: draft
+Backs the paper's §5 claim (empirically: 54/54 runs bit-identical). Reviewed status: draft
 argument, to be checked by an external reader before submission.
 
 ## Setting
