@@ -12,11 +12,12 @@ own build path, with its own filter unchanged?
   so a single binary runs stock or pleated:
   - `table/block_based/filter_policy.cc` — `PLEAT_RIBBON`: one counting pass reorders the collected
     key-hashes into ~L2-sized start-window order (shift 16) *before*
-    `banding.ResetAndFindSeedToSolve(...)`. Banding is order-independent (first-coefficient
-    pivoting), so the finished filter is **bit-for-bit identical** to the arrival-order build — the
-    change is construction speed only. Also `PLEAT_PROFILE`: scopes cache-miss/instruction hardware
-    counters to exactly the banding call via `perf_event_open` self-monitoring (no sudo;
-    `perf_event_paranoid <= 2`).
+    `banding.ResetAndFindSeedToSolve(...)`. This changes key order while leaving the downstream
+    builder unchanged. The checked-in E2 correctness evidence is RocksDB's test suite passing and
+    measured false-positive rates matching stock to six digits; the benchmark artifacts do not
+    include a byte-for-byte comparison of stock and pleated filter outputs. Also `PLEAT_PROFILE`:
+    scopes cache-miss/instruction hardware counters to exactly the banding call via
+    `perf_event_open` self-monitoring (no sudo; `perf_event_paranoid <= 2`).
   - `util/ribbon_impl.h` — `PLEAT_NO_PREFETCH`: disables RocksDB's shipped construction prefetch
     (the `UsePrefetch()` heuristic behind its own `TODO: verify/validate` comment), so pleating can
     be measured against a no-prefetch baseline (both attack the same start-locating miss).
@@ -62,8 +63,9 @@ Raw output is in `results/filter_bench.md`.
 
 ## Results (filter_bench, 3 reps; the paper's Table 3 / Figure 4)
 
-Raw per-rep data: `results/sweep_fb.csv` (5+1 sizes x 2 modes x 3 reps). Means below. FP rate
-identical stock vs pleated to 6 digits at every size, confirming bit-identical filters.
+Raw per-rep data: `results/sweep_fb.csv` (6 sizes x 2 modes x 3 reps). Means below. The measured
+false-positive rate matches stock to six digits at every size. This is the recorded FPR check; it
+does not by itself establish byte-for-byte identity of the filter outputs.
 
 **Total construction cost, ns/key** (`filter_bench` "Build avg ns/key", means of 3):
 

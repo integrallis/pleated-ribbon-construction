@@ -111,12 +111,12 @@ index 3df973aa4..061621ed3 100644
 +    // --- Pleated construction (experimental; enabled by env PLEAT_RIBBON) --------------------
 +    // One counting pass groups the collected key-hashes into start-window order before banding,
 +    // so banding's memory traffic stays inside one cache-resident window at a time
-+    // (partition-instead-of-sort). Banding is order-independent (first-coefficient pivoting), so
-+    // the finished filter is bit-for-bit identical to the arrival-order build: this changes
-+    // construction speed only, never output (RocksDB's filter tests and the post-banding hash
-+    // checksum still pass unchanged; the checksum is an XOR, invariant under reordering). Windows
-+    // are computed under the starting seed; a rare re-seed keeps a valid permutation, just less
-+    // local. Below the cache crossover this costs slightly more, as expected.
++    // (partition-instead-of-sort). The order-independence result in the accompanying study is
++    // proved only for linearly independent rows; dependent-row behavior is checked empirically.
++    // The committed E2 evidence is RocksDB's test suite and matching measured false-positive
++    // rates to six digits, not a byte-for-byte comparison of the finished filters. Windows are
++    // computed under the starting seed; a rare re-seed keeps a valid permutation, just less local.
++    // Below the cache crossover this costs slightly more, as expected.
 +    static const bool kPleatRibbon = (std::getenv("PLEAT_RIBBON") != nullptr);
 +    if (kPleatRibbon && hash_entries_info_.entries.size() > 4096) {
 +      ribbon::StandardHasher<Standard128RibbonTypesAndSettings> ph;
