@@ -41,7 +41,7 @@ Which parts of that cost are real -- fixed by the hardware -- and which can be w
 
 \textbf{Contributions.}
 \begin{enumerate}
-\item Ribbon construction gets dramatically cheaper (\S\ref{sec:ribbon}). Homogeneous ribbon banding at scale burns 5.8 DRAM misses per key in dependent row-reduction chains, and those chains are exactly what prefetch cannot hide. A single counting pass that groups keys into L2-sized start-windows (approximate order, nothing more) recovers 98.3--98.4\% of the miss reduction that the full start-position sort (SGAUSS~\citep{dietzfelbinger2019gauss}, BuRR~\citep{dillinger2022burr}) buys, at 5.5--6.1 ns/key where BuRR's own ips2ra sorter costs 23.9--28.1. End to end that makes construction 2.05--2.24$\times$ faster than the reference prefetch-pipelined build. Window size barely matters; totals stay within 13\% across $2^{13}$ through $2^{20}$ slots.
+\item Ribbon construction gets dramatically cheaper (\S\ref{sec:ribbon}). Homogeneous ribbon banding at scale incurs 5.8 generic hardware cache misses per key in dependent row-reduction chains, and those chains are exactly what prefetch cannot hide. A single counting pass that groups keys into L2-sized start-windows (approximate order, nothing more) recovers 98.3--98.4\% of the miss reduction that the full start-position sort (SGAUSS~\citep{dietzfelbinger2019gauss}, BuRR~\citep{dillinger2022burr}) buys, at 5.5--6.1 ns/key where BuRR's own ips2ra sorter costs 23.9--28.1. End to end that makes construction 2.05--2.24$\times$ faster than the reference prefetch-pipelined build. Window size barely matters; totals stay within 13\% across $2^{13}$ through $2^{20}$ slots.
 \item Banding is order-independent when the inserted rows are linearly independent (\S\ref{sec:parallel}). With first-coefficient-always-one pivoting, the proof gives the same solved filter under every insertion order in that case. Dependent rows can be dropped differently by different orders, so our implementation also compares each result with an arrival-order fingerprint and checks for false negatives. The output was bit-identical in all 54 measured runs. A slot-range parallel variant that defers boundary keys (at most 0.23\% of them) can therefore be checked against the sequential result with a checksum: banding is 4.25$\times$ faster at 8 threads and 7.56$\times$ at 16 against its own single-thread run (3.5$\times$ and 6.3$\times$ against the best sequential banding). The total is 11.9 ns/key at 100M keys.
 \item The rule above came from failing twice, and the failures are load-bearing (\S\ref{sec:nulls}). We could not make batched probing win, and the reason turned out to matter more than the attempt. Miss-dominated point probes run into the per-core limit on outstanding misses; software prefetch was already at ~88\% of that ceiling when we measured it. Cross-key SIMD batching loses to plain per-key probing even with every address L1-resident. Bulk Bloom construction fell the same way, for the same underlying reason: its misses are independent, so the memory system hides them. Radix-partitioned construction in the style of \citet{schmidt2021partitioned} topped out at 1.45--1.71$\times$ over per-key insertion, a prefetch loop that RocksDB ships (but never evaluated) recovered most of that with zero transient memory, and our read-free register-aggregated apply (the idea we had the most hope for) came in 1.5$\times$ slower than partitioned RMW, because partitioning had already turned the target misses into L2 hits.
 \item Along the way we ended up producing the first actual evaluation of the construction prefetch RocksDB ships behind a ``TODO: verify/validate'' comment (\S\ref{sec:prefetch}). It is worth 1.5--1.7$\times$ on unsorted banding. Partitioning mostly subsumes it.
@@ -59,7 +59,7 @@ The primary x86 measurements use an i9-14900HX (AVX2, no AVX-512). Comparative n
 
 \textbf{The homogeneous variant.} Homogeneous ribbon stores no per-key result rows during banding and never fails: a row that reduces to zero is dropped, trading a small false-positive elevation for guaranteed completion. Our configuration throughout is w = 64, r = 7, and $m \approx 1.09n$ slots: 7.63 bits per key at a measured 0.81\% false-positive rate.
 
-\textbf{Binary fuse} construction partially sorts keys by segment explicitly to reduce cache misses~\citep{graf2022binaryfuse}; our Phase-0 characterization measures that fix directly (plain xor: 9.45 misses/key; binary fuse: 1.08).
+\textbf{Binary fuse} construction partially sorts keys by segment explicitly to reduce cache misses~\citep{graf2022binaryfuse}; our Phase-0 characterization measures that fix directly (plain xor: 9.45 generic hardware cache misses/key; binary fuse: 1.08).
 
 \section{Where layout tricks cannot work}\label{sec:nulls}
 This section is about two optimizations that failed. Both got their best case: the batched probe was timed with every address already in cache, and the read-free builder was the design its own experiment was built around, each protocol fixed before any run. Both lost anyway, and that is the useful part: an optimization that cannot win even with the conditions chosen to favor it is telling you about the hardware, not the setup.
@@ -75,7 +75,7 @@ Experiment E1a measured five bulk builders at 1M to 429M keys, gated on bit-iden
 We first measured where ribbon construction spends its time, using the reference benchmark
 suite unmodified (three repetitions). At 100 million keys, homogeneous ribbon construction
 costs 50.6 ns per key, and the hardware counters say why: the processor completes only 0.64
-instructions per cycle and takes 5.81 cache misses per key, which is to say it spends most of
+instructions per cycle and takes 5.81 generic hardware cache misses per key, which is to say it spends most of
 its time waiting on memory. The reason is structural. Each key starts its elimination at an
 effectively random position in a 1.3GB table, and every reduction step needs the result of the
 previous XOR before it can even compute which slot it touches next. A prefetcher cannot run
@@ -101,11 +101,12 @@ Table~\ref{tab:ribbon} (100M keys; 400M in artifacts). The partition pass costs 
 \begin{table}
 \caption{Homogeneous ribbon construction, 100M keys, ns/key (mean $\pm$ sample stdev over 3 reps;
 parallel rows 2 reps; raw artifacts in repository). Banding perf counters scoped to the banding
-phase.}
+phase. The miss/key column is Linux's generic hardware cache-miss event on x86, not a direct count
+of DRAM transactions.}
 \label{tab:ribbon}
 \begin{tabular}{lrrrr}
 \toprule
-strategy & reorder & banding & total & miss/key \\
+strategy & reorder & banding & total & cache-misses/key \\
 \midrule
 unsorted, no prefetch & --- & $76.9\pm4.3$ & $80.8\pm4.2$ & 5.81 \\
 unsorted + prefetch (ref.) & --- & $46.1\pm1.4$ & $49.6\pm1.4$ & 5.75 \\
@@ -269,7 +270,7 @@ size.
 \begin{table}
 \caption{Pleating RocksDB's shipped Standard128 ribbon (\texttt{filter\_bench}, 10 bits/key,
  i9-14900HX; means of 3). Measured false-positive rate matches stock to six digits at every size.
-Banding cache-misses/key from hardware counters scoped to the banding call.}
+Banding generic hardware cache-misses/key from counters scoped to the banding call.}
 \label{tab:rocksdb}
 \begin{tabular}{lrrr}
 \toprule
