@@ -307,8 +307,10 @@ In the measured configurations, a one-pass partition recovers 98\% of the full s
 
 \begin{acks}
 All protocols, amendments, raw measurements, and integrity tooling are in the accompanying
-repository; \texttt{reproduce.sh} re-derives every number in this paper from committed raw
-artifacts. A production implementation of pleated construction (differentially gated
+repository. \texttt{reproduce.sh} reruns the E0, E1a, and E1b analyses, checks the Rust tests and
+artifact integrity, and regenerates figures from committed raw inputs. The E2 RocksDB measurements
+are archived; its scaling figure is regenerated from the committed sweep CSV, while the full E2
+analysis is not rerun by this script. A production implementation of pleated construction (differentially gated
 byte-for-byte against the reference kernel) is released as the \texttt{pleat} crate at
 \url{https://github.com/integrallis/pleat}.
 \end{acks}
