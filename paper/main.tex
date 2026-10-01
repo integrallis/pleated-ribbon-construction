@@ -229,9 +229,10 @@ than source, marker string present) after an early build-failure artifact taught
 stale binary.
 
 \textbf{Construction microbenchmark} (\texttt{filter\_bench}, the engine's own tool; 10 bits/key).
-Table~\ref{tab:rocksdb} and Figure~\ref{fig:rocksdb} give the result: at 100M keys per filter
-pleating builds RocksDB's ribbon $1.8\times$ faster, and \emph{pleated build cost is flat with filter
-size} (\textasciitilde53 ns/key from 1M to 100M keys) while stock construction degrades from 52 to
+Table~\ref{tab:rocksdb} reports total filter-construction cost, while Figure~\ref{fig:rocksdb}
+plots the banding phase alone. At 100M keys per filter, pleating builds RocksDB's ribbon
+$1.8\times$ faster overall. The banding cost is flat with filter size (\textasciitilde53 ns/key
+from 1M to 100M keys) while stock banding degrades from 52 to
 94 ns/key as the banding table outgrows cache. Below the cache crossover (a filter of $10^5$ keys
 fits in cache) pleating is a few percent \emph{slower} (the counting pass costs something and
 there is no locality to recover), exactly as the mechanism predicts.
@@ -289,8 +290,8 @@ banding misses/key @$10^8$ & 11.5 & 0.47 & --- \\
 \begin{figure}
 \centering
 \includegraphics[width=0.85\linewidth]{figures/rocksdb_scale.pdf}
-\caption{RocksDB Standard128 ribbon construction vs.\ filter size. Pleated build cost stays flat
-(banding cache-resident per window); stock degrades as the table outgrows cache. Measured
+\caption{RocksDB Standard128 ribbon banding-phase cost vs.\ filter size. Pleated banding cost stays
+flat (cache-resident per window); stock banding degrades as the table outgrows cache. Measured
 false-positive rates match stock to six digits at every point.}
 \label{fig:rocksdb}
 \end{figure}
