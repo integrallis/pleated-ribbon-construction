@@ -82,7 +82,13 @@ impl BlockedFilter {
     /// Parquet SBBF block selection: fastrange on the high 32 bits of the mixed hash.
     #[inline(always)]
     fn block_index(&self, h: u64) -> usize {
-        ((((h >> 32) as u64).wrapping_mul(self.blocks.len() as u64)) >> 32) as usize
+        Self::block_index_of(self.blocks.len(), h)
+    }
+
+    /// `block_index` for a given block count (usable where `self` is split across threads).
+    #[inline(always)]
+    fn block_index_of(n_blocks: usize, h: u64) -> usize {
+        ((((h >> 32) as u64).wrapping_mul(n_blocks as u64)) >> 32) as usize
     }
 
     /// Parquet SBBF mask: in word w, set bit (x * SALT[w]) >> 27 (top 5 bits → 0..31).
@@ -408,6 +414,242 @@ impl BlockedFilter {
         f
     }
 
+    // ---------------- E4 parallel construction strategies ----------------
+    // Same contract as E1a: output bit-identical to per-key insertion (unit-tested, and
+    // re-checked by fingerprint in the bench before any timing).
+
+    /// E4 strategy `par_range`: thread d owns a contiguous range of blocks. Pass 1 counts, per
+    /// key chunk, how many keys land in each owner's range; pass 2 scatters (block, hash32)
+    /// pairs into per-owner regions; pass 3 lets each owner apply its pairs to its own blocks
+    /// with a prefetch pipeline. All three passes run on `threads` threads; no atomics.
+    /// Transient memory: 8 bytes/key.
+    pub fn build_par_range(n_keys: usize, bits_per_key: f64, keys: &[u64], threads: usize) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        let t = threads.max(1);
+        let nb = f.blocks.len();
+        let owner = |b: usize| b * t / nb;
+        let chunks: Vec<&[u64]> = keys.chunks(keys.len().div_ceil(t).max(1)).collect();
+
+        // Pass 1: counts[src][dst].
+        let counts: Vec<Vec<usize>> = std::thread::scope(|s| {
+            let hs: Vec<_> = chunks
+                .iter()
+                .map(|kc| {
+                    s.spawn(move || {
+                        let mut c = vec![0usize; t];
+                        for &k in *kc {
+                            c[owner(Self::block_index_of(nb, mix64(k)))] += 1;
+                        }
+                        c
+                    })
+                })
+                .collect();
+            hs.into_iter().map(|h| h.join().unwrap()).collect()
+        });
+
+        // Pass 2: scatter into one buffer laid out by dst, then src; every (src, dst) cell is
+        // a disjoint slice, so sources write without synchronization.
+        let mut ordered: Vec<std::mem::MaybeUninit<u64>> = Vec::with_capacity(keys.len());
+        // SAFETY: MaybeUninit<u64> needs no initialization; every element is written in pass 2
+        // (the cells partition 0..keys.len() and each source fills its cells exactly).
+        unsafe { ordered.set_len(keys.len()) };
+        let mut dst_len = vec![0usize; t];
+        {
+            let mut cells: Vec<Vec<&mut [std::mem::MaybeUninit<u64>]>> =
+                (0..chunks.len()).map(|_| Vec::with_capacity(t)).collect();
+            let mut rest = ordered.as_mut_slice();
+            for d in 0..t {
+                for (src, c) in counts.iter().enumerate() {
+                    let (cell, tail) = rest.split_at_mut(c[d]);
+                    cells[src].push(cell);
+                    rest = tail;
+                    dst_len[d] += c[d];
+                }
+            }
+            std::thread::scope(|s| {
+                for (kc, mut mine) in chunks.iter().zip(cells) {
+                    s.spawn(move || {
+                        let mut cur = vec![0usize; t];
+                        for &k in *kc {
+                            let h = mix64(k);
+                            let b = Self::block_index_of(nb, h);
+                            let d = owner(b);
+                            mine[d][cur[d]].write(((b as u64) << 32) | (h & 0xffff_ffff));
+                            cur[d] += 1;
+                        }
+                    });
+                }
+            });
+        }
+        // SAFETY: all elements were initialized by pass 2; same layout as Vec<u64>.
+        let ordered: Vec<u64> = unsafe {
+            let mut o = std::mem::ManuallyDrop::new(ordered);
+            Vec::from_raw_parts(o.as_mut_ptr() as *mut u64, o.len(), o.capacity())
+        };
+
+        // Pass 3: each owner applies its region to its own block range.
+        std::thread::scope(|s| {
+            let mut blocks = f.blocks.as_mut_slice();
+            let mut pairs = ordered.as_slice();
+            let mut lo = 0usize;
+            for d in 0..t {
+                let hi = ((d + 1) * nb).div_ceil(t);
+                let (mine, tail) = blocks.split_at_mut(hi - lo);
+                blocks = tail;
+                let (region, ptail) = pairs.split_at(dst_len[d]);
+                pairs = ptail;
+                let base = lo;
+                s.spawn(move || {
+                    const STRIDE: usize = 64;
+                    for pc in region.chunks(STRIDE) {
+                        #[cfg(target_arch = "x86_64")]
+                        for &pair in pc {
+                            unsafe {
+                                core::arch::x86_64::_mm_prefetch(
+                                    mine.as_ptr().add((pair >> 32) as usize - base) as *const i8,
+                                    core::arch::x86_64::_MM_HINT_T0,
+                                );
+                            }
+                        }
+                        for &pair in pc {
+                            let m = Self::mask(pair as u32);
+                            let blk = &mut mine[(pair >> 32) as usize - base].0;
+                            for w in 0..8 {
+                                blk[w] |= m[w];
+                            }
+                        }
+                    }
+                });
+                lo = hi;
+            }
+        });
+        f
+    }
+
+    /// E4 strategy `par_atomic`: threads take contiguous key chunks and OR into the shared
+    /// filter with relaxed atomic fetch_or, using the same prefetch pipeline as
+    /// `build_perkey_prefetch`. No partition pass and no transient memory. Word pairs are
+    /// merged so each key costs four 64-bit atomic ORs rather than eight 32-bit ones.
+    pub fn build_par_atomic(n_keys: usize, bits_per_key: f64, keys: &[u64], threads: usize) -> Self {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        let t = threads.max(1);
+        let nb = f.blocks.len();
+        // SAFETY: Block is 32 bytes aligned to 32, so it is a valid [AtomicU64; 4] (same size
+        // and alignment as u64); we hold the only (mutable) borrow of the blocks for the whole
+        // scope, and all access inside goes through atomics.
+        let words: &[AtomicU64] =
+            unsafe { std::slice::from_raw_parts(f.blocks.as_mut_ptr() as *const AtomicU64, nb * 4) };
+        std::thread::scope(|s| {
+            for kc in keys.chunks(keys.len().div_ceil(t).max(1)) {
+                s.spawn(move || {
+                    const STRIDE: usize = 64;
+                    let mut hashes = [0u64; STRIDE];
+                    let mut idx = [0usize; STRIDE];
+                    for c in kc.chunks(STRIDE) {
+                        for i in 0..c.len() {
+                            hashes[i] = mix64(c[i]);
+                            idx[i] = Self::block_index_of(nb, hashes[i]);
+                            #[cfg(target_arch = "x86_64")]
+                            unsafe {
+                                core::arch::x86_64::_mm_prefetch(
+                                    words.as_ptr().add(idx[i] * 4) as *const i8,
+                                    core::arch::x86_64::_MM_HINT_T0,
+                                );
+                            }
+                        }
+                        for i in 0..c.len() {
+                            let m = Self::mask(hashes[i] as u32);
+                            for q in 0..4 {
+                                // native-endian pair so the bytes land exactly where the two
+                                // u32 words live
+                                let mut bytes = [0u8; 8];
+                                bytes[..4].copy_from_slice(&m[2 * q].to_ne_bytes());
+                                bytes[4..].copy_from_slice(&m[2 * q + 1].to_ne_bytes());
+                                words[idx[i] * 4 + q]
+                                    .fetch_or(u64::from_ne_bytes(bytes), Ordering::Relaxed);
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        f
+    }
+
+    /// OR the masks for `hashes[i]` into `blocks[idx[i]]`.
+    #[inline(always)]
+    fn apply_batch(blocks: &mut [Block], hashes: &[u32], idx: &[usize]) {
+        for (&h, &i) in hashes.iter().zip(idx) {
+            let m = Self::mask(h);
+            let blk = &mut blocks[i].0;
+            for w in 0..8 {
+                blk[w] |= m[w];
+            }
+        }
+    }
+
+    /// E4 strategy `par_scan`: thread d owns a contiguous range of blocks, scans ALL keys and
+    /// inserts only those that land in its range (prefetch-pipelined). Hashing is done
+    /// `threads` times over, but there is no partition pass, no atomics and no transient
+    /// memory.
+    pub fn build_par_scan(n_keys: usize, bits_per_key: f64, keys: &[u64], threads: usize) -> Self {
+        let mut f = Self::with_bits_per_key(n_keys, bits_per_key);
+        let t = threads.max(1);
+        let nb = f.blocks.len();
+        std::thread::scope(|s| {
+            let mut blocks = f.blocks.as_mut_slice();
+            let mut lo = 0usize;
+            for d in 0..t {
+                let hi = ((d + 1) * nb).div_ceil(t);
+                let (mine, tail) = blocks.split_at_mut(hi - lo);
+                blocks = tail;
+                let base = lo;
+                s.spawn(move || {
+                    const STRIDE: usize = 64;
+                    let mut hashes = [0u32; STRIDE];
+                    let mut idx = [0usize; STRIDE];
+                    let mut fill = 0usize;
+                    for &k in keys {
+                        let h = mix64(k);
+                        let b = Self::block_index_of(nb, h);
+                        if b >= base && b < hi {
+                            // prefetch on enqueue, apply one batch later
+                            #[cfg(target_arch = "x86_64")]
+                            unsafe {
+                                core::arch::x86_64::_mm_prefetch(
+                                    mine.as_ptr().add(b - base) as *const i8,
+                                    core::arch::x86_64::_MM_HINT_T0,
+                                );
+                            }
+                            hashes[fill] = h as u32;
+                            idx[fill] = b - base;
+                            fill += 1;
+                            if fill == STRIDE {
+                                Self::apply_batch(mine, &hashes, &idx);
+                                fill = 0;
+                            }
+                        }
+                    }
+                    Self::apply_batch(mine, &hashes[..fill], &idx[..fill]);
+                });
+                lo = hi;
+            }
+        });
+        f
+    }
+
+    /// FNV-1a over the filter words: the bench's cheap bit-identity gate.
+    pub fn fingerprint(&self) -> u64 {
+        let mut h = 0xcbf2_9ce4_8422_2325u64;
+        for b in &self.blocks {
+            for w in b.0 {
+                h = (h ^ w as u64).wrapping_mul(0x0000_0100_0000_01b3);
+            }
+        }
+        h
+    }
+
     /// Measured FPR on `probes` keys known to be absent. Returns (false_positives, probes).
     pub fn measure_fpr(&self, absent_keys: impl Iterator<Item = u64>) -> (usize, usize) {
         let mut fp = 0usize;
@@ -493,6 +735,31 @@ mod tests {
                         a.blocks[i].0, other.blocks[i].0,
                         "{name}: block {i} differs at n={n}"
                     );
+                }
+            }
+        }
+    }
+
+    /// E4 correctness gate: parallel builders are bit-identical to per-key insertion at every
+    /// thread count, including counts that do not divide the block or key count.
+    #[test]
+    fn parallel_builders_bit_identical() {
+        for n in [1_000usize, 10_007, 300_000] {
+            let keys: Vec<u64> = KeyStream::new(0xA11CE).take(n).collect();
+            let a = BlockedFilter::build_perkey(n, 10.0, &keys);
+            for t in [1usize, 2, 3, 7, 8, 16] {
+                let r = BlockedFilter::build_par_range(n, 10.0, &keys, t);
+                let x = BlockedFilter::build_par_atomic(n, 10.0, &keys, t);
+                let c = BlockedFilter::build_par_scan(n, 10.0, &keys, t);
+                for (name, other) in [("par_range", &r), ("par_atomic", &x), ("par_scan", &c)] {
+                    assert_eq!(a.blocks.len(), other.blocks.len(), "{name}: block count differs");
+                    for i in 0..a.blocks.len() {
+                        assert_eq!(
+                            a.blocks[i].0, other.blocks[i].0,
+                            "{name}: block {i} differs at n={n}, threads={t}"
+                        );
+                    }
+                    assert_eq!(a.fingerprint(), other.fingerprint(), "{name}: fingerprint");
                 }
             }
         }
