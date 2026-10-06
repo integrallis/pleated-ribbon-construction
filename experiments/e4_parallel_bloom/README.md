@@ -112,3 +112,17 @@ back; `analyze` runs locally.
 
 The builders and bench were smoke-run at 1M keys on a laptop to confirm they run and pass the
 gate; those timings were not recorded and are not results.
+
+## Amendment 1 (2026-10-06, before any data was collected)
+
+Hetzner refused the CCX43 in all three locations (`resource_limit_exceeded: dedicated core limit
+exceeded`); the account's dedicated-core quota does not cover 16 cores. No server was created
+and no stage was run. The machine is changed to an **AWS c7a.4xlarge** in us-east-1 (16 vCPUs
+that are 16 physical cores, one thread per core, 32 GB), named `rcb-bench-e4`, tagged
+`project=ribbon-catches-bloom`. Nothing else in the protocol changes: same arms, thread counts,
+sizes, repetitions, gates, hypotheses and decision rule. One consequence, noted in advance: on
+this instance type the 16 threads are separate physical cores, so the "hardware threads of
+fewer physical cores" limit above does not apply to this run; the recorded topology is the
+authority. `scripts/e4_remote.sh` gains `sudo` for a non-root login user; no benchmark code
+changes.
+

@@ -15,8 +15,9 @@ fi
 
 echo "== packages =="
 "${SSH[@]}" 'cloud-init status --wait >/dev/null 2>&1 || true
-  export DEBIAN_FRONTEND=noninteractive
-  apt-get update -qq && apt-get install -y -qq build-essential cmake git python3 binutils curl rsync libtbb-dev >/dev/null'
+  SUDO=""; [ "$(id -u)" -eq 0 ] || SUDO="sudo"
+  $SUDO env DEBIAN_FRONTEND=noninteractive apt-get update -qq &&
+  $SUDO env DEBIAN_FRONTEND=noninteractive apt-get install -y -qq build-essential cmake git python3 binutils curl rsync libtbb-dev >/dev/null'
 
 echo "== machine identity =="
 "${SSH[@]}" 'uname -m; grep -m1 "model name" /proc/cpuinfo; nproc; free -g | head -2; systemd-detect-virt || true'
