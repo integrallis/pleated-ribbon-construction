@@ -1,0 +1,29 @@
+diff --git a/table/block_based/filter_policy.cc b/table/block_based/filter_policy.cc
+index 8c57ce4..e4fd647 100644
+--- a/table/block_based/filter_policy.cc
++++ b/table/block_based/filter_policy.cc
+@@ -934,6 +934,24 @@ class Standard128RibbonBitsBuilder : public XXPH3FilterBitsBuilder {
+     TEST_SYNC_POINT_CALLBACK("XXPH3FilterBitsBuilder::Finish::TamperFilter",
+                              &TEST_arg_pair);
+ 
++    {
++      // E5: optionally dump every finished ribbon filter, in build order, for a byte-level
++      // comparison of stock and pleated output. Inactive unless PLEAT_DUMP_DIR is set.
++      static const char* const kPleatDumpDir = std::getenv("PLEAT_DUMP_DIR");
++      if (kPleatDumpDir != nullptr) {
++        static std::atomic<uint64_t> pleat_dump_seq{0};
++        char path[1024];
++        snprintf(path, sizeof(path), "%s/filter_%06llu.bin", kPleatDumpDir,
++                 static_cast<unsigned long long>(pleat_dump_seq.fetch_add(1)));
++        FILE* f = fopen(path, "wb");
++        if (f == nullptr ||
++            fwrite(mutable_buf.get(), 1, len_with_metadata, f) != len_with_metadata ||
++            fclose(f) != 0) {
++          fprintf(stderr, "PLEAT_DUMP_DIR write failed: %s\n", path);
++          abort();
++        }
++      }
++    }
+     Slice rv(mutable_buf.get(), len_with_metadata);
+     *buf = std::move(mutable_buf);
+     final_filter_cache_res_handles_.push_back(
