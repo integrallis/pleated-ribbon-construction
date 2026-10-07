@@ -1,7 +1,7 @@
 [project]
-name = "ribbon-catches-bloom"
+name = "pleated-ribbon-construction"
 version = "0.1.0"
-description = "Experiments and analysis for the paper 'Ribbon Catches Bloom: Pleated Construction at Bloom Speed'."
+description = "Experiments and analysis for the paper 'Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort'."
 requires-python = ">=3.12"
 dependencies = [
     "matplotlib>=3.9",

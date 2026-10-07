@@ -31,25 +31,25 @@ echo "== sync repo (no target/, no harness clones, no .env) =="
 rsync -az -e "ssh -i $KEY" \
   --exclude target/ --exclude harness/fastfilter_cpp/ --exclude harness/FastLanes/ \
   --exclude .env --exclude .git/ --exclude results/ --exclude "e1b_phase1" \
-  "$REPO_ROOT/" "$USER@$HOST:~/ribbon-catches-bloom/"
+  "$REPO_ROOT/" "$USER@$HOST:~/pleated-ribbon-construction/"
 
 echo "== harnesses (pinned) =="
-"${SSH[@]}" 'cd ~/ribbon-catches-bloom/harness && bash setup_harnesses.sh'
+"${SSH[@]}" 'cd ~/pleated-ribbon-construction/harness && bash setup_harnesses.sh'
 
 echo "== E1b phase-1 driver (ribbon reorder) =="
 "${SSH[@]}" 'sudo apt-get install -y -qq libtbb-dev 2>/dev/null || true
-  cd ~/ribbon-catches-bloom/harness && [ -d BuRR ] || git clone --quiet --recursive https://github.com/lorenzhs/BuRR
-  cd ~/ribbon-catches-bloom/src/ribbon_reorder && make clean >/dev/null 2>&1; make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" && ./e1b_phase1 1000000 partitioned 0'
+  cd ~/pleated-ribbon-construction/harness && [ -d BuRR ] || git clone --quiet --recursive https://github.com/lorenzhs/BuRR
+  cd ~/pleated-ribbon-construction/src/ribbon_reorder && make clean >/dev/null 2>&1; make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" && ./e1b_phase1 1000000 partitioned 0'
 
 echo "== E1b phase 1 (full sweep incl. parallel) =="
-"${SSH[@]}" 'cd ~/ribbon-catches-bloom/experiments/e1b_ribbon_construction &&
+"${SSH[@]}" 'cd ~/pleated-ribbon-construction/experiments/e1b_ribbon_construction &&
   python3 run.py --stage phase0 && python3 run.py --stage analyze &&
   python3 run.py --stage phase1 &&
   cd ../../src/ribbon_reorder &&
   for T in 1 2 4 8; do ./e1b_phase1 100000000 parallel 0 16 $T > ../../results/e1b/parallel/t${T}_100M_rep0.json || true; done'
 
 echo "== E0 stages =="
-"${SSH[@]}" '. "$HOME/.cargo/env"; cd ~/ribbon-catches-bloom/experiments/e0_feasibility &&
+"${SSH[@]}" '. "$HOME/.cargo/env"; cd ~/pleated-ribbon-construction/experiments/e0_feasibility &&
   python3 run.py --stage check &&
   python3 run.py --stage fpr &&
   python3 run.py --stage bench &&
@@ -57,5 +57,5 @@ echo "== E0 stages =="
   python3 run.py --stage anchor'
 
 echo "== pull results back as results/e0a-$TAG =="
-rsync -az -e "ssh -i $KEY" "root@$HOST:~/ribbon-catches-bloom/results/e0a/" "$REPO_ROOT/results/e0a-$TAG/"
+rsync -az -e "ssh -i $KEY" "root@$HOST:~/pleated-ribbon-construction/results/e0a/" "$REPO_ROOT/results/e0a-$TAG/"
 echo "done: results in results/e0a-$TAG/ — run analyze locally against that directory"

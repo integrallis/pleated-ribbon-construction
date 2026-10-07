@@ -472,7 +472,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ribbon-catches-bloom"
+name = "pleated-ribbon-construction"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

@@ -9,7 +9,7 @@ only — every RQ3 portability claim needs at least one AVX-512 x86 machine and 
 - API token: `HETZNER_TOKEN` in the repo-root `.env` (git-ignored — never commit; never echo).
 - SSH: dedicated keypair `~/.ssh/tf_bench_ed25519`, registered in the account as
   `transposed-filters-bench` (2026-07-09, user-approved).
-- Benchmark servers are named `rcb-bench-*`, labeled `project=ribbon-catches-bloom`. The
+- Benchmark servers are named `rcb-bench-*`, labeled `project=pleated-ribbon-construction`. The
   pre-existing `vectors-bench` (CCX33) belongs to another project — do not touch.
 - ARM = CAX line (shared-vCPU Ampere Altra, Neoverse-N1: NEON only, no SVE; note that N1 is
   out-of-order, so it tests ISA portability, not the in-order hypothesis). Capacity is often
@@ -35,7 +35,7 @@ only — every RQ3 portability claim needs at least one AVX-512 x86 machine and 
 # toolchain
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 sudo apt-get install -y build-essential cmake git python3 binutils   # objdump for asm stage
-git clone <this-repo> && cd ribbon-catches-bloom
+git clone <this-repo> && cd pleated-ribbon-construction
 harness/setup_harnesses.sh          # clones + builds pinned fastfilter_cpp, FastLanes
 
 # run E0 (stages refuse to outrun prerequisites)

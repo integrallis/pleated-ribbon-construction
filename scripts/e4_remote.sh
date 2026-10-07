@@ -30,21 +30,21 @@ rsync -az -e "ssh -i $KEY" \
   --exclude target/ --exclude 'harness/*/' --exclude .env --exclude .git/ --exclude results/ \
   --exclude research_notes/ --exclude reports/ --exclude docs/ --exclude paper/ \
   --exclude e1b_phase1 --exclude .DS_Store \
-  "$REPO_ROOT/" "$USER@$HOST:~/ribbon-catches-bloom/"
+  "$REPO_ROOT/" "$USER@$HOST:~/pleated-ribbon-construction/"
 
 echo "== harnesses (pinned) and E1b driver =="
-"${SSH[@]}" 'set -e; cd ~/ribbon-catches-bloom/harness && bash setup_harnesses.sh >/dev/null
+"${SSH[@]}" 'set -e; cd ~/pleated-ribbon-construction/harness && bash setup_harnesses.sh >/dev/null
   [ -d BuRR ] || git clone --quiet --recursive https://github.com/lorenzhs/BuRR
   git -C BuRR checkout -q "$(awk "/^BuRR /{print \$2}" PINS)" && git -C BuRR submodule update --init --recursive -q
-  cd ~/ribbon-catches-bloom/src/ribbon_reorder && make clean >/dev/null 2>&1
+  cd ~/pleated-ribbon-construction/src/ribbon_reorder && make clean >/dev/null 2>&1
   make CXXFLAGS="-O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include" >/dev/null'
 
 echo "== E4 stages =="
-"${SSH[@]}" '. "$HOME/.cargo/env"; cd ~/ribbon-catches-bloom/experiments/e4_parallel_bloom &&
+"${SSH[@]}" '. "$HOME/.cargo/env"; cd ~/pleated-ribbon-construction/experiments/e4_parallel_bloom &&
   python3 run.py --stage check && python3 run.py --stage fpr && python3 run.py --stage anchor &&
   python3 run.py --stage bloom && python3 run.py --stage ribbon'
 
 echo "== pull raw results back =="
 mkdir -p "$REPO_ROOT/results/e4"
-rsync -az -e "ssh -i $KEY" "$USER@$HOST:~/ribbon-catches-bloom/results/e4/" "$REPO_ROOT/results/e4/"
+rsync -az -e "ssh -i $KEY" "$USER@$HOST:~/pleated-ribbon-construction/results/e4/" "$REPO_ROOT/results/e4/"
 echo "== done: run experiments/e4_parallel_bloom/run.py --stage analyze locally =="

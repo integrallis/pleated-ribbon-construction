@@ -7,7 +7,7 @@ AMI=$(aws ssm get-parameter --name /aws/service/canonical/ubuntu/server/24.04/st
 SG=$(aws ec2 describe-security-groups --group-names pleat-bench-ssh --query 'SecurityGroups[0].GroupId' --output text)
 ID=$(aws ec2 run-instances --image-id "$AMI" --instance-type c8g.2xlarge --key-name pleat-bench \
   --security-group-ids "$SG" --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=40,VolumeType=gp3}' \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=rcb-bench-arm},{Key=project,Value=ribbon-catches-bloom}]' \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=rcb-bench-arm},{Key=project,Value=pleated-ribbon-construction}]' \
   --query 'Instances[0].InstanceId' --output text)
 echo "instance: $ID"
 aws ec2 wait instance-running --instance-ids "$ID"

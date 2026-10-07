@@ -40,7 +40,7 @@ close (in RocksDB's filter_bench at matched false-positive rate, the pleated bui
 costs 2.4× the Bloom builder at 100M keys per filter), and the whole-compaction CPU change I
 measured in db_bench is within run-to-run variation. The repository has the raw data, the
 analysis scripts and a ledger tying each number to its artifact:
-https://github.com/integrallis/ribbon-catches-bloom
+https://github.com/integrallis/pleated-ribbon-construction
 
 One practical request. I am an independent author without a prior arXiv paper in cs.DS, so the
 preprint needs an endorsement. If, after looking, either of you were comfortable endorsing it,

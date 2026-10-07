@@ -78,7 +78,7 @@ The trick only pays where one miss has to wait for another.
 Everything is in the repository: raw measurements, the scripts that turn them into every number
 above, and the experiment protocols, which were committed before the data was collected.
 
-    git clone <repo URL> && cd ribbon-catches-bloom && ./reproduce.sh
+    git clone <repo URL> && cd pleated-ribbon-construction && ./reproduce.sh
 
 The paper is at <arXiv link>. The Rust implementation is the `pleat` crate.
 

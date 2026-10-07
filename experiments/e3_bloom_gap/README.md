@@ -52,7 +52,7 @@ already measured.
 - RocksDB v10.2.0, commit `31b239747`, with `../e2_rocksdb/pleat-rocksdb.patch`, built exactly
   as in E2 (same gates: patched object rebuilt, `PLEAT_PROFILE banding` marker present).
 - Machine: a Hetzner CCX33 (8 dedicated x86 vCPUs, 32 GB), named `rcb-bench-e3`, labeled
-  `project=ribbon-catches-bloom` (author's decision 2026-10-06: run on a VPS). This is **not**
+  `project=pleated-ribbon-construction` (author's decision 2026-10-06: run on a VPS). This is **not**
   the i9-14900HX box E2 ran on. All three arms run there in one session; the result is labeled
   with that machine and E2's numbers are not mixed into its table. It is virtualized: the CPU
   model, core count and `systemd-detect-virt` output are recorded in `machine.json`.

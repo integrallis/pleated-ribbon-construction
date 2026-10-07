@@ -27,8 +27,8 @@ To apply and build:
 
 ```bash
 cd ~/Code/hes/rocksdb              # v10.2.0, commit 31b239747
-git apply --check /path/to/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch
-git apply /path/to/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch
+git apply --check /path/to/pleated-ribbon-construction/experiments/e2_rocksdb/pleat-rocksdb.patch
+git apply /path/to/pleated-ribbon-construction/experiments/e2_rocksdb/pleat-rocksdb.patch
 make -j"$(nproc)" DEBUG_LEVEL=0 filter_bench db_bench
 test table/block_based/filter_policy.o -nt table/block_based/filter_policy.cc
 strings ./filter_bench | rg -F 'PLEAT_PROFILE banding'

@@ -592,3 +592,10 @@ running title for LIPIcs. The LIPIcs generator now writes a copy of refs.bib bes
 because BibTeX would not read the database from the parent directory. Under pdfLaTeX the
 anonymous LIPIcs build is 15 pages with the main text ending on page 12 (the tectonic build is
 16 pages because of font differences). paper/main.pdf remains a tectonic build.
+
+## 2026-10-07 — Markdown rendition of the paper
+
+scripts/make_markdown.py generates paper/main.md from paper/main.tex with pandoc (figures
+rasterized to paper/figures/*.png; citations in author-date form). paper/draft.md, the v0.2
+Markdown rendition from July with the old title, is removed; it is superseded by the generated
+file and remains in history.

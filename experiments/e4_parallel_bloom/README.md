@@ -91,7 +91,7 @@ the framework-first policy:
 ## Setup
 
 - Machine: Hetzner CCX43 (16 dedicated x86 vCPUs, 64 GB), named `rcb-bench-e4`, labeled
-  `project=ribbon-catches-bloom`. Not the i9-14900HX of C23; its numbers are labeled with this
+  `project=pleated-ribbon-construction`. Not the i9-14900HX of C23; its numbers are labeled with this
   machine and not mixed with C23.
 - Toolchain: rustc stable with `RUSTFLAGS=-C target-cpu=native`; g++ `-O3 -march=native` for
   the driver (the E1b Makefile); versions recorded in `machine.json`.
@@ -119,7 +119,7 @@ Hetzner refused the CCX43 in all three locations (`resource_limit_exceeded: dedi
 exceeded`); the account's dedicated-core quota does not cover 16 cores. No server was created
 and no stage was run. The machine is changed to an **AWS c7a.4xlarge** in us-east-1 (16 vCPUs
 that are 16 physical cores, one thread per core, 32 GB), named `rcb-bench-e4`, tagged
-`project=ribbon-catches-bloom`. Nothing else in the protocol changes: same arms, thread counts,
+`project=pleated-ribbon-construction`. Nothing else in the protocol changes: same arms, thread counts,
 sizes, repetitions, gates, hypotheses and decision rule. One consequence, noted in advance: on
 this instance type the 16 threads are separate physical cores, so the "hardware threads of
 fewer physical cores" limit above does not apply to this run; the recorded topology is the

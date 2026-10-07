@@ -25,25 +25,25 @@ echo "== machine identity =="
 "${SSH[@]}" 'uname -m; grep -m1 "model name" /proc/cpuinfo; nproc; free -g | head -2; systemd-detect-virt || true'
 
 echo "== sync experiment (protocol, runner, patch) =="
-"${SSH[@]}" 'mkdir -p ~/ribbon-catches-bloom/experiments ~/ribbon-catches-bloom/results'
+"${SSH[@]}" 'mkdir -p ~/pleated-ribbon-construction/experiments ~/pleated-ribbon-construction/results'
 rsync -az -e "ssh -i $KEY" "$REPO_ROOT/experiments/e3_bloom_gap" "$REPO_ROOT/experiments/e2_rocksdb" \
-  "$USER@$HOST:~/ribbon-catches-bloom/experiments/"
+  "$USER@$HOST:~/pleated-ribbon-construction/experiments/"
 
 echo "== RocksDB at $ROCKSDB_COMMIT + pleat patch, build filter_bench =="
 "${SSH[@]}" "set -e
   [ -d ~/rocksdb ] || git clone --quiet https://github.com/facebook/rocksdb ~/rocksdb
   cd ~/rocksdb && git checkout --quiet $ROCKSDB_COMMIT
-  git apply --reverse --check ~/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch 2>/dev/null \
-    || git apply ~/ribbon-catches-bloom/experiments/e2_rocksdb/pleat-rocksdb.patch
+  git apply --reverse --check ~/pleated-ribbon-construction/experiments/e2_rocksdb/pleat-rocksdb.patch 2>/dev/null \
+    || git apply ~/pleated-ribbon-construction/experiments/e2_rocksdb/pleat-rocksdb.patch
   make -j\"\$(nproc)\" DEBUG_LEVEL=0 filter_bench > ~/rocksdb_build.log 2>&1 || { tail -30 ~/rocksdb_build.log; exit 1; }"
 
 echo "== E3 stages =="
-"${SSH[@]}" 'cd ~/ribbon-catches-bloom/experiments/e3_bloom_gap &&
+"${SSH[@]}" 'cd ~/pleated-ribbon-construction/experiments/e3_bloom_gap &&
   python3 run.py --stage check --rocksdb ~/rocksdb &&
   python3 run.py --stage bench --rocksdb ~/rocksdb'
 
 echo "== pull raw results back =="
 mkdir -p "$REPO_ROOT/results/e3"
-rsync -az -e "ssh -i $KEY" "$USER@$HOST:~/ribbon-catches-bloom/results/e3/" "$REPO_ROOT/results/e3/"
+rsync -az -e "ssh -i $KEY" "$USER@$HOST:~/pleated-ribbon-construction/results/e3/" "$REPO_ROOT/results/e3/"
 rsync -az -e "ssh -i $KEY" "$USER@$HOST:~/rocksdb_build.log" "$REPO_ROOT/results/e3/rocksdb_build.log"
 echo "== done: run experiments/e3_bloom_gap/run.py --stage analyze locally =="

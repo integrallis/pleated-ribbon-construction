@@ -113,7 +113,7 @@ Until the paper has an arXiv identifier or a venue, cite the repository (see `CI
   title  = {Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort},
   year   = {2026},
   note   = {Research repository with raw measurements and registered protocols},
-  howpublished = {\url{https://github.com/integrallis/ribbon-catches-bloom}},
+  howpublished = {\url{https://github.com/integrallis/pleated-ribbon-construction}},
 }
 ```
 
