@@ -1,0 +1,8 @@
+# src/ribbon_reorder/order_check.cc against pinned fastfilter_cpp 924e560 (unmodified), compiled c++ -O2 -std=c++17 -march=native, run 2026-10-06 on Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz, Apple clang version 21.0.0 (clang-2100.1.1.101)
+homog, 1.10 slots/key              n=200000 slots=220032 occupied=200000 dropped(redundant)=0 orders=25 built=25 failed=0 identical_to_first=25
+homog, 1.00 slots/key              n=200000 slots=200000 occupied=198428 dropped(redundant)=1572 orders=25 built=25 failed=0 identical_to_first=25
+homog, 0.90 slots/key (overloaded) n=200000 slots=180032 occupied=180025 dropped(redundant)=19975 orders=25 built=25 failed=0 identical_to_first=25
+homog, 0.50 slots/key (overloaded) n=50000 slots=25024 occupied=25020 dropped(redundant)=24980 orders=25 built=25 failed=0 identical_to_first=25
+standard, 1.10 slots/key           n=200000 slots=220032 occupied=200000 dropped(redundant)=0 orders=25 built=25 failed=0 identical_to_first=25
+standard, 1.05 slots/key           n=200000 slots=210048 occupied=0 dropped(redundant)=0 orders=25 built=0 failed=25 identical_to_first=0
+standard, 1.00 slots/key           n=200000 slots=200000 occupied=0 dropped(redundant)=0 orders=25 built=0 failed=25 identical_to_first=0

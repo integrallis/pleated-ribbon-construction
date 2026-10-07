@@ -12,6 +12,20 @@ CLAIMS C15. Companion to docs/prior-art-construction.md.
   (construction.hpp:79-106, sorts (permuted-start, index) pairs, bucket-ascending /
   start-descending via XOR trick); parallelized via thread-boundary bumping in parallel BuRR
   (arXiv:2411.12365, 14× on 32 cores).
+- **Approximate sort / bucketing by start position for homogeneous ribbon** (added 2026-10-06;
+  missed by the July audit): BuRR technical report arXiv:2109.01892, Algorithm 3 line 3 "sort S
+  approximately by s(x)" (present in v1, 2021-09-04, and v2), with the proof of Lemma 11(b) in
+  v2 (Lemma 9 in v1): "If keys are sorted into buckets of b consecutive starting positions each
+  and buckets handled from left to right, then no attempted insertion can take longer than
+  b + w steps." Repeated in JACM 73(1) Art. 7 (2026), Algorithm 4 line 3: "sort S by s(x) // at
+  least approximately, see proof of Theorem 5.3". Rationale in print is a row-operation bound
+  for redundant insertions, not cache locality. Not in the 12-page SEA 2022 version. Not
+  implemented: the pinned fastfilter_cpp (924e560) ribbon_impl.h / ribbon_alg.h contain no
+  sort (the word appears only in comments), and RocksDB bands in arrival order.
+- **Order-invariance of the filled-slot set**: stated in all three ribbon papers (JACM §3 "On
+  (M1): The order of keys is irrelevant"; same in the TR; arXiv:2103.02515 "no matter in what
+  order the keys of S are inserted"). JACM adds that the set of successfully inserted keys is
+  not invariant. Our order-independence proposition extends this; it does not originate it.
 - **Arbitrary-order on-the-fly banding with backtracking**: the ribbon paper's selling point
   ("there is no need to pre-sort", arXiv:2103.02515) + RocksDB production
   (ribbon_alg.h:546-596; BacktrackStorage rollback; up to 256 seed retries).
@@ -35,8 +49,13 @@ CLAIMS C15. Companion to docs/prior-art-construction.md.
    papers leave construction vectorization unaddressed; the "not generally workable" dismissal
    was query-side only).
 2. **Eliminating/fusing the sort** — parallel BuRR states "a large portion of the construction
-   time is spent on parallel sorting" but does not attack it. Partition-instead-of-sort
-   (approximate ordering) for banding locality is unclaimed.
+   time is spent on parallel sorting" but does not attack it. CORRECTED 2026-10-06: the
+   earlier text here said partition-instead-of-sort (approximate ordering) for banding
+   locality was unclaimed. The approximate sort itself is specified in the TR and JACM for
+   homogeneous ribbon (see "already taken" above). What remains open is narrower: an
+   implementation, the cache-locality motivation and measurement (including how much of a
+   full sort's miss reduction a coarse partition keeps), a cache-capacity rule for bucket
+   width, and applying it to standard ribbon (RocksDB), whose design forgoes sorting.
 3. **SIMD/NT-store back-substitution beyond the existing block structure** — no attempt.
 4. **GPU ribbon construction** — fully open (nearest: GPU BDZ-peeling in a 2023 master's
    thesis; GPU PHF constructions avoid linear algebra entirely per the 2025 MPHF survey).
@@ -62,7 +81,8 @@ highly optimized fuse builders".
 
 ## Must-cite
 
-DW ESA 2019; ribbon arXiv:2103.02515; BuRR SEA 2022 + repo; parallel BuRR arXiv:2411.12365 +
+DW ESA 2019; ribbon arXiv:2103.02515; BuRR SEA 2022 + repo; BuRR full version arXiv:2109.01892
+and JACM 73(1) Art. 7 (2026) for the approximate-sort step; parallel BuRR arXiv:2411.12365 +
 parallel branch; RocksDB ribbon_alg.h/ribbon_impl.h/filter_policy.cc + 2021 blog; binary fuse
 JEA 2022 + FastFilter repos; Walzer SODA 2021; Genuzio et al. SEA 2016; Vigna 2503.18397;
 Kuszmaul SODA 2025 + IXOR/IBIF (if incremental); ShockHash/SicHash; ZOR; AMAC/Chen ICDE 2004

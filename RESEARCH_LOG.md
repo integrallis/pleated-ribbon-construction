@@ -313,3 +313,272 @@ core hides dependent-chain misses, the more pleating helps — but it helps mate
 three. ARM miss-MECHANISM still unmeasured (no cloud ARM exposes counters); optional
 bare-metal closer (GH200=V2, or phoenixNAP=N1, or AWS metal) noted, not load-bearing.
 ACTION: terminate OCI + GCP instances now.
+
+## 2026-10-06 — Prior-art correction: the approximate sort is in print (C15 corrected)
+
+DRAFT on branch `prior-art-corrections`, uncommitted, pending author review.
+
+The July audit (docs/prior-art-ribbon-construction.md, C15) recorded partition-instead-of-sort
+for banding locality as unclaimed. That was wrong as worded. Checked against the PDFs on
+2026-10-06:
+
+- BuRR technical report arXiv:2109.01892, Algorithm 3 line 3: "sort S approximately by s(x)".
+  Present in v1 (2021-09-04, citing Lemma 9) and v2 (citing Lemma 11). The proof says keys
+  "sorted into buckets of b consecutive starting positions each and buckets handled from left
+  to right" suffice. The 12-page SEA 2022 version, which is what the July audit and refs.bib
+  cited, does not contain it.
+- JACM 73(1) Art. 7 (published 2026-02-13), Algorithm 4 line 3: "sort S by s(x) // at least
+  approximately, see proof of Theorem 5.3". Not previously in refs.bib.
+- The same papers state that the filled-slot set is invariant under insertion order, which is
+  the first step of our order-independence proposition.
+- Reference code at our pin (fastfilter_cpp 924e560, src/ribbon/ribbon_impl.h and
+  ribbon_alg.h) has no sort step; "sort" occurs only in comments. This matches what E1b
+  measured as the "reference" baseline (arrival order + prefetch).
+
+Consequence: no measurement changes. H-E1b-1 was registered as a measurement hypothesis and its
+result (C16, C17, C20) stands. What changes is the novelty framing: the ordering idea is the
+ribbon authors'; ours is the implementation, the dependent-miss mechanism, the measurement, and
+the transfer to RocksDB's standard builder. The E1b README's gate decision cites the July audit
+and is left as registered; this entry is the correction of record.
+
+Edits: paper/main.tex (lineage paragraph, contribution bullet, "reference" definition,
+binary-fuse analogue, proof-sketch credit, parallel-variant distinction, related work; the
+parallel-BuRR quotation now matches the source, "A large portion"), paper/refs.bib (+5),
+CLAIMS.md C15, docs/prior-art-ribbon-construction.md.
+
+Not done, still open: the JACM bucket-width bound was not compared with our window sizes (the
+extracted formula differs between TR and JACM and needs reading in the typeset PDF);
+Proposition 1 still fixes free slots to zero and was not reconciled with JACM footnote 19 or
+the kernel's actual free-variable assignment; title unchanged; paper/draft.md (v0.2 rendition)
+and paper/main.pdf not regenerated.
+
+## 2026-10-06 — Title change and matched Bloom-gap table (C25); DRAFT, uncommitted
+
+Title changed to "Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a
+Full Sort" (paper/main.tex, README.md, CITATION.cff). Reason: the old "Catches Bloom ... at Bloom
+Speed" rested on a 16-thread ribbon total against one-thread Bloom.
+
+Added experiments/e1b_ribbon_construction/analyze_bloom_gap.py, which joins existing raw
+artifacts (no new runs) into results/e1b/BLOOM_GAP_ANALYSIS.md and paper/tables/bloom_gap.tex.
+At 100M keys, one thread: ribbon is 4.42x -> 2.16x fastfilter BlockedBloom and 6.74x -> 3.29x
+the fastest Bloom build we measured (prefetch-pipelined, 7.35 ns/key). Published as "narrowed,
+not closed". Caveats recorded in the analysis file: two harnesses, not equal space/FPR, no
+parallel Bloom measurement. Note the Phase-0 BlockedBloom mean (11.21, 3 reps) differs from the
+single E0 anchor run in C9 (11.48); the table uses the 3-rep Phase-0 value.
+
+## 2026-10-06 — Bloom-gap table: caveats resolved where artifacts allow; E3 drafted for the rest
+
+DRAFT, uncommitted. analyze_bloom_gap.py now also reports run-to-run spread, the prototype's
+recorded FPR/bits (E0, 1M keys), the space saving on the same-harness pair, and checks C9's single
+BlockedBloom run against the 3-rep range (11.48 inside 10.54-12.46). Paper text now leads with
+the same-harness, near-equal-FPR pair (4.4x -> 2.2x) and states that the "fastest Bloom" ratio
+(6.7x -> 3.3x) is against a weaker filter from a different harness.
+
+Two limits cannot be removed without new data: a prefetching Bloom at matched FPR in an
+established harness, and an equal-thread parallel Bloom. experiments/e3_bloom_gap/README.md is a
+draft registration for both (Stage A: RocksDB filter_bench, FastLocalBloom vs Standard128 stock
+and pleated; Stage B: parallel Bloom, sketch only). Not frozen; the filter_bench -impl value for
+Bloom is unverified; run.py/analyze.py not written; no data collected. This session's machine is
+not the i9 dev box, so nothing was run.
+
+## 2026-10-06 — E3 Stage A run: matched-FPR Bloom vs ribbon in filter_bench (C26)
+
+Protocol frozen in commit fabfce3 before data. Box: Hetzner CCX33 `rcb-bench-e3` (AMD EPYC-Milan,
+8 dedicated vCPU, 32 GB, KVM), RocksDB 31b239747 + E2 patch, gcc 13.3. Build gates passed; 36/36
+filter_bench invocations succeeded; raw stdout in results/e3/raw/.
+
+- All four sizes pass the FPR-match criterion; stock and pleated report identical FP at every size.
+- pleated/Bloom build cost: 5.18x (100K), 4.13x (1M), 4.10x (10M), 2.43x (100M).
+  stock/Bloom: 4.97x, 4.67x, 7.27x, 4.52x.
+- H-E3-1 HOLDS. **H-E3-2 FAILS as predicted**: pleated ribbon is 2.43x Bloom at 100M, not within
+  1.25x. Null published: pleating narrows the gap and does not close it.
+- Bloom's own build cost rises with filter size on this box (15.9 -> 37.1 ns/key), which is part
+  of why the ratio is smallest at 100M.
+- Stock/pleated on this second x86 machine: 1.77x at 10M, 1.86x at 100M (E2 on the i9: 1.62x and
+  1.78x); slightly slower below the crossover at 100K (0.96x), as in E2.
+
+Results and this entry are uncommitted. Paper not yet updated with E3. Server still running at
+the time of writing; teardown pending the author's confirmation.
+
+## 2026-10-06 — E3 in the paper; server deleted
+
+`rcb-bench-e3` deleted on the author's instruction after results were verified local (36 raw
+files, 36 CSV rows); no servers remain on the account. Paper: new paragraph and Table
+(tab:ethree) in the RocksDB section from results/e3/ANALYSIS.md; the standalone Bloom-gap table
+now holds only the same-harness rows (prototype rows remain in BLOOM_GAP_ANALYSIS.md and are
+mentioned in prose with their caveat); conclusion states the 2.4x remaining gap. The E3 README
+is the frozen protocol and is left as committed, including its pre-run status line.
+
+## 2026-10-06 — E4 run: Bloom vs pleated ribbon at equal thread counts (C27)
+
+Protocol frozen in 74de203. Hetzner refused the 16-core CCX43 (dedicated core limit exceeded);
+amendment 48fd3f2, committed before any data, moved the run to an AWS c7a.4xlarge (AMD EPYC 9R14,
+16 physical cores, one thread per core). All stages ran once, in order, no reruns.
+
+- Gates: all pass. Ribbon fingerprint at 100M (2b882b197876d9a8) also equals the i9's.
+- Cross-validation passes narrowly: prototype perkey 21.19 vs fastfilter BlockedBloom 17.30
+  ns/key = 22.5% apart, tolerance 25%. Worth knowing: on the i9 the same pair was 8% apart.
+- ribbon/Bloom at T=1/2/4/8/16: 4.03x / 4.16x / 4.95x / 7.22x / 10.08x.
+  **H-E4-1 HOLDS, H-E4-2 FAILS as predicted.** Null published.
+- Why the gap widens: at 16T the ribbon total is 22.15 ns/key of which reorder ~10.8 and
+  back-substitution ~9.1 are sequential; banding itself is 2.2. Bloom best-of scales 4.56x.
+- Best Bloom builder changes with T: par_scan at 1-2, par_range at 4-8, par_atomic at 16.
+- Prototype FPR now measured at 100M keys: 1.2727% at 10.00 bits/key (was only known at 1M).
+- This machine is much slower per key than the i9 for the ribbon driver (sequential pleated
+  40.3 vs 24.2 ns/key), so E4 numbers are not comparable with C17/C23 and are not mixed.
+
+Per the registered decision rule, the README sentence about 16-thread ribbon vs one-thread
+Bloom now carries the equal-thread ratio. Paper: new paragraph and table in the parallel
+section; conclusion states the 16-thread ratio. Results and edits uncommitted; instance still
+running pending the author's word on termination.
+
+Instance rcb-bench-e4 (i-0d927dbd11038da34) terminated 2026-10-06 on the author's instruction after results were verified local.
+
+## 2026-10-06 — Plan block 1 housekeeping: hand checks, Proposition 1 fix, ledger rows C28-C32
+
+Hand checks done from primary sources:
+- SEA 2026 CFP, read directly: "Papers containing content generated by large language models
+  (LLMs) ... are not allowed, except for: Generating scientific plots displaying data that the
+  authors obtained from experiments ...; Polishing the text that the authors have personally
+  written." The clause is about paper content; it does not mention code. Same page: 12 pages
+  excluding bibliography and front page plus up to 5 pages appendix, LIPIcs style, anonymized,
+  arXiv allowed, software must be linked anonymously.
+- SEA 2027 site still shows Submission Deadline: TBD; CFP page: TBD (checked 2026-10-06).
+- JACM p. 7:24, read in the typeset PDF: "approximate sorting of keys into buckets of at most
+  exp(−Ω(εw))/ε consecutive starting positions is also sufficient" — printed with the minus
+  sign (the TR has b ≤ exp(Ω(εw))). The passage is at the end of the proof of Lemma 5.3(b),
+  §5.3; the Algorithm 4 comment calls it "proof of Theorem 5.3". The constant is unspecified,
+  so our 2^16-slot window cannot be checked against it numerically. Empirically the bound is
+  not binding: mean banding instructions/key at 100M are 97.43 (arrival order), 96.15 (full
+  ips2ra sort), 97.85 (partitioned) — from results/e1b/phase1/*_100000000_rep*.json field
+  banding_instr_per_key. Not yet in the paper.
+- JEA closure: NOT verified. dl.acm.org serves a bot-verification page to automated access;
+  left for the author to open in a browser.
+- arXiv:2109.01892 v1 already contains the approximate-sort line (checked earlier today).
+
+Proposition 1 corrected: the pinned kernel assigns free homogeneous solution rows
+i * 0x9E3779B185EBCA87 (ribbon_impl.h LoadRow), not zero; the statement now allows any g(j)
+depending only on the slot index. docs/order-independence-proof.md updated, with an UNREVIEWED
+note that for homogeneous ribbon (all right-hand sides zero) the independence hypothesis looks
+unnecessary. The paper does not claim that.
+
+Ledger gap closed: C28-C32 added for the ARM replications, the Graviton4 PMU run and E2, each
+derived by a new script from the committed raw artifacts (analyze_arm.py, e2_rocksdb/analyze.py).
+Every ARM and E2 number in the paper reproduces from raw data. One weakness surfaced: the V2
+parallel scaling figures are a single run per thread count; the paper now says so.
+
+## 2026-10-06 — Citing-paper sweep and outreach draft
+
+Semantic Scholar citation lists fetched 2026-10-06: 44 papers citing arXiv:2109.01892, 57
+citing arXiv:2103.02515, 1 citing the JACM article (DOI 10.1145/3785417); 93 distinct. The API
+has no record for parallel BuRR (arXiv:2411.12365). By title, none implements or measures
+approximate-sort / partitioned ribbon construction. Abstracts read for the three closest recent
+ones (Resizable Retrieval, arXiv:2606.15944; Consensus for Compressed Static Functions,
+arXiv:2609.39557; Static Retrieval Revisited, arXiv:2510.18237): none concerns ribbon
+construction order. Still unread: the 2022 IEEE "Ribbon Filter: Analysis, Design, and Optimized
+Implementation" (paywalled). This is a title-level sweep of one index, not proof of absence.
+
+docs/outreach-email-draft.md: draft email to Dillinger and Walzer (not sent).
+
+## 2026-10-06 — E5 run: pleated RocksDB filters are byte-identical to stock (C33)
+
+Protocol frozen in ebcecdc. Hetzner CCX33 `rcb-bench-e5`; RocksDB 31b239747 + E2 patch + dump
+patch; check stage passed; twelve runs, no reruns.
+
+- Control: stock_a == stock_b at every size (filter_bench is deterministic at the default seed).
+- **H-E5 HOLDS:** 443/443 filters byte-identical between stock and pleated (396 + 40 + 4 + 3).
+- Supplementary, outside the registered protocol: the runner did not record build times, so a
+  vacuous pass (pleat pass not active) could not be ruled out from the artifacts alone. One
+  extra pair of runs at 10M on the same binary, with the dump directory set, gave 155.8
+  (stock) vs 92.2 (pleated) ns/key and identical dumped bytes. Saved as
+  results/e5/supplement_pleat_active.txt and labeled as supplementary.
+
+Paper and README now cite E5 where they previously said byte identity was not established.
+Server deleted after results were verified local (standing instruction); no servers remain.
+
+## 2026-10-06 — Submission preparation (no measurements)
+
+- scripts/make_lipics.py generates paper/sea/main.tex (LIPIcs v2021, anonymous by default) from
+  paper/main.tex; class files are the unmodified Dagstuhl author package v2021.1.3. Anonymous
+  build: 15 pages, references from page 14.
+- analyze_banding_steps.py: banding instructions/key by insertion order at 100M/400M
+  (97.43/97.67 arrival, 96.15/97.67 ips2ra sort, 97.85/97.70 partitioned), now cited in the
+  paper via generated macros.
+- scripts/make_anonymous_bundle.sh builds a double-blind artifact from the committed tree and
+  lists residual identifying strings for hand review (it found references to barudb, CS265 and
+  a home-directory path that need a human decision).
+- Drafts, none sent or published: docs/outreach-email-draft.md, docs/blog-post-draft.md,
+  docs/arxiv-submission-checklist.md; .zenodo.json; README
+  how-to-cite block. docs/Ribbon_Publication_Plan.md has a dated status section.
+- Every analysis script in reproduce.sh was run (with python3 directly) and leaves the
+  committed ANALYSIS files unchanged. cargo test passes (6 tests). reproduce.sh itself was not
+  run end to end here.
+
+## 2026-10-06 — Follow-up on the three unverified items
+
+- JEA: dblp (page updated 2026-10-06) shows the last volume as 28 (2023), records 1996-2023.
+  ACM's own page still unreachable by automated browser (bot check, not bypassed).
+- IEEE 9920402 (Linuwih, Satrya, Mugitama, Maulana; iSemantic 2022): abstract and outline read
+  on IEEE Xplore; a restatement/"further study" of the ribbon filter, nothing on construction
+  order. Full text not read (sign-in).
+- Homogeneous order-independence without the independence hypothesis: scripts/
+  check_order_independence.py, 600/600 homogeneous instances with dropped rows identical in
+  every order tried (all permutations for 200 tiny instances); negative control
+  (non-homogeneous with dependent rows) differs in 583/600. Simulation, not proof.
+
+## 2026-10-06 — Proposition 1 generalized in the paper (drafted at the author's request)
+
+The paper's Proposition 1 now states order-independence for any CONSISTENT system, with no
+linear-independence condition; homogeneous ribbon is the always-consistent case and a
+successful standard build is consistent by definition. Proof in
+docs/order-independence-proof.md ("General statement adopted in the paper"). Simulation
+extended with case D (consistent non-homogeneous systems with redundant rows): 600/600
+identical in every order; output saved to results/order_independence_check.txt (C34). The
+hedges about dependent rows were removed from the abstract, introduction, ARM and RocksDB
+sections, conclusion and README. Status of the mathematics: drafted 2026-10-06, simulation-
+checked, consistent with the 54 fingerprint matches and E5's 443 byte-identical filters; NOT
+yet read by the author or anyone external.
+
+## 2026-10-06 — Double check of the generalized Proposition 1
+
+Three independent checks (details in docs/order-independence-proof.md, "Double check"):
+referee read (math valid; wording overclaims found), exhaustive enumeration of small systems
+(C36, no violation), and a direct test on the unmodified pinned kernel with overloaded filters
+(C35, identical under 25 shuffled orders with up to 24,980 of 50,000 rows dropped).
+
+Corrections made as a result:
+- Paper: proposition now says "for one fixed hash seed and table size" and that g must not
+  depend on table contents or history; proof sketch step (i) completed; the claim for standard
+  ribbon is scoped to kernels that fail only on a zero row with nonzero result, and BuRR-style
+  bumping is excluded; the sentence attributing cross-machine identity to the proposition was
+  wrong and is fixed; the RocksDB sentence now states the per-seed argument and the dependence
+  on where the reorder sits (RocksDB takes the starting seed and filter length from the first
+  collected hash; the patch reorders after both).
+- Proof doc: step 1 gaps filled, inconsistent-system corollary re-justified, superseded section
+  marked, and a hand-typed control count ("17 + 0") that no longer matched the artifact (27 + 0
+  after the script gained case D) replaced by a pointer to the artifact. That was a provenance
+  slip of mine: a number typed from one run and not regenerated.
+- Finding worth keeping: at the benchmark's normal sizing no rows are dropped in a 200K-key
+  test, so the paper's 54 fingerprint matches were weak evidence for the redundant-row case.
+
+## 2026-10-06 — Appendix restructuring for the SEA page limit (no content removed)
+
+paper/main.tex now ends with an appendix after the bibliography: A (proof sketch of
+Proposition 1 and the three checks), B (E3: RocksDB Bloom vs ribbon at matched FPR, with its
+table), C (E4: equal-thread comparison, with its table). The main text keeps a short paragraph
+with the headline numbers and a pointer for each. scripts/make_lipics.py carries the appendix
+into the LIPIcs build. Anonymous LIPIcs build: 16 pages; main text ends ~40% down page 13,
+appendix pages 14-16. NeurIPS-style build: 13 pages. No numbers changed.
+
+## 2026-10-07 — Authorship voice, commit messages, hashes
+
+- The paper is single-author; its text now uses first-person singular throughout (72
+  replacements; "(ours)" in table rows became "(this work)").
+- The four protocol commits on `prior-art-corrections` were recreated with shorter messages.
+  Trees, parents' order, author and commit dates are unchanged; only the messages differ, so
+  the hashes changed: 1526465 -> fabfce3 (E3 freeze), 059084f -> 74de203 (E4 freeze),
+  cfdbeac -> 48fd3f2 (E4 amendment), 3e1a551 -> ebcecdc (E5 freeze). CLAIMS.md and this log
+  cite the new hashes. The branch had not been pushed.
+- Language pass on paper/main.tex (2026-10-06): wording only, plus three corrections where the
+  RocksDB text disagreed with its own table (pleated and stock build cost by size; banding
+  cache misses per key; an imprecise "about 2x" removed).

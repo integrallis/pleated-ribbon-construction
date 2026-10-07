@@ -1,0 +1,8 @@
+A homogeneous, dependent rows present (ALL orders, tiny)   instances= 200 with dropped rows= 200 identical in every order= 200
+B non-homogeneous, rows independent (ALL orders, tiny)     instances= 200 with dropped rows=   0 identical in every order= 200
+C non-homogeneous, dependent rows present (ALL orders, tiny) instances= 200 with dropped rows= 200 identical in every order=  27
+D non-homogeneous, dependent but consistent (ALL orders, tiny) instances= 200 with dropped rows= 200 identical in every order= 200
+A homogeneous, dependent rows present (40 random orders)   instances= 400 with dropped rows= 400 identical in every order= 400
+B non-homogeneous, rows independent (40 random orders)     instances= 400 with dropped rows=   0 identical in every order= 400
+C non-homogeneous, dependent rows present (40 random orders) instances= 400 with dropped rows= 400 identical in every order=   0
+D non-homogeneous, dependent but consistent (40 random orders) instances= 400 with dropped rows= 400 identical in every order= 400
