@@ -11,8 +11,8 @@ after the prior-art correction is public and an endorser is found.
 - [ ] Tag a release; archive it (Zenodo DOI and a Software Heritage ID); put both in the
       paper's Artifacts paragraph and in `CITATION.cff`. `.zenodo.json` in the repo root holds
       the metadata Zenodo reads on release.
-- [ ] Rebuild `paper/main.pdf` from source (it is stale: it predates every change since
-      2026-10-04).
+- [x] Rebuild `paper/main.pdf` from source with tectonic (done 2026-10-07; rebuild again after
+      any further edit to the paper).
 - [ ] Run `./reproduce.sh` once on a machine with the Rust toolchain and `uv`.
 - [ ] Endorsement: start the submission to get the endorsement code for cs.DS, then send the
       code to the endorser (see `docs/outreach-email-draft.md`). Since 2026-01-21 an
