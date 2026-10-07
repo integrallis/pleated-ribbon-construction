@@ -599,3 +599,43 @@ scripts/make_markdown.py generates paper/main.md from paper/main.tex with pandoc
 rasterized to paper/figures/*.png; citations in author-date form). paper/draft.md, the v0.2
 Markdown rendition from July with the old title, is removed; it is superseded by the generated
 file and remains in history.
+
+## 2026-10-07 — Submission readiness pass against the strategy report and the plan
+
+- Paper: added the parallel boundary-safety argument (hard cap, detected crossing, fallback to
+  the tail; zero crossings in the 19 runs that recorded the count: 15 in E4, 4 on Graviton4),
+  the transient memory of the partition pass stated from the code (8 bytes/key in the driver;
+  12 bytes/key in the RocksDB patch), the timing scope, the seed-identity consequence of E5, and
+  the repository URL. Timing scope and boundary safety are Appendix D. Peak resident memory is
+  NOT measured and is listed as a limitation.
+- RocksDB blog figures re-read directly: 32.0 / 140.0 ns per construct key; ~230 bits/key
+  temporary memory for 128-bit ribbon vs ~75 for Bloom; 27-30% space saving.
+- ./reproduce.sh run end to end on the Mac: exit 0; regenerated figures render identically to
+  the committed ones.
+- README rewritten to match the paper; scripts/make_arxiv_bundle.sh builds and clean-room
+  compiles the arXiv upload into dist/ (ignored).
+- SEA 2027 site still shows TBD for the deadline and the call.
+
+## 2026-10-07 — E6 run: peak memory, concurrent builds, boundary fallback (C37-C39)
+
+Protocol frozen in 581c81c. AWS c7a.4xlarge `rcb-bench-e6` (AMD EPYC 9R14, 16 physical cores);
+all stages ran once, in order; instance terminated after results were verified local.
+
+- H-E6-1 HOLDS and the fallback was exercised: margins 8 and 0 produced 1-138 cap crossings per
+  run; all 30 parallel runs match the sequential fingerprint with zero false negatives.
+- H-E6-2 HOLDS exactly: partitioned peaks +8.00 bytes/key over reference (1689 -> 2452 MB at
+  100M keys). The driver's sort baselines cost more memory than pleating: ips2ra +23.04,
+  radix +39.04 bytes/key (they sort (start, key) pairs). Parallel (16T): +15.05.
+- RocksDB filter_bench, 100M keys/filter: 3735 MB stock, 4738 MB pleated.
+- H-E6-3 HOLDS: 2.02x / 2.16x / 2.20x per-process advantage at 1 / 4 / 8 concurrent builders.
+
+Paper: measured memory, concurrency and the exercised fallback are in Appendix D, with one
+sentence each in the design, RocksDB and limitations text. To keep the LIPIcs main text inside
+12 pages after these additions, the same-harness Bloom table, the Graviton4 counter paragraph
+and the db_bench detail moved to a new Appendix E, each leaving a short summary in the main text.
+
+LIPIcs compliance (https://submission.dagstuhl.de/series/details/LIPIcs#author): the generator
+now keeps class defaults (line numbers on), emits \subparagraph* headings and plain \cite,
+expands generated macros in place, and carries the affiliation (Integrallis Software,
+Scottsdale, Arizona, USA), email and ORCID in the named build only. Anonymous build, pdfLaTeX:
+17 pages, main text to the bottom of page 12, appendix about 3.5 pages, no warnings.

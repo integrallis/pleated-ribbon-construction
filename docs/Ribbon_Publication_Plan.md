@@ -164,14 +164,12 @@ the single-thread gap to Bloom and does not close it, and parallel banding alone
 - **The approximate-sort line is in v1 of the technical report** (September 2021), not only v2.
 - **The JACM passage** is at the end of the proof of Lemma 5.3(b), p. 7:24; the algorithm's
   comment calls it "proof of Theorem 5.3".
-- **Page budget.** Resolved. The proof of Proposition 1 with its checks and the two registered
-  Bloom experiments (E3, E4) are in an appendix in the single paper source. Compiled with
-  pdfLaTeX (the engine LIPIcs is designed for; TeX Live 2026, installed 2026-10-07), the anonymous
-  LIPIcs build is 15 pages: the main text ends on page 12, references start on page 12, and the
-  appendix is pages 13-15. That is within SEA 2026's limit of 12 pages excluding bibliography
-  and front page, plus up to 5 pages of appendix. An earlier figure of 16 pages came from
-  compiling with tectonic, whose font handling makes the LIPIcs build longer; use pdfLaTeX for
-  page counts. Recheck against the 2027 call.
+- **Page budget.** Resolved, measured with pdfLaTeX and the LIPIcs class defaults as Dagstuhl
+  requires. The anonymous build is 17 pages: main text to the bottom of page 12 (about 11.4
+  main-text pages by Dagstuhl's definition, which excludes the title-page material), then
+  references, then an appendix of about 3.5 pages (proof and checks; the two registered Bloom
+  experiments; timing scope, memory and boundary safety; additional measurements). SEA 2026's
+  limits were 12 and 5. Recheck against the 2027 call.
 - **Hetzner's dedicated-core quota** on this account stops at 8 cores; 16-core runs went to AWS.
 - **SEA 2027** still shows "TBD" for the deadline and the call (checked 2026-10-06).
 
@@ -205,3 +203,63 @@ the single-thread gap to Bloom and does not close it, and parallel banding alone
 6. Watch for the SEA 2027 call (projected deadline late January to about 2 February 2027).
 7. After a reply from the maintainers: the fastfilter_cpp variant and an upstreamable RocksDB
    patch with a size threshold. Neither has been started; both wait on step 4.
+
+## Readiness against the two source documents (2026-10-07)
+
+Checked against the original strategy report (`Ribbon_2027_Publication_Strategy.pdf`, 4 October)
+and the original plan (this document's text above the status section).
+
+### The strategy report's seven manuscript changes
+
+| # | Item | State |
+|---|---|---|
+| 1 | Align the title with the evidence | Done: retitled; the Bloom comparison is now measured and reported as a narrowed gap |
+| 2 | Update the closest literature (JACM 2026) | Done: cited, quoted, and credited with the approximate sort |
+| 3 | Connect the proposition to the implementation | Done: the statement uses the kernel's free-slot rule; proof sketch in Appendix A; generalized to any consistent system |
+| 4 | Strengthen correctness evidence | Done for byte comparison (E5, 443 filters, same seed in every filter) and for the proven/observed boundary. Not done: a separate count of seed retries; byte identity makes it moot for the filters compared |
+| 5 | Explain parallel boundary safety | Done: hard cap with detected crossing and fallback to the sequential tail, stated in the parallel section and Appendix D. E6 exercised the fallback by shrinking the margin to zero: up to 138 crossings in a run, output identical in all 30 runs (C37) |
+| 6 | Report time and memory together | Done: timing scope stated; peak resident memory measured in E6 (+8.00 bytes/key for pleating against +23 for the ips2ra sort; RocksDB filter_bench 3.6 GB stock against 4.6 GB pleated; C38); with 4 and 8 concurrent builders pleating stays 2.2x faster per process (C39). One machine; concurrent builders are separate processes |
+| 7 | Broaden production evaluation for database venues | Not done, by choice: needed for PVLDB/ICDE/SIGMOD, not for SEA. E3 adds the matched-FPR Bloom comparison on one machine |
+
+### The plan's "changes required before posting"
+
+- Manuscript: all listed items done (citations, the name "pleating" introduced as an instance of
+  the published approximate sort, the "reference" label, binary fuse as closest analogue, the
+  proposition as an extension of the published invariance, four added references, the
+  parallel-BuRR quotation, no transfer claim for BuRR, the title).
+- Repository: ledger rows for the RocksDB and ARM results (C28-C32), C15 corrected, the byte
+  comparison (E5), the LIPIcs build and an anonymized-bundle script are done. **Not done, and the
+  author's to do:** tag a release, mint a Zenodo DOI and a Software Heritage ID, and put them in
+  the paper and `CITATION.cff`.
+
+### The plan's hand-check list
+
+| Item | State |
+|---|---|
+| JEA closed to unsolicited submissions | dblp shows no volume after 28 (2023); ACM's own page and the TALG Empirical Track terms still unread |
+| JACM bucket-width bound | Read in the typeset PDF; constant unspecified; banding work shown equal in every order |
+| Approximate-sort line in v1 of arXiv:2109.01892 | Confirmed |
+| Free-variable assignment versus JACM footnote 19 | Confirmed in the pinned kernel; proposition corrected |
+| No approximate-sort option in the Dillinger fork or `lorenzhs/BuRR` | Not checked; the outreach email asks the authors directly |
+| Citing papers of BuRR and JACM; IEEE 9920402 | Title-level sweep of 93 citing papers; IEEE paper read at abstract and outline level |
+| SEA 2026 LLM clause wording | Read directly; it concerns paper content and does not mention code |
+| SEA 2027 deadline and rules | Still "TBD" on 2026-10-07 |
+| ESA 2027, ALENEX 2028, DaMoN 2027 calls | Unpublished |
+| arXiv rate limit and endorsement thresholds | Not re-verified |
+| ACM journal APC for 2027 | Unresolved; matters only for a TALG submission |
+| Google Scholar counts | Used only in this plan, not in the paper |
+| Chucky's "over 70%" figure | Not used in the paper |
+| RocksDB blog figures quoted in the manuscript | Confirmed against the post on 2026-10-07: 32.0 and 140.0 ns per key; about 230 bits/key temporary memory for ribbon |
+| Vigna "accepted to STOC 2025" | Not repeated anywhere |
+| ALENEX 2027 deadline | Secondary; no longer needed |
+
+### What is ready, and what blocks each submission
+
+- **arXiv (plan: November 2026).** The upload is built and tested by
+  `scripts/make_arxiv_bundle.sh`. Blocked only on the author: an endorser, the licence choice,
+  and, if wanted, the release DOI.
+- **SEA 2027 (projected deadline late January to about 2 February 2027).** The anonymous LIPIcs
+  build and the anonymized-artifact script are ready. Blocked on the 2027 call (unpublished) and
+  on the author's revision of the text.
+- **Outreach.** The email draft is ready; sending it is the author's step and comes before arXiv.
+

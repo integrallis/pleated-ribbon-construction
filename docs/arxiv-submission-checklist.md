@@ -32,13 +32,14 @@ after the prior-art correction is public and an endorser is found.
 
 ## Files
 
-- Upload source, not PDF: `main.tex`, `refs.bib` (or the `.bbl`), `neurips_2026.sty`,
-  `figures/*.pdf`, `tables/*.tex`. arXiv compiles with pdfLaTeX; the paper and the
-  LIPIcs build both compile cleanly with pdfLaTeX from TeX Live 2026 (`latexmk -pdf`, checked
-  2026-10-07). The tracked `paper/main.pdf` is built with tectonic.
-- The paper is in a NeurIPS preprint style. That is fine for arXiv; consider the LIPIcs build
-  with author names (`scripts/make_lipics.py --named`, which sets `\hideLIPIcs`) so the
-  preprint and the SEA submission look alike.
+- `scripts/make_arxiv_bundle.sh` builds the upload: `dist/arxiv-source.tar.gz` (flat source with
+  `main.bbl`, the style file, figures and generated tables; full-line comments stripped from
+  `main.tex`), `dist/arxiv-preview.pdf` (compiled with pdfLaTeX from the bundle alone, as arXiv
+  will), and `dist/arxiv-metadata.txt` (title, categories, comments line, plain-text abstract
+  with its character count). `dist/` is ignored by git; rerun the script after any edit.
+- The paper is in a NeurIPS preprint style, which is fine for arXiv. The LIPIcs build with author
+  names (`scripts/make_lipics.py --named`) is the alternative if the preprint should look like
+  the SEA submission.
 
 ## Double-blind interaction (SEA 2026 precedent; 2027 rules unpublished)
 
