@@ -41,7 +41,7 @@ def fig_strategies():
     rows = load(P1, "*_100000000_rep*.json")
     order = [("noprefetch", "unsorted"), ("reference", "unsorted+prefetch"),
              ("sort_std", "full sort (std::sort)"), ("sort_radix", "full sort (radix)"),
-             ("sort_ips2ra", "full sort (ips2ra)"), ("partitioned", "partitioned (ours)")]
+             ("sort_ips2ra", "full sort (ips2ra)"), ("partitioned", "partitioned (this work)")]
     labels, re_, ba, bs = [], [], [], []
     for key, label in order:
         rs = rows.get((key, 100_000_000, 0)) or rows.get((key, 100_000_000, 8))

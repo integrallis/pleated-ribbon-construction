@@ -65,7 +65,7 @@ for i, t in enumerate([2.7, 2.9, 3.2, 3.4, 3.6, 3.55]):
                                  arrowstyle="-|>", mutation_scale=6, color=BLUE, lw=0.9,
                                  connectionstyle="arc3,rad=-0.05"))
 table(ax, windows=True, hot=hot)
-ax.annotate("one window ≈ 768 KB – fits in L2;\nprocessed one at a time, left to right",
+ax.annotate("one window ≈ 768 KiB – fits in L2;\nprocessed one at a time, left to right",
             xy=(hot * 10 / 8 + 0.6, 0.02), xytext=(6.9, -1.05), fontsize=6, color=MUTED,
             ha="center", arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.7))
 ax.set_title("(b) window order: same keys, grouped first", fontsize=7.5, color=INK)
