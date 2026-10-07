@@ -582,3 +582,13 @@ appendix pages 14-16. NeurIPS-style build: 13 pages. No numbers changed.
 - Language pass on paper/main.tex (2026-10-06): wording only, plus three corrections where the
   RocksDB text disagreed with its own table (pleated and stock build cost by size; banding
   cache misses per key; an imprecise "about 2x" removed).
+
+## 2026-10-07 — TeX Live installed; pdfLaTeX builds
+
+TeX Live 2026 installed on the Mac via Homebrew (`brew install texlive`; pdfTeX 1.40.29). Both
+the paper and the LIPIcs build compile with `latexmk -pdf` with no errors, undefined references
+or overfull boxes after two layout fixes: a narrower same-harness Bloom table and a short
+running title for LIPIcs. The LIPIcs generator now writes a copy of refs.bib beside the build,
+because BibTeX would not read the database from the parent directory. Under pdfLaTeX the
+anonymous LIPIcs build is 15 pages with the main text ending on page 12 (the tectonic build is
+16 pages because of font differences). paper/main.pdf remains a tectonic build.

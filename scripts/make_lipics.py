@@ -56,6 +56,7 @@ def main():
 \\newcommand{{\\citet}}[1]{{\\cite{{#1}}}}
 \\bibliographystyle{{plainurl}}
 \\title{{{title}}}
+\\titlerunning{{Pleated Ribbon Construction}}
 {author}\\ccsdesc[500]{{Theory of computation~Data structures design and analysis}}
 \\ccsdesc[300]{{Information systems~Data structures}}
 \\keywords{{ribbon filter, approximate membership, filter construction, cache locality, algorithm engineering}}
@@ -69,10 +70,14 @@ def main():
 """ + abstract + """
 \\end{abstract}
 """
-    tail = ("\n\\paragraph*{Artifacts.}\n" + acks + "\n\n\\bibliography{../refs}\n\n" + appendix
+    tail = ("\n\\paragraph*{Artifacts.}\n" + acks + "\n\n\\bibliography{refs}\n\n" + appendix
             + "\n\\end{document}\n")
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(head + body + tail)
+    # BibTeX refuses a database in a parent directory, so keep a generated copy beside the build.
+    (OUT.parent / "refs.bib").write_text(
+        "% GENERATED copy of paper/refs.bib by scripts/make_lipics.py - edit that file, not this one.\n"
+        + (ROOT / "paper" / "refs.bib").read_text())
     print(f"wrote {OUT.relative_to(ROOT)} ({'named' if named else 'anonymous'})")
 
 

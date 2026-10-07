@@ -7,6 +7,7 @@
 \newcommand{\citet}[1]{\cite{#1}}
 \bibliographystyle{plainurl}
 \title{Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort}
+\titlerunning{Pleated Ribbon Construction}
 \author{Brian Sam-Bodden}{Integrallis Software}{}{}{}
 \authorrunning{B. Sam-Bodden}
 \Copyright{Brian Sam-Bodden}
@@ -136,6 +137,7 @@ false-positive rate, is in \S\ref{sec:rocksdb} (Table~\ref{tab:ethree}). The equ
 i9-14900HX, same harness, joined from the raw artifacts of E1b (no new runs); ns/key is mean $\pm$
 sample stdev over 3 reps. Last column: cost relative to the Bloom build.}
 \label{tab:bloomgap}
+\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{llrrrr}
 \toprule
 build & harness & ns/key & FPR\% & bits/key & vs.\ Bloom \\
@@ -353,7 +355,7 @@ measurements, checks the Rust tests and artifact integrity, and regenerates figu
 rerun the measurements themselves; the registered protocols and runners for those are in the
 repository. A production implementation exists; its link is withheld for double-blind review.
 
-\bibliography{../refs}
+\bibliography{refs}
 
 \appendix
 \section{Proof of Proposition~\ref{prop:order} and checks}\label{app:proof}

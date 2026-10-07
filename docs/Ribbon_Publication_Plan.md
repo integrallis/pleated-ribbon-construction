@@ -164,13 +164,14 @@ the single-thread gap to Bloom and does not close it, and parallel banding alone
 - **The approximate-sort line is in v1 of the technical report** (September 2021), not only v2.
 - **The JACM passage** is at the end of the proof of Lemma 5.3(b), p. 7:24; the algorithm's
   comment calls it "proof of Theorem 5.3".
-- **Page budget.** Resolved on 2026-10-06 by moving the proof of Proposition 1 with its checks
-  and the two registered Bloom experiments (E3, E4) into an appendix in the single paper source.
-  The anonymous LIPIcs build is 16 pages: main text ends about 40% down page 13, references
-  follow, and the appendix is pages 14-16 (three pages). Against SEA 2026's rule (12 pages
-  excluding bibliography and front page, plus up to 5 pages of appendix) the main text is about
-  11.8 pages if only the title-and-abstract block is excluded. That is inside the limit but
-  close, and depends on how "front page" is read; recheck against the 2027 call.
+- **Page budget.** Resolved. The proof of Proposition 1 with its checks and the two registered
+  Bloom experiments (E3, E4) are in an appendix in the single paper source. Compiled with
+  pdfLaTeX (the engine LIPIcs is designed for; TeX Live 2026, installed 2026-10-07), the anonymous
+  LIPIcs build is 15 pages: the main text ends on page 12, references start on page 12, and the
+  appendix is pages 13-15. That is within SEA 2026's limit of 12 pages excluding bibliography
+  and front page, plus up to 5 pages of appendix. An earlier figure of 16 pages came from
+  compiling with tectonic, whose font handling makes the LIPIcs build longer; use pdfLaTeX for
+  page counts. Recheck against the 2027 call.
 - **Hetzner's dedicated-core quota** on this account stops at 8 cores; 16-core runs went to AWS.
 - **SEA 2027** still shows "TBD" for the deadline and the call (checked 2026-10-06).
 

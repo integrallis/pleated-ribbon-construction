@@ -1,0 +1,178 @@
+% GENERATED copy of paper/refs.bib by scripts/make_lipics.py - edit that file, not this one.
+% Core references — full survey in docs/literature-survey.md. Verify each entry against the
+% publisher page before camera-ready; entries below were compiled from the July 2026 survey.
+
+@article{afroozeh2023fastlanes,
+  author  = {Afroozeh, Azim and Boncz, Peter},
+  title   = {The FastLanes Compression Layout: Decoding {$>$}100 Billion Integers per Second with Scalar Code},
+  journal = {PVLDB},
+  volume  = {16},
+  number  = {9},
+  year    = {2023},
+}
+
+@article{lang2019performance,
+  author  = {Lang, Harald and Neumann, Thomas and Kemper, Alfons and Boncz, Peter},
+  title   = {Performance-Optimal Filtering: Bloom Overtakes Cuckoo at High Throughput},
+  journal = {PVLDB},
+  volume  = {12},
+  number  = {5},
+  year    = {2019},
+}
+
+@misc{apache2021sbbf,
+  title = {Split Block Bloom Filters},
+  author = {Jim Apple},
+  howpublished = {arXiv:2101.01719; Apache Parquet format specification},
+  year = {2021},
+}
+
+@article{graf2020xor,
+  author  = {Graf, Thomas Mueller and Lemire, Daniel},
+  title   = {Xor Filters: Faster and Smaller Than Bloom and Cuckoo Filters},
+  journal = {ACM JEA},
+  volume  = {25},
+  year    = {2020},
+}
+
+@article{graf2022binaryfuse,
+  author  = {Graf, Thomas Mueller and Lemire, Daniel},
+  title   = {Binary Fuse Filters: Fast and Smaller Than Xor Filters},
+  journal = {ACM JEA},
+  volume  = {27},
+  year    = {2022},
+}
+
+@misc{dillinger2021ribbon,
+  author = {Dillinger, Peter C. and Walzer, Stefan},
+  title  = {Ribbon Filter: Practically Smaller Than Bloom and Xor},
+  howpublished = {arXiv:2103.02515},
+  year   = {2021},
+}
+
+@inproceedings{dillinger2022burr,
+  author    = {Dillinger, Peter C. and H{\"u}bschle-Schneider, Lorenz and Sanders, Peter and Walzer, Stefan},
+  title     = {Fast Succinct Retrieval and Approximate Membership Using Ribbon},
+  booktitle = {SEA},
+  year      = {2022},
+}
+
+@inproceedings{pandey2021vqf,
+  author    = {Pandey, Prashant and Conway, Alex and Durie, Joe and Bender, Michael A. and Farach-Colton, Martin and Johnson, Rob},
+  title     = {Vector Quotient Filters: Overcoming the Time/Space Trade-Off in Filter Design},
+  booktitle = {SIGMOD},
+  year      = {2021},
+}
+
+@inproceedings{even2022prefix,
+  author    = {Even, Tomer and Even, Guy and Morrison, Adam},
+  title     = {Prefix Filter: Practically and Theoretically Better Than Bloom},
+  booktitle = {PVLDB},
+  year      = {2022},
+}
+
+@inproceedings{dayan2017monkey,
+  author    = {Dayan, Niv and Athanassoulis, Manos and Idreos, Stratos},
+  title     = {Monkey: Optimal Navigable Key-Value Store},
+  booktitle = {SIGMOD},
+  year      = {2017},
+}
+
+@inproceedings{dayan2023infinifilter,
+  author    = {Dayan, Niv and Bercea, Ioana and Reviriego, Pedro and Pagh, Rasmus},
+  title     = {InfiniFilter: Expanding Filters to Infinity and Beyond},
+  booktitle = {SIGMOD},
+  year      = {2023},
+}
+
+@inproceedings{fan2014cuckoo,
+  author    = {Fan, Bin and Andersen, David G. and Kaminsky, Michael and Mitzenmacher, Michael},
+  title     = {Cuckoo Filter: Practically Better Than Bloom},
+  booktitle = {CoNEXT},
+  year      = {2014},
+}
+
+@inproceedings{polychroniou2014vectorized,
+  author    = {Polychroniou, Orestis and Ross, Kenneth A.},
+  title     = {Vectorized Bloom Filters for Advanced SIMD Processors},
+  booktitle = {DaMoN},
+  year      = {2014},
+}
+
+@article{bloom1970space,
+  author  = {Bloom, Burton H.},
+  title   = {Space/Time Trade-offs in Hash Coding with Allowable Errors},
+  journal = {CACM},
+  volume  = {13},
+  number  = {7},
+  year    = {1970},
+}
+
+@inproceedings{dietzfelbinger2019gauss,
+  author={Dietzfelbinger, Martin and Walzer, Stefan},
+  title={Efficient {Gauss} Elimination for Near-Quadratic Matrices with One Short Random Block per Row, with Applications},
+  booktitle={ESA}, year={2019}}
+@misc{becht2024parallelburr,
+  author={Becht, Christopher and Lehmann, Hans-Peter and Sanders, Peter},
+  title={Brief Announcement: Parallel Construction of Bumped Ribbon Retrieval},
+  howpublished={arXiv:2411.12365}, year={2024}}
+@misc{rocksdbribbonblog,
+  author={Dillinger, Peter C.},
+  title={Ribbon Filter},
+  howpublished={RocksDB blog, rocksdb.org/blog/2021/12/29/ribbon-filter.html}, year={2021}}
+@inproceedings{schmidt2021partitioned,
+  author={Schmidt, Tobias and Bandle, Maximilian and Giceva, Jana},
+  title={A Four-Dimensional Analysis of Partitioned Approximate Filters},
+  booktitle={PVLDB 14(11)}, year={2021}}
+@inproceedings{canim2010buffered,
+  author={Canim, Mustafa and Mihaila, George A. and Bhattacharjee, Bishwaranjan and Lang, Christian A. and Ross, Kenneth A.},
+  title={Buffered {Bloom} Filters on Solid State Storage},
+  booktitle={ADMS@VLDB}, year={2010}}
+@inproceedings{beamer2017propagation,
+  author={Beamer, Scott and Asanovi\'c, Krste and Patterson, David},
+  title={Reducing {PageRank} Communication via Propagation Blocking},
+  booktitle={IPDPS}, year={2017}}
+@inproceedings{wassenberg2011radix,
+  author={Wassenberg, Jan and Sanders, Peter},
+  title={Engineering a Multi-core Radix Sort},
+  booktitle={Euro-Par}, year={2011}}
+@misc{limasset2026zor,
+  author={Limasset, Antoine},
+  title={{ZOR} Filters},
+  howpublished={arXiv:2602.03525}, year={2026}}
+
+% Added 2026-10-06 (prior-art correction). JACM and arXiv entries checked against the PDFs /
+% arXiv metadata; Genuzio et al. taken from the JACM reference list [32].
+@article{dietzfelbinger2026ribbon,
+  author  = {Dietzfelbinger, Martin and Dillinger, Peter C. and H{\"u}bschle, Lorenz and Sanders, Peter and Walzer, Stefan},
+  title   = {Ribbon: Fast Succinct Static Retrieval and Approximate Membership},
+  journal = {J. ACM},
+  volume  = {73},
+  number  = {1},
+  note    = {Article 7. doi:10.1145/3785417},
+  year    = {2026},
+}
+@misc{dillinger2021burrtr,
+  author = {Dillinger, Peter C. and H{\"u}bschle-Schneider, Lorenz and Sanders, Peter and Walzer, Stefan},
+  title  = {Fast Succinct Retrieval and Approximate Membership Using Ribbon},
+  howpublished = {arXiv:2109.01892 (full version of the SEA 2022 paper)},
+  year   = {2021},
+}
+@misc{vigna2025sharding,
+  author = {Vigna, Sebastiano},
+  title  = {{$\varepsilon$}-Cost Sharding: Scaling Hypergraph-Based Static Functions and Filters to Trillions of Keys},
+  howpublished = {arXiv:2503.18397},
+  year   = {2025},
+}
+@inproceedings{genuzio2016fast,
+  author    = {Genuzio, Marco and Ottaviano, Giuseppe and Vigna, Sebastiano},
+  title     = {Fast Scalable Construction of (Minimal Perfect Hash) Functions},
+  booktitle = {SEA},
+  year      = {2016},
+}
+@misc{belazzougui2013peeling,
+  author = {Belazzougui, Djamal and Boldi, Paolo and Ottaviano, Giuseppe and Venturini, Rossano and Vigna, Sebastiano},
+  title  = {Cache-Oblivious Peeling of Random Hypergraphs},
+  howpublished = {arXiv:1312.0526},
+  year   = {2013},
+}

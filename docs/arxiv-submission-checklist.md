@@ -33,8 +33,9 @@ after the prior-art correction is public and an endorser is found.
 ## Files
 
 - Upload source, not PDF: `main.tex`, `refs.bib` (or the `.bbl`), `neurips_2026.sty`,
-  `figures/*.pdf`, `tables/*.tex`. arXiv compiles with pdfLaTeX; this repo has only been
-  compiled with tectonic (XeTeX) in this session, so compile once with pdfLaTeX first.
+  `figures/*.pdf`, `tables/*.tex`. arXiv compiles with pdfLaTeX; the paper and the
+  LIPIcs build both compile cleanly with pdfLaTeX from TeX Live 2026 (`latexmk -pdf`, checked
+  2026-10-07). The tracked `paper/main.pdf` is built with tectonic.
 - The paper is in a NeurIPS preprint style. That is fine for arXiv; consider the LIPIcs build
   with author names (`scripts/make_lipics.py --named`, which sets `\hideLIPIcs`) so the
   preprint and the SEA submission look alike.
