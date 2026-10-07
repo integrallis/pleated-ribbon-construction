@@ -1,0 +1,27 @@
+{
+  "title": "Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort (research repository)",
+  "upload_type": "software",
+  "description": "Raw measurements, registered experiment protocols, analysis scripts and paper source for a study of cache-local ribbon filter construction by coarse start-position partitioning. Every reported number is tied to a raw artifact through CLAIMS.md and re-derived by reproduce.sh.",
+  "creators": [
+    {
+      "name": "Sam-Bodden, Brian",
+      "affiliation": "Integrallis Software"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ribbon filter",
+    "approximate membership",
+    "filter construction",
+    "cache locality",
+    "RocksDB",
+    "algorithm engineering"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/integrallis/pleat",
+      "relation": "isSupplementedBy",
+      "scheme": "url"
+    }
+  ]
+}

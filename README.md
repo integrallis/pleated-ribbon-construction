@@ -1,6 +1,6 @@
-# Ribbon Catches Bloom: Pleated Construction at Bloom Speed
+# Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort
 
-Research repository for the paper *"Ribbon Catches Bloom: Pleated Construction at Bloom Speed"* —
+Research repository for the paper *"Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort"* —
 the paper, its pre-registered experiments, and the raw artifacts every reported number derives
 from. The production implementation of the technique lives in a separate crate,
 [`pleat`](https://github.com/integrallis/pleat).
@@ -16,20 +16,23 @@ ribbon filters.
   start-windows before banding — a weaker, ~4x cheaper form of the full start-position sort used
   in prior work. It makes sequential construction **2.05–2.24x faster** at 100–400M keys and
   recovers 98% of the sort's miss reduction.
-- **Order-independence, put to work.** For linearly independent rows, the proof shows that
-  insertion order does not change the solved filter. Dependent rows can be dropped differently, so
-  each measured homogeneous build is compared with the arrival-order fingerprint and checked for
-  false negatives; the reported outputs matched. The slot-range **parallel** build uses the same
-  checks. At 16 threads, its measured construction time is about one thread's Bloom insertion time
-  in the evaluated configuration.
+- **Order-independence, put to work.** For any consistent system, insertion order does not change
+  the solved filter, and a homogeneous ribbon system is always consistent. Which redundant keys
+  are dropped can differ by order; the filter does not. Each measured build is still compared with
+  the arrival-order fingerprint and checked for false negatives; the reported outputs matched. The slot-range **parallel** build uses the same
+  checks. At 16 threads its measured construction time is about one thread's Bloom insertion time
+  on the i9, but that is not an equal-thread comparison: against a 16-thread Bloom build on a
+  16-core machine, pleated ribbon costs about 10x as much (experiment E4, `results/e4/ANALYSIS.md`),
+  because only the banding phase is parallel.
 - **Portable across architectures.** Replicated on x86 Raptor Lake (AVX2), Ampere Neoverse-N1
   (NEON), and Google Axion Neoverse-V2 (SVE): pleating wins 2.05x / 2.37x / 2.72x, output
   bit-identical across all three.
 - **Transfers to production RocksDB.** Patched into RocksDB's shipped Standard128 (w=128) ribbon
   builder, one counting pass before the banding call makes construction **1.78x faster** at 100M
   keys/filter, with 25x fewer banding cache misses at the same instruction count. RocksDB's tests
-  pass and the measured false-positive rates match stock to six digits. The committed E2 artifacts
-  do not include a byte-for-byte output comparison, so they do not establish bit identity. In
+  pass and the measured false-positive rates match stock to six digits. A separate
+  registered check (E5, `results/e5/ANALYSIS.md`) compared 443 stock and pleated filters byte by
+  byte at four sizes; all were identical. In
   `db_bench` the ~2x filter-build speedup survives inside real compaction. See
   `experiments/e2_rocksdb/`.
 - **Two null results that locate the win.** Batched / cross-key SIMD probing does not beat plain
@@ -86,19 +89,36 @@ provenance and validation rules applied to measurements.
 
 ## Scope and limitations
 
-- The order-independence proof applies to linearly independent rows. Dependent-row behavior is
-  checked empirically against the arrival-order fingerprint and with a false-negative check; the
-  measured outputs matched across the reported runs. The full argument and dependent-row
-  discussion are in [`docs/order-independence-proof.md`](docs/order-independence-proof.md).
+- The order-independence argument (any consistent system; no independence condition) was drafted
+  on 2026-10-06 and checked on a small independent model (`scripts/check_order_independence.py`),
+  but it has not had an external reader. The measured outputs matched across the reported runs.
+  The argument is in [`docs/order-independence-proof.md`](docs/order-independence-proof.md).
 - BuRR is a mechanistic anchor, not a like-for-like performance baseline: it uses a bumped
   structure with tighter space overhead than the homogeneous ribbon configuration studied here.
 - Timing replication covers x86 AVX2 and two ARM microarchitectures, but ARM cloud hosts do not
   expose PMU counters. The cache-miss mechanism is measured on x86 only.
 - The RocksDB filter-construction gain is measured on its shipped Standard128 builder. E2 records
-  passing RocksDB tests and matching false-positive rates to six digits, but not a byte-for-byte
-  output comparison. The end-to-end compaction result comes from a filter-favorable configuration
+  passing RocksDB tests and matching false-positive rates to six digits; byte identity is shown
+  only for the 443 filters compared in E5, not for all inputs. The end-to-end compaction result comes from a filter-favorable configuration
   and is directional; its whole-workload impact depends on per-SST filter size and run-to-run
   compaction variation.
+
+## How to cite
+
+Until the paper has an arXiv identifier or a venue, cite the repository (see `CITATION.cff`):
+
+```bibtex
+@misc{sambodden2026pleated,
+  author = {Sam-Bodden, Brian},
+  title  = {Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort},
+  year   = {2026},
+  note   = {Research repository with raw measurements and registered protocols},
+  howpublished = {\url{https://github.com/integrallis/ribbon-catches-bloom}},
+}
+```
+
+The approximate-sort step for homogeneous ribbon is due to Dietzfelbinger, Dillinger, Hübschle,
+Sanders and Walzer (J. ACM 73(1), 2026; arXiv:2109.01892). This work implements and measures it.
 
 ## Provenance
 
