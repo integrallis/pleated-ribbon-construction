@@ -1,0 +1,15 @@
+{
+  "cpu": "AMD EPYC 9R14",
+  "arch": "x86_64",
+  "kernel": "7.0.0-1014-aws",
+  "nproc": 16,
+  "lscpu": {
+    "CPU(s)": "16",
+    "Thread(s) per core": "1",
+    "Core(s) per socket": "16",
+    "L2 cache": "16 MiB (16 instances)",
+    "L3 cache": "64 MiB (2 instances)"
+  },
+  "mem_total_kb": "32132560",
+  "timestamp_utc": "2026-10-07T18:57:11.795619+00:00"
+}

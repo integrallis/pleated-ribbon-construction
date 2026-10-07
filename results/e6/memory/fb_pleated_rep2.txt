@@ -1,0 +1,16 @@
+Building...
+Build avg ns/key: 97.1701
+Number of filters: 3
+Total size (MB): 260.207
+Reported total allocated memory (MB): 260.207
+Reported internal fragmentation: 3.29856e-06%
+Bits/key stored: 7.27591
+----------------------------
+Mixed inside/outside queries...
+  Single filter net ns/op: 173.065
+  Random filter net ns/op: 194.223
+    Average FP rate %: 0.953013
+----------------------------
+Done. (For more info, run with -legend or -help.)
+
+PEAK_RSS_KB 4851900

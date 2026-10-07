@@ -1,0 +1,13 @@
+{
+  "cpu": "AMD EPYC 9R14",
+  "arch": "x86_64",
+  "nproc": 16,
+  "mem_total_kb": "32132560",
+  "kernel": "7.0.0-1014-aws",
+  "virt": "amazon",
+  "compiler": [
+    "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  ],
+  "rocksdb_commit": "31b23974702d2457e3213281f81b1d86bfd3120c",
+  "timestamp_utc": "2026-10-07T18:57:11.777915+00:00"
+}

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "problems": [],
+  "arms": {
+    "bloom": {
+      "impl": 1,
+      "env": {}
+    },
+    "stock": {
+      "impl": 2,
+      "env": {}
+    },
+    "pleated": {
+      "impl": 2,
+      "env": {
+        "PLEAT_RIBBON": "1"
+      }
+    }
+  },
+  "sizes": [
+    100000,
+    1000000,
+    10000000,
+    100000000
+  ],
+  "reps": 3
+}

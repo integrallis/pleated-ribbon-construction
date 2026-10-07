@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "n": 100000000,
+  "margins": [
+    16384,
+    1024,
+    64,
+    8,
+    0
+  ],
+  "spill_threads": [
+    2,
+    16
+  ],
+  "reps": 3,
+  "concurrency": [
+    1,
+    4,
+    8
+  ],
+  "rocksdb": "/home/ubuntu/rocksdb"
+}
