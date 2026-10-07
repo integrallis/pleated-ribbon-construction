@@ -1,0 +1,74 @@
+[
+  {
+    "size": 100000,
+    "a": "stock_a",
+    "b": "stock_b",
+    "count_a": 396,
+    "count_b": 396,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 100000,
+    "a": "stock_a",
+    "b": "pleated",
+    "count_a": 396,
+    "count_b": 396,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 1000000,
+    "a": "stock_a",
+    "b": "stock_b",
+    "count_a": 40,
+    "count_b": 40,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 1000000,
+    "a": "stock_a",
+    "b": "pleated",
+    "count_a": 40,
+    "count_b": 40,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 10000000,
+    "a": "stock_a",
+    "b": "stock_b",
+    "count_a": 4,
+    "count_b": 4,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 10000000,
+    "a": "stock_a",
+    "b": "pleated",
+    "count_a": 4,
+    "count_b": 4,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 100000000,
+    "a": "stock_a",
+    "b": "stock_b",
+    "count_a": 3,
+    "count_b": 3,
+    "same_names": true,
+    "differing": []
+  },
+  {
+    "size": 100000000,
+    "a": "stock_a",
+    "b": "pleated",
+    "count_a": 3,
+    "count_b": 3,
+    "same_names": true,
+    "differing": []
+  }
+]

@@ -1,0 +1,15 @@
+$ PLEAT_RIBBON=1 /root/rocksdb/filter_bench -impl 2 -m_keys_total_max 40 -average_keys_per_filter 10000000 -net_includes_hashing -quick
+Building...
+Build avg ns/key: 93.1051
+Number of filters: 4
+Total size (MB): 34.2983
+Reported total allocated memory (MB): 34.2983
+Reported internal fragmentation: 3.33664e-05%
+Bits/key stored: 7.19287
+----------------------------
+Mixed inside/outside queries...
+  Single filter net ns/op: 42.6738
+  Random filter net ns/op: 132.384
+    Average FP rate %: 0.9561
+----------------------------
+Done. (For more info, run with -legend or -help.)

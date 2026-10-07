@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "problems": [],
+  "sizes": [
+    100000,
+    1000000,
+    10000000,
+    100000000
+  ],
+  "runs": {
+    "stock_a": {},
+    "stock_b": {},
+    "pleated": {
+      "PLEAT_RIBBON": "1"
+    }
+  }
+}

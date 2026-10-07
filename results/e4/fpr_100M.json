@@ -1,0 +1,4 @@
+{"n_keys": 100000000, "n_probes": 4000000, "filters": [
+  {"name": "lanefilter_sbbf", "family": "bloom", "bits_per_key": 10.000, "measured_fpr": 0.012727, "false_positives": 50910},
+  {"name": "fastbloom_0.9", "family": "bloom", "bits_per_key": 10.000, "measured_fpr": 0.008811, "false_positives": 35244}
+]}

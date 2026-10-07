@@ -1,0 +1,10 @@
+mode=stock PLEAT_RIBBON=unset PLEAT_DUMP_DIR=set
+Build avg ns/key: 155.778
+Number of filters: 4
+    Average FP rate %: 0.9561
+dumped: 4 files, sha256 of concatenation: 75ed8172e4e6610e
+mode=pleated PLEAT_RIBBON=1 PLEAT_DUMP_DIR=set
+Build avg ns/key: 92.2405
+Number of filters: 4
+    Average FP rate %: 0.9561
+dumped: 4 files, sha256 of concatenation: 75ed8172e4e6610e

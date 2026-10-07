@@ -1,0 +1,23 @@
+{
+  "cpu": "AMD EPYC 9R14",
+  "arch": "x86_64",
+  "kernel": "7.0.0-1014-aws",
+  "nproc": 16,
+  "lscpu": {
+    "CPU(s)": "16",
+    "Thread(s) per core": "1",
+    "Core(s) per socket": "16",
+    "Socket(s)": "1",
+    "Hypervisor vendor": "KVM",
+    "L1d cache": "512 KiB (16 instances)",
+    "L2 cache": "16 MiB (16 instances)",
+    "L3 cache": "64 MiB (2 instances)"
+  },
+  "virt": "amazon",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "rustflags": "-C target-cpu=native",
+  "cxx": [
+    "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  ],
+  "timestamp_utc": "2026-10-06T19:39:05.036850+00:00"
+}

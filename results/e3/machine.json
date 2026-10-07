@@ -1,0 +1,13 @@
+{
+  "cpu": "AMD EPYC-Milan Processor",
+  "arch": "x86_64",
+  "nproc": 8,
+  "mem_total_kb": "32087336",
+  "kernel": "6.8.0-138-generic",
+  "virt": "kvm",
+  "compiler": [
+    "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  ],
+  "rocksdb_commit": "31b23974702d2457e3213281f81b1d86bfd3120c",
+  "timestamp_utc": "2026-10-06T18:05:08.183453+00:00"
+}

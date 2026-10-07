@@ -1,0 +1,7 @@
+{
+  "cpu": "AMD EPYC-Milan Processor",
+  "arch": "x86_64",
+  "kernel": "6.8.0-138-generic",
+  "rocksdb_commit": "31b23974702d2457e3213281f81b1d86bfd3120c",
+  "timestamp_utc": "2026-10-06T21:28:02.935363+00:00"
+}

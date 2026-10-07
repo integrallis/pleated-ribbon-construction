@@ -1,0 +1,15 @@
+$  /root/rocksdb/filter_bench -impl 2 -m_keys_total_max 300 -average_keys_per_filter 100000000 -net_includes_hashing -quick
+Building...
+Build avg ns/key: 167.607
+Number of filters: 3
+Total size (MB): 260.207
+Reported total allocated memory (MB): 260.215
+Reported internal fragmentation: 0.00311421%
+Bits/key stored: 7.27591
+----------------------------
+Mixed inside/outside queries...
+  Single filter net ns/op: 200.676
+  Random filter net ns/op: 217.504
+    Average FP rate %: 0.953013
+----------------------------
+Done. (For more info, run with -legend or -help.)

@@ -1,0 +1,64 @@
+E4 gate: all parallel builders bit-identical to per-key at n=100000000 (ae1eb722bbd3c7c2)
+e4_construct/100M/perkey
+                        time:   [2.1162 s 2.1190 s 2.1218 s]
+                        thrpt:  [47.129 Melem/s 47.192 Melem/s 47.254 Melem/s]
+e4_construct/100M/perkey_prefetch
+                        time:   [1.0214 s 1.0225 s 1.0238 s]
+                        thrpt:  [97.676 Melem/s 97.798 Melem/s 97.908 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+e4_construct/100M/par_range_t1
+                        time:   [2.0263 s 2.0301 s 2.0333 s]
+                        thrpt:  [49.181 Melem/s 49.260 Melem/s 49.351 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+e4_construct/100M/par_atomic_t1
+                        time:   [2.3256 s 2.3285 s 2.3313 s]
+                        thrpt:  [42.895 Melem/s 42.946 Melem/s 43.000 Melem/s]
+e4_construct/100M/par_scan_t1
+                        time:   [1.0000 s 1.0012 s 1.0022 s]
+                        thrpt:  [99.776 Melem/s 99.885 Melem/s 99.998 Melem/s]
+e4_construct/100M/par_range_t2
+                        time:   [1.0122 s 1.0160 s 1.0198 s]
+                        thrpt:  [98.055 Melem/s 98.425 Melem/s 98.794 Melem/s]
+e4_construct/100M/par_atomic_t2
+                        time:   [1.3861 s 1.3975 s 1.4110 s]
+                        thrpt:  [70.870 Melem/s 71.557 Melem/s 72.142 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+e4_construct/100M/par_scan_t2
+                        time:   [809.74 ms 813.82 ms 817.44 ms]
+                        thrpt:  [122.33 Melem/s 122.88 Melem/s 123.50 Melem/s]
+e4_construct/100M/par_range_t4
+                        time:   [545.83 ms 546.78 ms 547.69 ms]
+                        thrpt:  [182.58 Melem/s 182.89 Melem/s 183.21 Melem/s]
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high mild
+e4_construct/100M/par_atomic_t4
+                        time:   [708.15 ms 710.74 ms 713.24 ms]
+                        thrpt:  [140.21 Melem/s 140.70 Melem/s 141.21 Melem/s]
+e4_construct/100M/par_scan_t4
+                        time:   [856.78 ms 858.71 ms 860.81 ms]
+                        thrpt:  [116.17 Melem/s 116.45 Melem/s 116.72 Melem/s]
+e4_construct/100M/par_range_t8
+                        time:   [328.82 ms 330.00 ms 331.27 ms]
+                        thrpt:  [301.87 Melem/s 303.03 Melem/s 304.12 Melem/s]
+e4_construct/100M/par_atomic_t8
+                        time:   [374.51 ms 375.90 ms 377.69 ms]
+                        thrpt:  [264.77 Melem/s 266.03 Melem/s 267.01 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+e4_construct/100M/par_scan_t8
+                        time:   [762.69 ms 763.59 ms 764.62 ms]
+                        thrpt:  [130.78 Melem/s 130.96 Melem/s 131.12 Melem/s]
+e4_construct/100M/par_range_t16
+                        time:   [243.36 ms 245.27 ms 246.94 ms]
+                        thrpt:  [404.95 Melem/s 407.72 Melem/s 410.91 Melem/s]
+e4_construct/100M/par_atomic_t16
+                        time:   [219.03 ms 219.76 ms 220.42 ms]
+                        thrpt:  [453.69 Melem/s 455.04 Melem/s 456.56 Melem/s]
+e4_construct/100M/par_scan_t16
+                        time:   [708.84 ms 709.08 ms 709.34 ms]
+                        thrpt:  [140.98 Melem/s 141.03 Melem/s 141.08 Melem/s]
+
