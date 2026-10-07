@@ -56,7 +56,32 @@ def main():
           f"sample stdevs are {msd(cpu['stock'])[1]:.2f} s (stock) and {msd(cpu['pleated'])[1]:.2f} s (pleated), "
           f"so with n=3 the difference is {'within' if abs(d) < msd(cpu['stock'])[1] + msd(cpu['pleated'])[1] else 'outside'} "
           "one combined stdev."]
+    # ---- prefetch control and instruction counts, parsed from the recorded raw output
+    import re
+    raw = (RES / "filter_bench.md").read_text()
+
+    def pair(label):
+        m = re.search(rf"^{re.escape(label)}\s+([\d.]+)\s+([\d.]+)\s*$", raw, re.M)
+        return float(m.group(1)), float(m.group(2))
+    cfg = {k: pair(k) for k in ("stock", "no-prefetch", "pleated", "pleated+noPF")}
+    slow_stock = statistics.mean(cfg["no-prefetch"]) / statistics.mean(cfg["stock"]) - 1
+    slow_pleat = statistics.mean(cfg["pleated+noPF"]) / statistics.mean(cfg["pleated"]) - 1
+    instr = re.search(r"stock\s*:\s*cache_misses/key=[\d., ]+instr/key=([\d.]+)\s*\n"
+                      r"pleated:\s*cache_misses/key=[\d., ]+instr/key=([\d.]+)", raw)
+    L += ["", "## Construction-prefetch control, 20M keys/filter (2 runs each; raw: filter_bench.md)", "",
+          "| configuration | run 1 ns/key | run 2 ns/key | mean |", "|---|---|---|---|"]
+    for k, v in cfg.items():
+        L.append(f"| {k} | {v[0]:.2f} | {v[1]:.2f} | {statistics.mean(v):.2f} |")
+    L += ["", f"Disabling the prefetch slows the stock build by {slow_stock:.1%} and the pleated build by "
+          f"{slow_pleat:.1%} (two runs each; no variance estimate).",
+          "", f"Banding instructions per key at 100M keys/filter (raw: filter_bench.md): stock "
+          f"{instr.group(1)}, pleated {instr.group(2)}."]
     (RES / "ANALYSIS.md").write_text("\n".join(L) + "\n")
+    tex = Path(__file__).resolve().parents[2] / "paper" / "tables" / "e2.tex"
+    tex.write_text("% generated-by: experiments/e2_rocksdb/analyze.py — do not hand-edit\n"
+                   f"\\newcommand{{\\etwonopfstock}}{{{slow_stock * 100:.0f}}}\n"
+                   f"\\newcommand{{\\etwonopfpleated}}{{{slow_pleat * 100:.0f}}}\n"
+                   f"\\newcommand{{\\etwoinstr}}{{{float(instr.group(1)):.0f}}}\n")
     print("\n".join(L))
 
 

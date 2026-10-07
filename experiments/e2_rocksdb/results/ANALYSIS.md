@@ -21,3 +21,16 @@ generated-by: experiments/e2_rocksdb/analyze.py over experiments/e2_rocksdb/resu
 | pleated | 3 | 44.2±6.1 | 1.04±0.14 | 7.15±0.37 | 14.5% |
 
 Compaction CPU difference of means: 0.73 s (9.3%); sample stdevs are 0.78 s (stock) and 0.37 s (pleated), so with n=3 the difference is within one combined stdev.
+
+## Construction-prefetch control, 20M keys/filter (2 runs each; raw: filter_bench.md)
+
+| configuration | run 1 ns/key | run 2 ns/key | mean |
+|---|---|---|---|
+| stock | 91.72 | 98.93 | 95.33 |
+| no-prefetch | 125.68 | 119.68 | 122.68 |
+| pleated | 56.62 | 57.95 | 57.28 |
+| pleated+noPF | 60.16 | 62.47 | 61.32 |
+
+Disabling the prefetch slows the stock build by 28.7% and the pleated build by 7.0% (two runs each; no variance estimate).
+
+Banding instructions per key at 100M keys/filter (raw: filter_bench.md): stock 243.1, pleated 243.3.
