@@ -7,6 +7,8 @@ authors:
     orcid: "https://orcid.org/0009-0007-4515-1979"
 year: 2026
 type: software
+version: 1.0.0
+date-released: 2026-10-07
 license: MIT
 references:
   - type: software
@@ -16,3 +18,14 @@ references:
         given-names: Brian
     repository-code: "https://github.com/integrallis/pleat"
     license: "MIT OR Apache-2.0"
+preferred-citation:
+  type: article
+  title: "Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort"
+  authors:
+    - family-names: Sam-Bodden
+      given-names: Brian
+      affiliation: "Integrallis Software, Scottsdale, Arizona, USA"
+      orcid: "https://orcid.org/0009-0007-4515-1979"
+  year: 2026
+  doi: 10.5281/zenodo.23222458
+  status: preprint

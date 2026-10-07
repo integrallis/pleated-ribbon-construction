@@ -639,3 +639,61 @@ now keeps class defaults (line numbers on), emits \subparagraph* headings and pl
 expands generated macros in place, and carries the affiliation (Integrallis Software,
 Scottsdale, Arizona, USA), email and ORCID in the named build only. Anonymous build, pdfLaTeX:
 17 pages, main text to the bottom of page 12, appendix about 3.5 pages, no warnings.
+
+## 2026-10-07 — Final review pass before submission
+
+An independent proofread of paper/main.tex against the ledger and analysis files found seven
+must-fix items, all corrected:
+
+- Table 1, 8-thread row: reorder was typed as 5.5; raw is 5.73 and 7.13 (mean 6.4). The row now
+  sums to its total.
+- "reference banding cost follows the same order" was false (speedups rise x86 < N1 < V2; cost
+  orders x86 < V2 < N1). Reworded.
+- "88% of the measured single-core ceiling" was a back-of-envelope estimate from this log, not
+  a measurement and not in the ledger. Removed; the text now gives the measured plateau.
+- E0: "per-key scalar probing wins at every size" was false; at RAM sizes the batch probe beats
+  plain scalar and loses only to scalar with prefetch. Reworded to what the analysis shows.
+- Prefetch subsumption: there is no pleated-without-prefetch measurement on the homogeneous
+  kernel. The claim now rests on the RocksDB control only (two runs: -7.0% pleated vs -28.7%
+  stock), derived by experiments/e2_rocksdb/analyze.py (C40), which also now derives the
+  243 instructions/key figure.
+- A figure reference pointed at a figure that does not show the window sweep. Fixed.
+- Homogeneous FPR appeared as 0.81% and 0.82%; unified to the Phase-1 value 0.82%.
+
+Also corrected: unit GB -> GiB for the E6 peaks; "30 runs" now names the ten settings; several
+fingerprint checks described as "identical" now say "fingerprint matched"; the conclusion no
+longer sets the FPR-matched RocksDB ratio beside the unmatched equal-thread ratio as if they
+were one comparison; "bumped-capable" removed; E0's logged instrument amendment stated; six
+uncited bibliography entries removed; \citet uses replaced by written names so the numeric
+LIPIcs build reads correctly; figure label "(ours)" -> "(this work)"; diagram "768 KB" -> KiB.
+To keep headroom, the "differences from the w=64 kernel" paragraph moved to Appendix E.
+
+State after the pass: anonymous LIPIcs build 17 pages (main text ends three lines into page
+13; about 11.4 main-text pages by Dagstuhl's definition), no warnings; arXiv-style build 15
+pages; ./reproduce.sh exit 0. SEA 2027 call still TBD: nothing can be submitted yet.
+
+Outside this repository: the `pleat` crate's README, Cargo description and GitHub description
+still carried the old title and "close to Bloom-filter speed"; corrected at the author's
+request (README and Cargo.toml edits left uncommitted there). This repository's GitHub
+description also still had the old title; updated.
+
+## 2026-10-07 — Preprint published on Zenodo
+
+The author published the paper as a preprint: https://zenodo.org/records/23222459, DOI
+10.5281/zenodo.23222459 (version 1), concept DOI 10.5281/zenodo.23222458, CC BY 4.0. The archived
+file is byte-identical to paper/main.pdf at commit e2c6fd3 (md5 eb8178835261f3a553568be4e577cb9b).
+README, CITATION.cff, the outreach draft and the named LIPIcs build now cite the concept DOI;
+.zenodo.json links the future repository record to it. The repository itself has no DOI yet.
+
+## 2026-10-07 — Outreach sent; release prepared
+
+- The author sent the outreach email to Stefan Walzer and Peter Dillinger (questions: is the
+  measured approximate sort known or implemented elsewhere; is order-independence for any
+  consistent system right; would a RocksDB change be welcome; plus an arXiv endorsement
+  request). Anyone who has now seen the paper and later sits on a program committee is a
+  conflict to declare at submission.
+- Planning documents are marked export-ignore and absent from GitHub's source archive
+  (verified on commit bb61f42). A draft release v1.0.0 exists on GitHub, unpublished; the
+  repository has no DOI yet.
+- The author's review and grammar revision of the text was merged on 2026-10-07; the plan and
+  the SEA submission notes no longer list a text revision as pending.

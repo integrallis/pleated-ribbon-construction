@@ -136,15 +136,18 @@ To rebuild the paper: `cd paper && latexmk -pdf main.tex` (or `tectonic main.tex
 
 ## How to cite
 
-Until the paper has an arXiv identifier or a venue, cite the repository (see `CITATION.cff`):
+The paper is archived as a preprint on Zenodo (DOI [10.5281/zenodo.23222458](https://doi.org/10.5281/zenodo.23222458),
+which always resolves to the latest version; version 1 is 10.5281/zenodo.23222459):
 
 ```bibtex
 @misc{sambodden2026pleated,
-  author = {Sam-Bodden, Brian},
-  title  = {Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort},
-  year   = {2026},
-  note   = {Research repository with raw measurements and registered protocols},
-  howpublished = {\url{https://github.com/integrallis/pleated-ribbon-construction}},
+  author    = {Sam-Bodden, Brian},
+  title     = {Pleated Ribbon Construction: Approximate Sorting Recovers the Locality of a Full Sort},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23222458},
+  note      = {Preprint. Code, raw measurements and registered protocols:
+               \url{https://github.com/integrallis/pleated-ribbon-construction}},
 }
 ```
 

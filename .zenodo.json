@@ -12,13 +12,25 @@
   "license": "MIT",
   "keywords": [
     "ribbon filter",
-    "approximate membership",
+    "approximate membership query filter",
+    "Bloom filter",
     "filter construction",
     "cache locality",
+    "algorithm engineering",
+    "static retrieval",
+    "data structures",
     "RocksDB",
-    "algorithm engineering"
+    "LSM-tree",
+    "benchmark data",
+    "reproducibility"
   ],
   "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.23222458",
+      "relation": "isSupplementTo",
+      "scheme": "doi",
+      "resource_type": "publication-preprint"
+    },
     {
       "identifier": "https://github.com/integrallis/pleat",
       "relation": "isSupplementedBy",
