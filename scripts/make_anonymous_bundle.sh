@@ -13,9 +13,7 @@ trap 'rm -rf "$WORK"' EXIT
 git -C "$ROOT" archive --prefix=artifact/ "$REF" | tar -x -C "$WORK"
 cd "$WORK/artifact"
 # files that identify the author or are not needed by a reviewer
-rm -rf CITATION.cff LICENSE .zenodo.json CLAUDE.md docs/outreach-email-draft.md \
-       docs/blog-post-draft.md docs/arxiv-submission-checklist.md \
-       docs/Ribbon_Publication_Plan.md docs/Ribbon_2027_Publication_Strategy.pdf docs/vps-runbook.md \
+rm -rf CITATION.cff LICENSE .zenodo.json CLAUDE.md docs/blog-post-draft.md docs/vps-runbook.md \
        paper/main.pdf scripts/launch_aws_arm.sh scripts/bootstrap_remote.sh scripts/e*_remote.sh
 PATTERN='Sam-Bodden|Brian|Integrallis|integrallis|bsbodden|barudb|CS265|/home/[a-z]+|/Users/[A-Za-z-]+|~/Code/[A-Za-z_/-]+'
 grep -rIlE "$PATTERN" . | while read -r f; do
