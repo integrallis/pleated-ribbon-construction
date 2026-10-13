@@ -722,3 +722,32 @@ pages), and so differs from the file archived on Zenodo as version 1.
 
 What his answer means for the paper: Proposition 1 rests on its own proof sketch and the
 exhaustive enumeration, with no outside endorsement to point to.
+
+## 2026-10-13 — Revision after the arXiv decline (text and presentation; no new measurements)
+
+A referee-style reading of the paper listed weak points; the first four were fixed. No number
+changed and no experiment was run.
+
+- **Proof.** Appendix A now holds the complete proof of Proposition 1 (setting, three steps,
+  remarks on inconsistent systems and on the free-slot rule) instead of a sketch that pointed to
+  `docs/order-independence-proof.md`. The abstract says "I prove"; the limitations no longer say
+  the argument "has not been independently reviewed", and say instead what the proposition does
+  not cover. The kernel test and the enumeration are kept as tests of the implementations.
+- **Self-contained.** Two tables were added from committed raw artifacts by
+  `experiments/e1b_ribbon_construction/analyze_paper_tables.py` (in `reproduce.sh`): totals and
+  misses at 10M, 100M and 400M keys (the 400M figures behind the abstract's range were only in
+  the repository), and the window-size sweep. The pointer to a disassembly in the repository was
+  dropped.
+- **Framing.** The abstract and introduction now open with the question the paper answers: the
+  published algorithm sorts at least approximately, the implementations do not sort, so how
+  coarse can the order be. The 1.68× gain over the best full sort is stated beside the
+  2.05–2.24× over the reference build in the abstract and the contributions.
+- **Wording and structure.** The two negative results moved behind the RocksDB section; the
+  contributions went from five to four (the prefetch evaluation joined the RocksDB item).
+  Experiment labels (E0 to E6, Phase-0) and most uses of "registered" and "gated" were
+  replaced by plain descriptions; one sentence in the introduction states that hypotheses and
+  decision rules were committed before data collection.
+
+Not addressed: the measurement-rigour points (three repetitions, no statement of core pinning
+on the hybrid-core laptop, one filter configuration, integer keys only) and the NeurIPS page
+style. `paper/main.pdf` is 16 pages (tectonic). The anonymous LIPIcs build is 19 pages.
