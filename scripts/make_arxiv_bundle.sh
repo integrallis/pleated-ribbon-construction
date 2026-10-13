@@ -35,7 +35,14 @@ rm -rf "$ROOT/dist/arxiv-check"
 # 4. tarball and metadata
 ( cd "$OUT" && tar -czf "$ROOT/dist/arxiv-source.tar.gz" . )
 ABSTRACT=$(sed -n '/\\begin{abstract}/,/\\end{abstract}/p' "$ROOT/paper/main.tex" | sed '1d;$d' \
-  | pandoc -f latex -t plain --wrap=none | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $//')
+  | pandoc -f latex -t plain --wrap=none | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $//' \
+  | perl -CSD -pe 's/(\d)\x{2013}(\d)/$1 to $2/g; s/\x{00D7}/ times/g; s/[\x{2018}\x{2019}]/\x27/g; s/[\x{201C}\x{201D}]/"/g; s/\x{2014}/ -- /g')
+# arXiv's form refuses an abstract with characters outside ASCII ("Bad character(s) in field Abstract").
+if printf '%s' "$ABSTRACT" | LC_ALL=C grep -q '[^ -~]'; then
+  echo "abstract still has non-ASCII characters:" >&2
+  printf '%s' "$ABSTRACT" | LC_ALL=C grep -o '[^ -~]\{1,\}' | sort -u >&2
+  exit 1
+fi
 TITLE=$(awk '/\\title\{/,/\}$/' "$ROOT/paper/main.tex" | tr '\n' ' ' | sed 's/\\title{//; s/}[[:space:]]*$//; s/\\\\/ /g; s/  */ /g')
 cat > "$ROOT/dist/arxiv-metadata.txt" <<META
 Title:      $TITLE
