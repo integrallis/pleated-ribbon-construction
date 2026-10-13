@@ -751,3 +751,12 @@ changed and no experiment was run.
 Not addressed: the measurement-rigour points (three repetitions, no statement of core pinning
 on the hybrid-core laptop, one filter configuration, integer keys only) and the NeurIPS page
 style. `paper/main.pdf` is 16 pages (tectonic). The anonymous LIPIcs build is 19 pages.
+
+## 2026-10-13 — Zenodo version 2
+
+The revised paper is published as version 2 of the Zenodo preprint: DOI
+10.5281/zenodo.23350180 (record 23350180), under the same concept DOI
+10.5281/zenodo.23222458. The archived `main.pdf` is the file committed in 994b279 (172,650
+bytes, md5 b92a02dacc41f9655fbcb8214b5cd0f5; checked by downloading the public file). The
+record's description carries the revised abstract. Version 1 (10.5281/zenodo.23222459)
+remains available.
