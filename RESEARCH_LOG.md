@@ -697,3 +697,28 @@ README, CITATION.cff, the outreach draft and the named LIPIcs build now cite the
   repository has no DOI yet.
 - The author's review and grammar revision of the text was merged on 2026-10-07; the plan and
   the SEA submission notes no longer list a text revision as pending.
+
+## 2026-10-13 — arXiv declined the submission
+
+The submission to arXiv (cs.DS, cross-listed cs.DB) was declined by its moderators with the
+standard notice: the work "would benefit from additional review and revision that is outside
+of the services we provide", and they will reconsider on appeal only once it is published in
+a conventional journal, with a DOI or a link to the journal's page showing its status. No
+reason specific to the paper was given, and the notice says none will be. The Zenodo preprint
+(DOI 10.5281/zenodo.23222458) is unaffected and remains the public version.
+
+## 2026-10-13 — Acknowledgement; Stefan Walzer's reply on the order-independence statement
+
+Stefan Walzer agreed to be thanked in the acknowledgements and declined to have his view of
+the order-independence statement cited as a personal communication: "The argument should
+stand for itself. If it's a good argument, it doesn't need my endorsement, if it's not
+convincing on its own, then it shouldn't get my endorsement." The paper never cited his view
+(no such text exists in the repository) and does not now. Added, to the named builds only:
+"I thank Stefan Walzer for helpful comments." `scripts/make_lipics.py` puts it in the LIPIcs
+`\acknowledgements` of the named build and leaves it out of the anonymous source; checked:
+the anonymous build's PDF and source contain neither his name in that role nor the word
+acknowledgements. `paper/main.pdf` is rebuilt with tectonic, as the committed file was (15
+pages), and so differs from the file archived on Zenodo as version 1.
+
+What his answer means for the paper: Proposition 1 rests on its own proof sketch and the
+exhaustive enumeration, with no outside endorsement to point to.
