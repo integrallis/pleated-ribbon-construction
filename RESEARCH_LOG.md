@@ -760,3 +760,29 @@ The revised paper is published as version 2 of the Zenodo preprint: DOI
 bytes, md5 b92a02dacc41f9655fbcb8214b5cd0f5; checked by downloading the public file). The
 record's description carries the revised abstract. Version 1 (10.5281/zenodo.23222459)
 remains available.
+
+## 2026-10-13 — E7 prepared (measurement rigour); protocol not yet committed, nothing registered has run
+
+`experiments/e7_rigour/README.md` is the protocol for the measurement-rigour points left open
+by the revision: controlled bare-metal machines with pinning and recorded settings, ten
+repetitions, named miss events, eight filter configurations, real and string key sets, a
+huge-page sensitivity stage and a compaction run with twenty repetitions per arm. New code:
+`src/ribbon_reorder/e7_driver.cc`, `experiments/e7_rigour/{run,analyze,prepare_keys}.py`,
+`scripts/e7_remote.sh`.
+
+Smoke runs only (shrunken sizes, results outside `results/e7`, not kept): once on a small
+rented VM and once on a c7i.metal-24xl, each through every stage. What they changed before the
+protocol is frozen:
+
+- The Wikipedia SOSD set has 90,437,011 distinct keys of its 200M, so it is measured at 90M
+  keys; the protocol says so.
+- A full-size test of the cross-check on the metal box failed at first: `e7_driver`'s banding
+  ran 114.75 instructions per key where `e1b_phase1` runs 99.75, with identical output, and its
+  totals were 3 to 6% higher. Cause: with the kernel's loop inlined into the driver's long
+  function, GCC 13 compiled it differently. The banding call now has a function of its own
+  (97.75 instructions per key); the cross-check test then agreed within 1.1% at 10M and 100M
+  keys. These are tooling tests on an unregistered tree, not results.
+- The c7i.metal-24xl is one socket, 48 cores, one NUMA node (Xeon Platinum 8488C), no
+  hypervisor; the three Intel events resolve (`0x10d1`, `0x20d1`, `0xe12`).
+
+Next: commit the protocol, then run `scripts/e7_remote.sh` on the three machines.

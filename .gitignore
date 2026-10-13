@@ -19,3 +19,5 @@ src/ribbon_reorder/e1b_phase1
 research_notes
  reports
 dist/
+src/ribbon_reorder/e7_w*
+results/e7-smoke/
