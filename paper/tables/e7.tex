@@ -1,0 +1,123 @@
+% generated-by: experiments/e7_rigour/paper_tables.py — do not hand-edit
+\newcommand{\esevenmainrows}{%
+unsorted, no prefetch & --- & 116.7 (114.8--117.7) & 121.4 (119.5--122.4) \\
+unsorted + prefetch (ref.) & --- & 84.8 (84.3--86.6) & 89.4 (89.0--91.2) \\
+full sort (std::sort) & 96.9 (96.7--97.5) & 19.4 (19.3--19.4) & 120.9 (120.7--121.6) \\
+full sort (LSD radix) & 38.0 (37.8--38.1) & 19.4 (19.3--19.4) & 62.0 (61.8--62.1) \\
+full sort (ips2ra) & 34.3 (34.1--35.4) & 19.3 (19.3--19.4) & 58.3 (58.0--59.4) \\
+\textbf{partitioned (this work)} & 8.2 (8.2--8.3) & 23.3 (23.2--23.3) & 36.1 (36.1--36.2) \\
+\midrule
+parallel, 8 threads (this work) & 8.2 & 3.9 (3.9--3.9) & 16.7 (16.7--16.8) \\
+parallel, 16 threads (this work) & 8.2 & 2.2 (2.2--2.8) & 15.0 (15.0--15.6) \\
+}
+\newcommand{\esevenscalerows}{%
+10M & 43.3 & 55.6 & 35.2 & 1.23$\times$ & 1.58$\times$ \\
+100M & 89.4 & 58.3 & 36.1 & 2.47$\times$ & 1.61$\times$ \\
+400M & 95.4 & 57.9 & 37.0 & 2.57$\times$ & 1.56$\times$ \\
+}
+\newcommand{\esevenrefpartcent}{2.47}
+\newcommand{\esevenrefpartcentci}{2.46--2.49}
+\newcommand{\esevensortpartcent}{1.61}
+\newcommand{\esevenparttotalcent}{36.1}
+\newcommand{\esevenreftotalcent}{89.4}
+\newcommand{\esevensorttotalcent}{58.3}
+\newcommand{\esevenpartreordercent}{8.2}
+\newcommand{\esevenipsreordercent}{34.3}
+\newcommand{\esevenrefpartfour}{2.57}
+\newcommand{\esevenrefpartfourci}{2.56--2.59}
+\newcommand{\esevensortpartfour}{1.56}
+\newcommand{\esevenparttotalfour}{37.0}
+\newcommand{\esevenreftotalfour}{95.4}
+\newcommand{\esevensorttotalfour}{57.9}
+\newcommand{\esevenpartreorderfour}{9.1}
+\newcommand{\esevenipsreorderfour}{33.9}
+\newcommand{\esevenrefparttenm}{1.23}
+\newcommand{\esevenbandpart}{23.3}
+\newcommand{\esevenbandsort}{19.3}
+\newcommand{\esevenbandref}{84.8}
+\newcommand{\esevenbandnopf}{116.7}
+\newcommand{\esevenprefetchgain}{1.38}
+\newcommand{\esevenparbandsixteen}{10.7}
+\newcommand{\esevenparbandeight}{6.0}
+\newcommand{\esevenparownsixteen}{12.9}
+\newcommand{\esevenpartotalsixteen}{15.0}
+\newcommand{\esevenpardeferred}{0.23}
+\newcommand{\esevenparreorder}{8.2}
+\newcommand{\esevenparbacksub}{4.6}
+\newcommand{\esevenparoverhead}{20}
+\newcommand{\esevenprefetchgainarm}{1.29}
+\newcommand{\esevenrefpartarmcent}{2.17}
+\newcommand{\esevensortpartarmcent}{1.29}
+\newcommand{\esevenrefpartarmfour}{2.27}
+\newcommand{\esevensortpartarmfour}{1.30}
+\newcommand{\esevenprefetchgainamd}{1.39}
+\newcommand{\esevenrefpartamdcent}{2.05}
+\newcommand{\esevensortpartamdcent}{1.33}
+\newcommand{\esevenrefpartamdfour}{2.35}
+\newcommand{\esevensortpartamdfour}{1.23}
+\newcommand{\esevenrecltwocent}{85.0}
+\newcommand{\esevenrecltwofour}{84.9}
+\newcommand{\esevenreclthreecent}{83.3}
+\newcommand{\esevenreclthreefour}{84.9}
+\newcommand{\esevenrecgenericcent}{100.0}
+\newcommand{\esevenrecgenericfour}{100.0}
+\newcommand{\esevenrectlbcent}{99.8}
+\newcommand{\esevenrectlbfour}{99.8}
+\newcommand{\esevenrefcycles}{323}
+\newcommand{\esevenrefinstr}{97.8}
+\newcommand{\esevenrefipc}{0.30}
+\newcommand{\esevengenericpart}{0.26}
+\newcommand{\esevenltworef}{0.11}
+\newcommand{\esevengenericref}{3.2}
+\newcommand{\esevenarmreccent}{96.7}
+\newcommand{\esevenarmrecfour}{97.5}
+\newcommand{\esevenamdreccent}{96.4}
+\newcommand{\esevenamdrecfour}{96.6}
+\newcommand{\esevencrossrows}{%
+Xeon 8488C (Intel) & 89.4 & 58.3 & 36.1 & 2.47$\times$ & 1.61$\times$ \\
+EPYC 9R14 (AMD) & 82.0 & 53.0 & 40.0 & 2.05$\times$ & 1.33$\times$ \\
+Graviton4 (Arm) & 76.9 & 45.7 & 35.5 & 2.17$\times$ & 1.29$\times$ \\
+i9-14900HX laptop (3 reps, not pinned) & 48.9 & 40.6 & 24.1 & 2.03$\times$ & 1.69$\times$ \\
+}
+\newcommand{\esevenconfigrows}{%
+64 & 7 & 1.050 & 2.1588 & 7.35 & 101.6 & 64.6 & 42.2 & 2.41$\times$ \\
+64 & 7 & 1.090 & 0.8216 & 7.63 & 90.0 & 57.6 & 35.7 & 2.52$\times$ \\
+64 & 7 & 1.150 & 0.7829 & 8.05 & 80.6 & 54.2 & 32.7 & 2.46$\times$ \\
+64 & 8 & 1.094 & 0.4140 & 8.75 & 89.9 & 57.9 & 35.9 & 2.50$\times$ \\
+64 & 16 & 1.125 & 0.0031 & 18.00 & 89.5 & 60.7 & 39.2 & 2.28$\times$ \\
+128 & 7 & 1.045 & 0.8086 & 7.31 & 161.5 & 77.9 & 60.8 & 2.66$\times$ \\
+128 & 8 & 1.047 & 0.4027 & 8.38 & 161.2 & 78.2 & 61.1 & 2.64$\times$ \\
+128 & 16 & 1.063 & 0.0018 & 17.00 & 159.9 & 80.9 & 64.2 & 2.49$\times$ \\
+}
+\newcommand{\esevenconfigmin}{2.28}
+\newcommand{\esevenconfigmax}{2.66}
+\newcommand{\esevenkeyshosts}{2.35}
+\newcommand{\esevendirecthosts}{0.96}
+\newcommand{\esevendirectssixteen}{1.04}
+\newcommand{\esevendirectssixtyfour}{0.79}
+\newcommand{\esevenkeyrows}{%
+SOSD Facebook ids & 100M & 8.0 & 0.0 & 89.8 & 35.6 & 2.52$\times$ \\
+SOSD OSM cell ids & 100M & 8.0 & 0.0 & 89.7 & 35.6 & 2.52$\times$ \\
+SOSD Wikipedia timestamps & 90M & 8.0 & 0.0 & 89.0 & 35.6 & 2.50$\times$ \\
+Common Crawl hosts, hashed once & 100M & 19.7 & 4.4 & 94.2 & 40.1 & 2.35$\times$ \\
+16-byte strings, hashed once & 100M & 16.0 & 3.1 & 93.2 & 38.8 & 2.40$\times$ \\
+64-byte strings, hashed once & 100M & 64.0 & 8.8 & 98.5 & 44.4 & 2.22$\times$ \\
+\midrule
+Common Crawl hosts, string key & 100M & 19.7 & 0.0 & 97.9 & 102.3 & 0.96$\times$ \\
+16-byte strings, string key & 100M & 16.0 & 0.0 & 95.3 & 91.8 & 1.04$\times$ \\
+64-byte strings, string key & 100M & 64.0 & 0.0 & 104.6 & 133.1 & 0.79$\times$ \\
+}
+\newcommand{\esevenkeysmin}{2.22}
+\newcommand{\esevenkeysmax}{2.52}
+\newcommand{\eseventhpmin}{2.48}
+\newcommand{\eseventhpmax}{2.52}
+\newcommand{\esevencompstock}{9.42}
+\newcommand{\esevencomppleated}{8.01}
+\newcommand{\esevencompreduction}{15}
+\newcommand{\esevencompci}{0.849--0.852}
+\newcommand{\esevencompreps}{20}
+\newcommand{\esevencomprows}{%
+64 MiB & 5 & 8.31 (8.29--8.47) & 7.92 (7.91--8.00) & 0.954 [0.936, 0.963] \\
+256 MiB & 20 & 9.42 (9.39--9.44) & 8.01 (7.99--8.05) & 0.850 [0.849, 0.852] \\
+1024 MiB & 5 & 9.83 (9.81--9.83) & 8.06 (8.01--8.08) & 0.820 [0.815, 0.822] \\
+}

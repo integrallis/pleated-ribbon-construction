@@ -823,3 +823,21 @@ Graviton4 (replication; H1, H1b, H2, H6 evaluated): all hold. Reference / partit
 97.5%; 16-thread banding 10.57× sequential.
 
 The AMD replication runs next.
+
+## 2026-10-14 — E7: AMD replication; the paper moves to E7's numbers
+
+`results/e7/x86-amd/ANALYSIS.md` (EPYC 9R14, c7a.metal-48xl, no hypervisor; replication; run
+from c624167, which differs from the protocol commit a6ad7de only by results and this log). All
+four evaluated rules hold: reference / partitioned 2.05× and 2.35× at 100M and 400M keys; best
+sort / partitioned 1.33× and 1.23×; recovery in `l2_cache_req_stat.ic_dc_miss_in_l2` 96.4% and
+96.6%; 16-thread banding well above 3× sequential. Cross-check within 3%.
+
+Paper revised to E7, as the protocol's outcome section requires: the headline is the primary
+machine's (2.47–2.57× over the reference, 1.56–1.61× over the best full sort); the "98%"
+sentence is gone and the miss figures are stated by event, including H2's failure; the
+compaction sentence states the 15% reduction with its interval; configurations, key sets,
+huge pages and compaction are in a new appendix; the string-key limit is stated; results that
+exist only from the laptop are labelled. New numbers come from
+`experiments/e7_rigour/paper_tables.py` (in `reproduce.sh`); figures 1, 2 and 4 are drawn from
+E7's raw files (the access-pattern diagram previously carried hand-typed laptop numbers).
+`paper/main.pdf` is 17 pages; the anonymous LIPIcs build is 21.

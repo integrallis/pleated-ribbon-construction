@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Schematic figures (not data-derived): banding access order, before/after the partition
-pass. Print-safe, lightness-separated palette. Output: paper/figures/banding_order.pdf"""
+"""Schematic figure: banding access order, before/after the partition pass. The drawing is
+schematic; the three numbers in it are medians from E7's primary machine at 100M keys
+(results/e7/x86-intel/raw/main). Print-safe palette. Output: paper/figures/banding_order.pdf"""
+import json
+import statistics
 from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
@@ -8,6 +11,16 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, Rectangle
 
 OUT = Path(__file__).resolve().parent.parent / "paper" / "figures"
+MAIN = Path(__file__).resolve().parent.parent / "results" / "e7" / "x86-intel" / "raw" / "main"
+
+
+def median(strategy, field):
+    return statistics.median(json.loads(f.read_text())[field]
+                             for f in MAIN.glob(f"{strategy}_100000000_rep*.json"))
+
+
+BAND_REF, BAND_PART = median("reference", "banding_ns_per_key"), median("partitioned", "banding_ns_per_key")
+PASS = median("partitioned", "reorder_ns_per_key")
 BLUE, LIGHT, MID, INK, MUTED = "#2c4a8c", "#e8ebf2", "#9db2d8", "#222222", "#666666"
 
 fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.4))
@@ -46,14 +59,14 @@ for i in range(3):
 ax.text(5.0, -1.05, "…and each XOR step waits on the previous one",
         ha="center", fontsize=6, color=MUTED)
 ax.set_title("(a) arrival order: every key a far jump", fontsize=7.5, color=INK)
-ax.text(5.0, -1.6, "banding 46.1 ns/key · 5.75 misses/key", ha="center",
+ax.text(5.0, -1.6, f"banding {BAND_REF:.1f} ns/key", ha="center",
         fontsize=7, color=INK)
 
 # ---- (b) window order ----
 ax = axes[1]
 y = key_row(ax, xs)
 ax.add_patch(Rectangle((2.75, 1.44), 4.5, 0.54, fc="white", ec=BLUE, lw=1.0))
-ax.text(5.0, 1.71, "counting pass (5.5 ns/key)", ha="center", va="center",
+ax.text(5.0, 1.71, f"counting pass ({PASS:.1f} ns/key)", ha="center", va="center",
         fontsize=6.0, color=INK)
 for x in xs:
     ax.add_patch(FancyArrowPatch((x, y - 0.22), (min(max(x, 3.6), 6.4), 1.98),
@@ -69,7 +82,7 @@ ax.annotate("one window ≈ 768 KiB – fits in L2;\nprocessed one at a time, le
             xy=(hot * 10 / 8 + 0.6, 0.02), xytext=(6.9, -1.05), fontsize=6, color=MUTED,
             ha="center", arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.7))
 ax.set_title("(b) window order: same keys, grouped first", fontsize=7.5, color=INK)
-ax.text(5.0, -1.6, "banding 15.2 ns/key · 0.17 misses/key", ha="center",
+ax.text(5.0, -1.6, f"banding {BAND_PART:.1f} ns/key", ha="center",
         fontsize=7, color=INK)
 
 for ax in axes:

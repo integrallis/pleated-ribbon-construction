@@ -12,8 +12,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parent.parent
-P1 = ROOT / "results" / "e1b" / "phase1"
-PAR = ROOT / "results" / "e1b" / "parallel"
+# Primary machine of E7 (bare-metal Xeon, ten repetitions per cell, medians).
+P1 = ROOT / "results" / "e7" / "x86-intel" / "raw" / "main"
+PAR = ROOT / "results" / "e7" / "x86-intel" / "raw" / "parallel"
 OUT = ROOT / "paper" / "figures"
 OUT.mkdir(exist_ok=True)
 
@@ -34,7 +35,8 @@ def load(d, pattern):
 
 
 def mean(rs, f):
-    return statistics.mean(r[f] for r in rs)
+    """Median, as E7 reports."""
+    return statistics.median(r[f] for r in rs)
 
 
 def fig_strategies():
@@ -70,8 +72,8 @@ def fig_strategies():
 
 
 def fig_scaling():
-    rows = load(PAR, "t*_100M_rep*.json")
-    ts = sorted({k[2] for k in rows})
+    rows = load(PAR, "parallel_t*_rep*.json")
+    ts = sorted({k[2] for k in rows if k[0] == "parallel"})
     band = [mean(rows[("parallel", 100_000_000, t)], "banding_ns_per_key") for t in ts]
     tot = [mean(rows[("parallel", 100_000_000, t)], "total_ns_per_key") for t in ts]
     fig, ax = plt.subplots(figsize=(3.4, 2.0))

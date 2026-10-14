@@ -21,6 +21,8 @@ uv run python experiments/e2_rocksdb/analyze.py | tail -6
 uv run python experiments/e3_bloom_gap/analyze.py | tail -8
 uv run python experiments/e4_parallel_bloom/analyze.py | tail -8
 uv run python experiments/e5_byte_identity/run.py --stage analyze | tail -4
+uv run python experiments/e7_rigour/analyze.py | tail -8
+uv run python experiments/e7_rigour/paper_tables.py > /dev/null
 uv run python experiments/e6_memory_and_boundary/analyze.py | tail -6
 echo "== figures =="
 uv run python scripts/make_figures.py
