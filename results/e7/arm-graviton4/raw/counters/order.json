@@ -1,0 +1,202 @@
+[
+{
+"rep": 0,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:34:52.169584+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:35:04.134913+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:35:54.868388+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:36:44.221859+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:36:55.669767+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:37:10.209957+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:38:13.838790+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:38:58.764676+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:39:09.182429+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:39:19.591776+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:40:04.500714+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:40:53.880532+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:41:44.651638+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:41:56.607843+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:42:11.100661+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:43:14.362931+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:43:25.808688+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:43:37.246661+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:43:51.641204+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:44:53.907384+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:45:43.272011+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:46:34.052226+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:46:44.464816+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:46:56.429466+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:47:41.388117+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:48:26.272364+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:49:15.640033+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:49:27.089911+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:50:30.354787+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:51:21.003515+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:51:31.407516+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:51:46.071476+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:51:58.021337+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:52:12.580121+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:52:57.547522+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:54:00.620764+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:54:12.613085+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:54:24.062018+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:55:14.879239+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:55:25.283159+00:00"
+}
+]

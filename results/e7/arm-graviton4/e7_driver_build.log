@@ -1,0 +1,847 @@
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -o e1b_phase1 e1b_phase1.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e1b_phase1.cc:36:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e1b_phase1.cc:167:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e1b_phase1.cc:167:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=64 -DE7_R=7 -o e7_w64_r7 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=64 -DE7_R=8 -o e7_w64_r8 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=64 -DE7_R=16 -o e7_w64_r16 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=128 -DE7_R=7 -o e7_w128_r7 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=128 -DE7_R=8 -o e7_w128_r8 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_W=128 -DE7_R=16 -o e7_w128_r16 e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<long unsigned int>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+g++ -O3 -march=native -std=c++17 -Wall -Wextra -pthread -I../../harness/fastfilter_cpp/src/ribbon -I../../harness/fastfilter_cpp/benchmarks -I../../harness/BuRR/ips2ra/include -isystem /home/linuxbrew/.linuxbrew/include -DE7_STRKEYS -DE7_W=64 -DE7_R=7 -o e7_w64_r7_str e7_driver.cc
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:57,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:46,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra.hpp:38,
+                 from e7_driver.cc:46:
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp: In instantiation of ‘void ips2ra::detail::Sorter<Cfg>::writeMargins(int, int, int, int, diff_t, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; diff_t = long int]’:
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:125:34:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/cleanup_margins.hpp:89:71: warning: unused parameter ‘level’ [-Wunused-parameter]
+   89 |                                const diff_t in_swap_buffer, const int level) {
+      |                                                             ~~~~~~~~~~^~~~~
+In file included from /usr/include/c++/13/cassert:44,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/utils.hpp:38,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:48,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra_fwd.hpp:43,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:42:
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp: In instantiation of ‘static T ips2ra::ExtendedConfig<It_, Extractor_, Cfg, ThreadPool_>::getBucket(T, int) [with T = unsigned int; It_ = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor_ = reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>; Cfg = ips2ra::Config<>; ThreadPool_ = ips2ra::StdThreadPool]’:
+../../harness/BuRR/ips2ra/include/ips2ra/classifier.hpp:64:30:   required from ‘ips2ra::detail::Sorter<Cfg>::Classifier::bucket_type ips2ra::detail::Sorter<Cfg>::Classifier::classify(const value_type&, int) const [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; bucket_type = long int; value_type = StartKey]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:81:33:   required from ‘int ips2ra::detail::Sorter<Cfg>::classifyAndReadBlock(int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/block_permutation.hpp:136:64:   required from ‘void ips2ra::detail::Sorter<Cfg>::permuteBlocks() [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>]’
+../../harness/BuRR/ips2ra/include/ips2ra/partitioning.hpp:93:31:   required from ‘void ips2ra::detail::Sorter<Cfg>::partition(iterator, iterator, int, diff_t*, int, int) [with bool kIsParallel = false; Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; diff_t = long int]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:160:21:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequentialRec(iterator, iterator, int) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:121:41:   required from ‘void ips2ra::detail::Sorter<Cfg>::sequential(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:199:44:   required from ‘void ips2ra::SequentialSorter<Cfg>::operator()(iterator, iterator) [with Cfg = ips2ra::ExtendedConfig<__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>, ips2ra::Config<>, ips2ra::StdThreadPool>; iterator = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:88:70:   required from ‘void ips2ra::sort(It, It, Extractor) [with Cfg = Config<>; It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+../../harness/BuRR/ips2ra/include/ips2ra/ips2ra.hpp:103:27:   required from ‘void ips2ra::sort(It, It, Extractor) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Extractor = reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>]’
+e7_driver.cc:217:15:   required from here
+../../harness/BuRR/ips2ra/include/ips2ra/config.hpp:301:26: warning: comparison of integer expressions of different signedness: ‘long unsigned int’ and ‘int’ [-Wsign-compare]
+  301 |         assert(sizeof(T) > level);
+      |                ~~~~~~~~~~^~~~~~~
+In file included from ../../harness/BuRR/ips2ra/include/ips2ra/sequential.hpp:45,
+                 from ../../harness/BuRR/ips2ra/include/ips2ra/parallel.hpp:58:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<3, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<2, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<1, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp: In function ‘void ips2ra::detail::unroll_loop_four_times(It, size_t, Func&&) [with It = __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >; Func = SimpleSkaSort<32, 128, 1024, unsigned int>::SkaByteSort<0, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)> >(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, __gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >, std::size_t, std::ptrdiff_t*, reorder_sort_ips2ra(const std::vector<StrRef>&, const Hasher&, size_t)::<lambda(const StartKey&)>&)::<lambda(uint8_t)>::<lambda(__gnu_cxx::__normal_iterator<StartKey*, std::vector<StartKey> >)>]’:
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:76:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   76 |         case 3: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:9: note: here
+   77 |         case 2: to_call(begin); ++begin;
+      |         ^~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:77:33: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   77 |         case 2: to_call(begin); ++begin;
+      |                                 ^~~~~~~
+../../harness/BuRR/ips2ra/include/ips2ra/ska_sort.hpp:78:9: note: here
+   78 |         case 1: to_call(begin);
+      |         ^~~~
+In file included from e7_driver.cc:42:
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4365:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4395:39,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript 6 is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset 48 into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4366:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4395:39,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript 7 is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset 56 into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4365:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4396:39,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript [4, 8] is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset [33, 64] into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4366:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4396:39,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript [5, 9] is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset [41, 72] into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4365:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4398:35,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript 4 is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset 32 into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4366:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4398:35,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript 5 is outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset 40 into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~
+In function ‘xxh_u64 XXH_read64(const void*)’,
+    inlined from ‘xxh_u64 XXH_readLE64(const void*)’ at /usr/include/xxhash.h:3064:34,
+    inlined from ‘xxh_u64 XXH3_mix16B(const xxh_u8*, const xxh_u8*, xxh_u64)’ at /usr/include/xxhash.h:4366:46,
+    inlined from ‘XXH64_hash_t XXH3_len_17to128_64b(const xxh_u8*, size_t, const xxh_u8*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:4399:35,
+    inlined from ‘XXH64_hash_t XXH3_64bits_internal(const void*, size_t, XXH64_hash_t, const void*, size_t, XXH3_hashLong64_f)’ at /usr/include/xxhash.h:5709:36,
+    inlined from ‘XXH64_hash_t XXH_INLINE_XXH3_64bits_withSeed(const void*, size_t, XXH64_hash_t)’ at /usr/include/xxhash.h:5735:32,
+    inlined from ‘static TS::Hash TS::HashFn(const Key&, Seed)’ at e7_driver.cc:92:32,
+    inlined from ‘ribbon::StandardHasher<TypesAndSettings>::Hash ribbon::StandardHasher<TypesAndSettings>::GetHash(const Key&) const [with TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:179:22,
+    inlined from ‘void ribbon::InterleavedPrepareQuery(const typename PhsfQueryHasher::Key&, const PhsfQueryHasher&, const InterleavedSolutionStorage&, typename PhsfQueryHasher::Hash*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*, typename InterleavedSolutionStorage::Index*) [with InterleavedSolutionStorage = SerializableInterleavedSolution<TS>; PhsfQueryHasher = StandardHasher<TS>]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_alg.h:1097:35,
+    inlined from ‘bool ribbon::SerializableInterleavedSolution<TypesAndSettings>::FilterQuery(const Key&, const FilterQueryHasher&) const [with FilterQueryHasher = ribbon::StandardHasher<TS>; TypesAndSettings = TS]’ at ../../harness/fastfilter_cpp/src/ribbon/ribbon_impl.h:954:30,
+    inlined from ‘int run(int, char**)’ at e7_driver.cc:408:27:
+/usr/include/xxhash.h:2995:39: warning: array subscript ‘const xxh_unalign64 {aka const long unsigned int}[3]’ is partly outside array bounds of ‘char [32]’ [-Warray-bounds=]
+ 2995 |     return *((const xxh_unalign64*)ptr);
+      |                                       ^
+e7_driver.cc: In function ‘int run(int, char**)’:
+e7_driver.cc:404:8: note: at offset [25, 32] into object ‘probe’ of size 32
+  404 |   char probe[32];
+      |        ^~~~~

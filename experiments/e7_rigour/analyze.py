@@ -74,6 +74,8 @@ def run_checks(rows, group_fields, problems, stage):
 def analyze(res):
     machine = json.loads((res / "machine.json").read_text())
     L, rules, problems = [], [], []
+    # Where /proc/cpuinfo has no model name (Arm), the runner stored lscpu's lines.
+    machine["cpu"] = " / ".join(part.split(":", 1)[-1].strip() for part in machine["cpu"].splitlines())
     head = (f"generated-by: experiments/e7_rigour/analyze.py over {res.relative_to(ROOT)}/raw/ "
             f"(machine: {machine['cpu']}, {machine['arch']}, kernel {machine['kernel']}, "
             f"virt: {machine['virt']}, profile: {machine['profile']}, source {machine['source_commit']})")
