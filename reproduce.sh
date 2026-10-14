@@ -26,4 +26,5 @@ uv run python experiments/e7_rigour/paper_tables.py > /dev/null
 uv run python experiments/e6_memory_and_boundary/analyze.py | tail -6
 echo "== figures =="
 uv run python scripts/make_figures.py
+uv run python scripts/make_diagrams.py
 echo "== done: analyses match committed ANALYSIS files; figures in paper/figures/ =="

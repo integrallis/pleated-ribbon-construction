@@ -37,7 +37,11 @@ def main():
     tex = (PAPER / "main.tex").read_text()
     title = " ".join(re.search(r"\\title\{(.*?)\}\n\\author", tex, re.S).group(1)
                      .replace("\\\\", " ").split())
-    abstract = pandoc(["-f", "latex", "-t", "gfm", "--wrap=none"],
+    # The abstract is converted on its own, so it gets the generated macros (paper/tables/*.tex)
+    # that the body receives through the preamble's \input lines.
+    macros = "".join((PAPER / "tables" / (f + ".tex")).read_text()
+                     for f in re.findall(r"^\\input\{tables/([^}]+)\}$", tex, re.M))
+    abstract = pandoc(["-f", "latex", "-t", "gfm", "--wrap=none"], macros +
                       re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", tex, re.S).group(1))
     body = pandoc(["main.tex", "-f", "latex", "-t", "gfm", "--citeproc", "--bibliography",
                    "refs.bib", "--wrap=none"])
