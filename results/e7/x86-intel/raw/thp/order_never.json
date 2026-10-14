@@ -1,0 +1,77 @@
+[
+{
+"rep": 0,
+"cell": "never_reference",
+"started_utc": "2026-10-14T02:15:54.404671+00:00"
+},
+{
+"rep": 0,
+"cell": "never_sort_ips2ra",
+"started_utc": "2026-10-14T02:16:07.958342+00:00"
+},
+{
+"rep": 0,
+"cell": "never_partitioned",
+"started_utc": "2026-10-14T02:16:18.235315+00:00"
+},
+{
+"rep": 1,
+"cell": "never_partitioned",
+"started_utc": "2026-10-14T02:16:26.312296+00:00"
+},
+{
+"rep": 1,
+"cell": "never_sort_ips2ra",
+"started_utc": "2026-10-14T02:16:34.386895+00:00"
+},
+{
+"rep": 1,
+"cell": "never_reference",
+"started_utc": "2026-10-14T02:16:44.637943+00:00"
+},
+{
+"rep": 2,
+"cell": "never_reference",
+"started_utc": "2026-10-14T02:16:58.223419+00:00"
+},
+{
+"rep": 2,
+"cell": "never_partitioned",
+"started_utc": "2026-10-14T02:17:11.698356+00:00"
+},
+{
+"rep": 2,
+"cell": "never_sort_ips2ra",
+"started_utc": "2026-10-14T02:17:19.846032+00:00"
+},
+{
+"rep": 3,
+"cell": "never_sort_ips2ra",
+"started_utc": "2026-10-14T02:17:30.110455+00:00"
+},
+{
+"rep": 3,
+"cell": "never_reference",
+"started_utc": "2026-10-14T02:17:40.374621+00:00"
+},
+{
+"rep": 3,
+"cell": "never_partitioned",
+"started_utc": "2026-10-14T02:17:53.932813+00:00"
+},
+{
+"rep": 4,
+"cell": "never_partitioned",
+"started_utc": "2026-10-14T02:18:02.079810+00:00"
+},
+{
+"rep": 4,
+"cell": "never_sort_ips2ra",
+"started_utc": "2026-10-14T02:18:10.220457+00:00"
+},
+{
+"rep": 4,
+"cell": "never_reference",
+"started_utc": "2026-10-14T02:18:20.478915+00:00"
+}
+]

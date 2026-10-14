@@ -1,0 +1,24 @@
+{
+ "passed": true,
+ "gates": {
+  "binary e1b_phase1": true,
+  "binary e7_w64_r7": true,
+  "binary e7_w64_r8": true,
+  "binary e7_w64_r16": true,
+  "binary e7_w128_r7": true,
+  "binary e7_w128_r8": true,
+  "binary e7_w128_r16": true,
+  "binary e7_w64_r7_str": true,
+  "root": true,
+  "perf_event_paranoid <= -1": true,
+  "node 0 has at least 18 physical cores": true,
+  "governor is performance (or no cpufreq)": true,
+  "source commit recorded": true,
+  "THP default is madvise": true,
+  "rocksdb at the pin": true,
+  "rocksdb patch applied": true,
+  "db_bench built after the patched source": true,
+  "db_bench contains the patch": true
+ },
+ "utc": "2026-10-13T22:43:52.417970+00:00"
+}

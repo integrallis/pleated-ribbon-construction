@@ -1,0 +1,77 @@
+[
+{
+"rep": 0,
+"cell": "madvise_reference",
+"started_utc": "2026-10-14T02:11:08.037271+00:00"
+},
+{
+"rep": 0,
+"cell": "madvise_sort_ips2ra",
+"started_utc": "2026-10-14T02:11:21.637016+00:00"
+},
+{
+"rep": 0,
+"cell": "madvise_partitioned",
+"started_utc": "2026-10-14T02:11:31.967290+00:00"
+},
+{
+"rep": 1,
+"cell": "madvise_partitioned",
+"started_utc": "2026-10-14T02:11:40.132171+00:00"
+},
+{
+"rep": 1,
+"cell": "madvise_sort_ips2ra",
+"started_utc": "2026-10-14T02:11:48.274693+00:00"
+},
+{
+"rep": 1,
+"cell": "madvise_reference",
+"started_utc": "2026-10-14T02:11:58.652653+00:00"
+},
+{
+"rep": 2,
+"cell": "madvise_reference",
+"started_utc": "2026-10-14T02:12:12.105143+00:00"
+},
+{
+"rep": 2,
+"cell": "madvise_partitioned",
+"started_utc": "2026-10-14T02:12:25.633146+00:00"
+},
+{
+"rep": 2,
+"cell": "madvise_sort_ips2ra",
+"started_utc": "2026-10-14T02:12:33.679408+00:00"
+},
+{
+"rep": 3,
+"cell": "madvise_sort_ips2ra",
+"started_utc": "2026-10-14T02:12:43.995188+00:00"
+},
+{
+"rep": 3,
+"cell": "madvise_reference",
+"started_utc": "2026-10-14T02:12:54.280593+00:00"
+},
+{
+"rep": 3,
+"cell": "madvise_partitioned",
+"started_utc": "2026-10-14T02:13:07.841792+00:00"
+},
+{
+"rep": 4,
+"cell": "madvise_partitioned",
+"started_utc": "2026-10-14T02:13:15.902096+00:00"
+},
+{
+"rep": 4,
+"cell": "madvise_sort_ips2ra",
+"started_utc": "2026-10-14T02:13:23.951490+00:00"
+},
+{
+"rep": 4,
+"cell": "madvise_reference",
+"started_utc": "2026-10-14T02:13:34.229664+00:00"
+}
+]

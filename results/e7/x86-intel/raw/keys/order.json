@@ -1,0 +1,677 @@
+[
+{
+"rep": 0,
+"cell": "synth16_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:38:04.977560+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_hashed_partitioned",
+"started_utc": "2026-10-14T01:38:24.657504+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:38:34.505140+00:00"
+},
+{
+"rep": 0,
+"cell": "synth16_direct_reference",
+"started_utc": "2026-10-14T01:38:46.669054+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:39:02.950548+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_direct_partitioned",
+"started_utc": "2026-10-14T01:39:24.231479+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:39:48.671413+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_fb_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:40:03.560528+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_direct_reference",
+"started_utc": "2026-10-14T01:40:14.352850+00:00"
+},
+{
+"rep": 0,
+"cell": "synth16_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:40:31.457190+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_hashed_reference",
+"started_utc": "2026-10-14T01:40:43.343801+00:00"
+},
+{
+"rep": 0,
+"cell": "synth16_direct_partitioned",
+"started_utc": "2026-10-14T01:41:01.381551+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_hashed_partitioned",
+"started_utc": "2026-10-14T01:41:17.426626+00:00"
+},
+{
+"rep": 0,
+"cell": "synth16_hashed_reference",
+"started_utc": "2026-10-14T01:41:29.900284+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_osm_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:41:45.072042+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:41:55.723777+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_wiki_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:42:23.385774+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_wiki_hashed_reference",
+"started_utc": "2026-10-14T01:42:32.766619+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_osm_hashed_partitioned",
+"started_utc": "2026-10-14T01:42:44.934882+00:00"
+},
+{
+"rep": 0,
+"cell": "synth64_direct_reference",
+"started_utc": "2026-10-14T01:42:53.468885+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_fb_hashed_partitioned",
+"started_utc": "2026-10-14T01:43:14.935519+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_fb_hashed_reference",
+"started_utc": "2026-10-14T01:43:23.443449+00:00"
+},
+{
+"rep": 0,
+"cell": "synth16_hashed_partitioned",
+"started_utc": "2026-10-14T01:43:37.406452+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_osm_hashed_reference",
+"started_utc": "2026-10-14T01:43:47.005242+00:00"
+},
+{
+"rep": 0,
+"cell": "sosd_wiki_hashed_partitioned",
+"started_utc": "2026-10-14T01:44:00.907817+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_hashed_reference",
+"started_utc": "2026-10-14T01:44:08.272069+00:00"
+},
+{
+"rep": 0,
+"cell": "cc_hosts_direct_partitioned",
+"started_utc": "2026-10-14T01:44:23.698309+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:44:41.361645+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_osm_hashed_partitioned",
+"started_utc": "2026-10-14T01:45:01.065022+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_fb_hashed_partitioned",
+"started_utc": "2026-10-14T01:45:09.590275+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_hashed_reference",
+"started_utc": "2026-10-14T01:45:18.120980+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_wiki_hashed_reference",
+"started_utc": "2026-10-14T01:45:33.508711+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_fb_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:45:45.637468+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_fb_hashed_reference",
+"started_utc": "2026-10-14T01:45:56.387305+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_direct_partitioned",
+"started_utc": "2026-10-14T01:46:10.375609+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_hashed_reference",
+"started_utc": "2026-10-14T01:46:26.553273+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_osm_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:46:44.629394+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:46:55.256509+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:47:07.272271+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_osm_hashed_reference",
+"started_utc": "2026-10-14T01:47:34.815478+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:47:48.807205+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_direct_reference",
+"started_utc": "2026-10-14T01:48:10.105867+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_hashed_partitioned",
+"started_utc": "2026-10-14T01:48:31.419809+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_direct_reference",
+"started_utc": "2026-10-14T01:48:41.371617+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_hashed_partitioned",
+"started_utc": "2026-10-14T01:48:57.727681+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:49:07.263665+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_wiki_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:49:18.863439+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_direct_reference",
+"started_utc": "2026-10-14T01:49:28.114281+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_hashed_partitioned",
+"started_utc": "2026-10-14T01:49:45.234841+00:00"
+},
+{
+"rep": 1,
+"cell": "sosd_wiki_hashed_partitioned",
+"started_utc": "2026-10-14T01:49:57.933959+00:00"
+},
+{
+"rep": 1,
+"cell": "synth16_hashed_reference",
+"started_utc": "2026-10-14T01:50:05.295853+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_direct_partitioned",
+"started_utc": "2026-10-14T01:50:20.376218+00:00"
+},
+{
+"rep": 1,
+"cell": "synth64_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:50:44.688650+00:00"
+},
+{
+"rep": 1,
+"cell": "cc_hosts_direct_partitioned",
+"started_utc": "2026-10-14T01:50:59.594612+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_wiki_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:51:17.137168+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_osm_hashed_partitioned",
+"started_utc": "2026-10-14T01:51:26.447084+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_direct_reference",
+"started_utc": "2026-10-14T01:51:34.969838+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_hashed_reference",
+"started_utc": "2026-10-14T01:51:56.409652+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_hashed_partitioned",
+"started_utc": "2026-10-14T01:52:14.600284+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_fb_hashed_partitioned",
+"started_utc": "2026-10-14T01:52:24.586349+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_direct_partitioned",
+"started_utc": "2026-10-14T01:52:33.187028+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:52:50.901954+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_hashed_partitioned",
+"started_utc": "2026-10-14T01:53:05.650608+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_direct_partitioned",
+"started_utc": "2026-10-14T01:53:18.357346+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_hashed_partitioned",
+"started_utc": "2026-10-14T01:53:42.615757+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_direct_reference",
+"started_utc": "2026-10-14T01:53:52.312086+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_hashed_reference",
+"started_utc": "2026-10-14T01:54:09.473804+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_hashed_reference",
+"started_utc": "2026-10-14T01:54:24.866836+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_fb_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:54:39.875205+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_osm_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:54:50.716005+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_fb_hashed_reference",
+"started_utc": "2026-10-14T01:55:01.365007+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_direct_partitioned",
+"started_utc": "2026-10-14T01:55:15.333466+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_wiki_hashed_reference",
+"started_utc": "2026-10-14T01:55:31.466622+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:55:43.687945+00:00"
+},
+{
+"rep": 2,
+"cell": "cc_hosts_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:55:55.862288+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_wiki_hashed_partitioned",
+"started_utc": "2026-10-14T01:56:17.127801+00:00"
+},
+{
+"rep": 2,
+"cell": "synth64_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:56:24.500320+00:00"
+},
+{
+"rep": 2,
+"cell": "sosd_osm_hashed_reference",
+"started_utc": "2026-10-14T01:56:52.195566+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:57:06.227487+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:57:25.939543+00:00"
+},
+{
+"rep": 2,
+"cell": "synth16_direct_reference",
+"started_utc": "2026-10-14T01:57:37.754865+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_hashed_partitioned",
+"started_utc": "2026-10-14T01:57:54.131307+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_direct_partitioned",
+"started_utc": "2026-10-14T01:58:03.835639+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_direct_reference",
+"started_utc": "2026-10-14T01:58:28.249472+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:58:44.675884+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:58:56.866619+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_fb_hashed_partitioned",
+"started_utc": "2026-10-14T01:59:08.594612+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_direct_partitioned",
+"started_utc": "2026-10-14T01:59:17.248707+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T01:59:33.401868+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_direct_sort_ips2ra",
+"started_utc": "2026-10-14T01:59:48.172282+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_direct_reference",
+"started_utc": "2026-10-14T02:00:09.724994+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_direct_partitioned",
+"started_utc": "2026-10-14T02:00:31.266434+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_hashed_reference",
+"started_utc": "2026-10-14T02:00:48.919803+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_osm_hashed_partitioned",
+"started_utc": "2026-10-14T02:01:03.967361+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_fb_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:01:12.507558+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_direct_sort_ips2ra",
+"started_utc": "2026-10-14T02:01:23.205208+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_hashed_partitioned",
+"started_utc": "2026-10-14T02:01:51.017655+00:00"
+},
+{
+"rep": 3,
+"cell": "synth16_direct_sort_ips2ra",
+"started_utc": "2026-10-14T02:02:03.735482+00:00"
+},
+{
+"rep": 3,
+"cell": "synth64_hashed_reference",
+"started_utc": "2026-10-14T02:02:23.420797+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_osm_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:02:41.626150+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_fb_hashed_reference",
+"started_utc": "2026-10-14T02:02:52.323926+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_direct_reference",
+"started_utc": "2026-10-14T02:03:06.310888+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_wiki_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:03:23.440268+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_hashed_reference",
+"started_utc": "2026-10-14T02:03:32.748923+00:00"
+},
+{
+"rep": 3,
+"cell": "cc_hosts_hashed_partitioned",
+"started_utc": "2026-10-14T02:03:48.105019+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_osm_hashed_reference",
+"started_utc": "2026-10-14T02:03:58.046957+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_wiki_hashed_reference",
+"started_utc": "2026-10-14T02:04:12.023929+00:00"
+},
+{
+"rep": 3,
+"cell": "sosd_wiki_hashed_partitioned",
+"started_utc": "2026-10-14T02:04:24.164729+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_direct_partitioned",
+"started_utc": "2026-10-14T02:04:31.465424+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_hashed_reference",
+"started_utc": "2026-10-14T02:04:49.050687+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_wiki_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:05:04.353656+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_hashed_partitioned",
+"started_utc": "2026-10-14T02:05:13.713584+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_direct_sort_ips2ra",
+"started_utc": "2026-10-14T02:05:23.288917+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_fb_hashed_partitioned",
+"started_utc": "2026-10-14T02:05:44.623207+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_hashed_partitioned",
+"started_utc": "2026-10-14T02:05:53.099722+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_hashed_reference",
+"started_utc": "2026-10-14T02:06:03.149487+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_wiki_hashed_reference",
+"started_utc": "2026-10-14T02:06:21.282500+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_hashed_reference",
+"started_utc": "2026-10-14T02:06:33.406506+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_direct_sort_ips2ra",
+"started_utc": "2026-10-14T02:06:48.515119+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_fb_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:07:16.140100+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_osm_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:07:26.806353+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:07:37.575279+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:07:52.461408+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_fb_hashed_reference",
+"started_utc": "2026-10-14T02:08:04.150628+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_direct_reference",
+"started_utc": "2026-10-14T02:08:18.108106+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_direct_reference",
+"started_utc": "2026-10-14T02:08:35.179937+00:00"
+},
+{
+"rep": 4,
+"cell": "cc_hosts_hashed_sort_ips2ra",
+"started_utc": "2026-10-14T02:08:56.694274+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_wiki_hashed_partitioned",
+"started_utc": "2026-10-14T02:09:08.758972+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_osm_hashed_partitioned",
+"started_utc": "2026-10-14T02:09:16.069326+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_hashed_partitioned",
+"started_utc": "2026-10-14T02:09:24.682480+00:00"
+},
+{
+"rep": 4,
+"cell": "sosd_osm_hashed_reference",
+"started_utc": "2026-10-14T02:09:37.392833+00:00"
+},
+{
+"rep": 4,
+"cell": "synth64_direct_partitioned",
+"started_utc": "2026-10-14T02:09:51.304173+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_direct_sort_ips2ra",
+"started_utc": "2026-10-14T02:10:15.730861+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_direct_partitioned",
+"started_utc": "2026-10-14T02:10:35.519614+00:00"
+},
+{
+"rep": 4,
+"cell": "synth16_direct_reference",
+"started_utc": "2026-10-14T02:10:51.652278+00:00"
+}
+]

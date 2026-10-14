@@ -1,0 +1,1 @@
+{"arm": "pleated", "sst_target_bytes": 268435456, "rep": 18, "keys": 30000000, "compaction_cpu_micros": 8026988, "compactions": 2, "compaction_wall_micros": 8027175, "fillrandom_micros_per_op": 1.475, "sst_files_at_end": 6, "process_wall_s": 49.71}

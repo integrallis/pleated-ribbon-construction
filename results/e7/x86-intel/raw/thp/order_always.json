@@ -1,0 +1,77 @@
+[
+{
+"rep": 0,
+"cell": "always_reference",
+"started_utc": "2026-10-14T02:13:47.651694+00:00"
+},
+{
+"rep": 0,
+"cell": "always_sort_ips2ra",
+"started_utc": "2026-10-14T02:13:58.759047+00:00"
+},
+{
+"rep": 0,
+"cell": "always_partitioned",
+"started_utc": "2026-10-14T02:14:06.814591+00:00"
+},
+{
+"rep": 1,
+"cell": "always_partitioned",
+"started_utc": "2026-10-14T02:14:12.947491+00:00"
+},
+{
+"rep": 1,
+"cell": "always_sort_ips2ra",
+"started_utc": "2026-10-14T02:14:19.088096+00:00"
+},
+{
+"rep": 1,
+"cell": "always_reference",
+"started_utc": "2026-10-14T02:14:27.157717+00:00"
+},
+{
+"rep": 2,
+"cell": "always_reference",
+"started_utc": "2026-10-14T02:14:38.352821+00:00"
+},
+{
+"rep": 2,
+"cell": "always_partitioned",
+"started_utc": "2026-10-14T02:14:49.541865+00:00"
+},
+{
+"rep": 2,
+"cell": "always_sort_ips2ra",
+"started_utc": "2026-10-14T02:14:55.672100+00:00"
+},
+{
+"rep": 3,
+"cell": "always_sort_ips2ra",
+"started_utc": "2026-10-14T02:15:03.721688+00:00"
+},
+{
+"rep": 3,
+"cell": "always_reference",
+"started_utc": "2026-10-14T02:15:11.796227+00:00"
+},
+{
+"rep": 3,
+"cell": "always_partitioned",
+"started_utc": "2026-10-14T02:15:22.927999+00:00"
+},
+{
+"rep": 4,
+"cell": "always_partitioned",
+"started_utc": "2026-10-14T02:15:29.057993+00:00"
+},
+{
+"rep": 4,
+"cell": "always_sort_ips2ra",
+"started_utc": "2026-10-14T02:15:35.188478+00:00"
+},
+{
+"rep": 4,
+"cell": "always_reference",
+"started_utc": "2026-10-14T02:15:43.252901+00:00"
+}
+]

@@ -1,0 +1,1 @@
+{"arm": "stock", "sst_target_bytes": 1073741824, "rep": 0, "keys": 30000000, "compaction_cpu_micros": 9808320, "compactions": 2, "compaction_wall_micros": 9808552, "fillrandom_micros_per_op": 1.481, "sst_files_at_end": 5, "process_wall_s": 49.89}

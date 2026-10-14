@@ -1,0 +1,402 @@
+[
+{
+"rep": 0,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:16:28.359962+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:17:27.116453+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:17:35.287411+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:18:32.495628+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_radix_400000000_generic",
+"started_utc": "2026-10-14T00:19:45.300544+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_radix_100000000_generic",
+"started_utc": "2026-10-14T00:20:44.048157+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_ips2ra_100000000_generic",
+"started_utc": "2026-10-14T00:20:54.744679+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_100000000_generic",
+"started_utc": "2026-10-14T00:21:05.159338+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_ips2ra_400000000_generic",
+"started_utc": "2026-10-14T00:21:18.725292+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:22:15.961519+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:23:04.888360+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:23:15.270926+00:00"
+},
+{
+"rep": 0,
+"cell": "reference_400000000_generic",
+"started_utc": "2026-10-14T00:23:28.852130+00:00"
+},
+{
+"rep": 0,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:24:41.717936+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_400000000_generic",
+"started_utc": "2026-10-14T00:24:52.547909+00:00"
+},
+{
+"rep": 0,
+"cell": "partitioned_100000000_generic",
+"started_utc": "2026-10-14T00:25:41.474458+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:25:49.687492+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:26:00.330291+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:27:12.869712+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:28:10.068948+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_100000000_generic",
+"started_utc": "2026-10-14T00:29:08.842768+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_400000000_generic",
+"started_utc": "2026-10-14T00:29:19.109989+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_100000000_generic",
+"started_utc": "2026-10-14T00:30:31.646952+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_400000000_generic",
+"started_utc": "2026-10-14T00:30:42.376227+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_radix_400000000_generic",
+"started_utc": "2026-10-14T00:31:39.600605+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_100000000_generic",
+"started_utc": "2026-10-14T00:32:38.390080+00:00"
+},
+{
+"rep": 1,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:32:52.007271+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_400000000_generic",
+"started_utc": "2026-10-14T00:33:05.549816+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_100000000_generic",
+"started_utc": "2026-10-14T00:33:54.480210+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:34:02.669395+00:00"
+},
+{
+"rep": 1,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:34:10.852501+00:00"
+},
+{
+"rep": 1,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:34:21.237091+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:35:10.174019+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_100000000_generic",
+"started_utc": "2026-10-14T00:36:22.748602+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:36:36.301184+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:37:25.218121+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_100000000_generic",
+"started_utc": "2026-10-14T00:37:35.634919+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:37:46.422600+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_400000000_generic",
+"started_utc": "2026-10-14T00:37:57.180985+00:00"
+},
+{
+"rep": 2,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:39:09.761716+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_400000000_generic",
+"started_utc": "2026-10-14T00:39:23.427611+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:40:12.397349+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_100000000_generic",
+"started_utc": "2026-10-14T00:40:20.606280+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_400000000_generic",
+"started_utc": "2026-10-14T00:40:31.017638+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:41:28.285341+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:42:27.105967+00:00"
+},
+{
+"rep": 2,
+"cell": "partitioned_100000000_generic",
+"started_utc": "2026-10-14T00:43:24.359998+00:00"
+},
+{
+"rep": 2,
+"cell": "sort_radix_400000000_generic",
+"started_utc": "2026-10-14T00:43:32.600630+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_100000000_generic",
+"started_utc": "2026-10-14T00:44:31.369901+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_400000000_generic",
+"started_utc": "2026-10-14T00:44:44.930716+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T00:45:57.550623+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T00:47:10.074441+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T00:47:18.195969+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:48:15.453350+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_400000000_generic",
+"started_utc": "2026-10-14T00:49:04.410954+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T00:49:53.338986+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:50:04.086649+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_400000000_generic",
+"started_utc": "2026-10-14T00:50:14.475390+00:00"
+},
+{
+"rep": 3,
+"cell": "partitioned_100000000_generic",
+"started_utc": "2026-10-14T00:51:13.232333+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:51:21.515484+00:00"
+},
+{
+"rep": 3,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T00:52:20.309820+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_radix_100000000_generic",
+"started_utc": "2026-10-14T00:52:33.874568+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_100000000_generic",
+"started_utc": "2026-10-14T00:52:44.619467+00:00"
+},
+{
+"rep": 3,
+"cell": "sort_ips2ra_400000000_generic",
+"started_utc": "2026-10-14T00:52:55.013118+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_100000000_generic",
+"started_utc": "2026-10-14T00:53:52.245878+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_400000000_generic",
+"started_utc": "2026-10-14T00:54:03.039701+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_100000000_raw",
+"started_utc": "2026-10-14T00:54:51.999060+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_400000000_raw",
+"started_utc": "2026-10-14T00:55:02.357036+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_400000000_generic",
+"started_utc": "2026-10-14T00:56:01.121763+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_400000000_raw",
+"started_utc": "2026-10-14T00:57:13.709947+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_100000000_generic",
+"started_utc": "2026-10-14T00:58:02.667626+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_400000000_generic",
+"started_utc": "2026-10-14T00:58:10.851131+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_400000000_generic",
+"started_utc": "2026-10-14T00:59:08.106848+00:00"
+},
+{
+"rep": 4,
+"cell": "partitioned_100000000_raw",
+"started_utc": "2026-10-14T01:00:06.879478+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_100000000_generic",
+"started_utc": "2026-10-14T01:00:15.086334+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_radix_100000000_raw",
+"started_utc": "2026-10-14T01:00:28.653584+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_100000000_generic",
+"started_utc": "2026-10-14T01:00:39.423703+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_100000000_raw",
+"started_utc": "2026-10-14T01:00:49.755682+00:00"
+},
+{
+"rep": 4,
+"cell": "sort_ips2ra_400000000_raw",
+"started_utc": "2026-10-14T01:01:03.331941+00:00"
+},
+{
+"rep": 4,
+"cell": "reference_400000000_raw",
+"started_utc": "2026-10-14T01:02:00.553466+00:00"
+}
+]

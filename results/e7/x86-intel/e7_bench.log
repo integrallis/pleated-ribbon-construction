@@ -1,0 +1,709 @@
+ok   binary e1b_phase1
+ok   binary e7_w64_r7
+ok   binary e7_w64_r8
+ok   binary e7_w64_r16
+ok   binary e7_w128_r7
+ok   binary e7_w128_r8
+ok   binary e7_w128_r16
+ok   binary e7_w64_r7_str
+ok   root
+ok   perf_event_paranoid <= -1
+ok   node 0 has at least 18 physical cores
+ok   governor is performance (or no cpufreq)
+ok   source commit recorded
+ok   THP default is madvise
+ok   rocksdb at the pin
+ok   rocksdb patch applied
+ok   db_bench built after the patched source
+ok   db_bench contains the patch
+events: {'mem_load_retired.l2_miss': '0x10d1', 'mem_load_retired.l3_miss': '0x20d1', 'dtlb_load_misses.walk_completed': '0xe12'}
+crosscheck n=10000000 reference: fingerprints equal, e7/e1b median total 0.993
+crosscheck n=10000000 sort_ips2ra: fingerprints equal, e7/e1b median total 0.999
+crosscheck n=10000000 partitioned: fingerprints equal, e7/e1b median total 0.987
+crosscheck n=100000000 reference: fingerprints equal, e7/e1b median total 1.000
+crosscheck n=100000000 sort_ips2ra: fingerprints equal, e7/e1b median total 0.992
+crosscheck n=100000000 partitioned: fingerprints equal, e7/e1b median total 0.990
+main sort_std_400000000 rep 0: {"strategy":"sort_std","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":103.795,"banding_ns_per_key":19.332,"backsubst_ns_per_key":4.6
+main noprefetch_100000000 rep 0: {"strategy":"noprefetch","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":117.667,"backsubst_ns_per_key":4.
+main reference_100000000 rep 0: {"strategy":"reference","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.704,"backsubst_ns_per_key":4.65
+main sort_radix_400000000 rep 0: {"strategy":"sort_radix","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":37.647,"banding_ns_per_key":19.355,"backsubst_ns_per_key":4.
+main reference_400000000 rep 0: {"strategy":"reference","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.723,"backsubst_ns_per_key":4.64
+main noprefetch_400000000 rep 0: {"strategy":"noprefetch","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":125.573,"backsubst_ns_per_key":4.
+main sort_ips2ra_400000000 rep 0: {"strategy":"sort_ips2ra","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":33.925,"banding_ns_per_key":19.329,"backsubst_ns_per_key":4
+main reference_10000000 rep 0: {"strategy":"reference","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.535,"backsubst_ns_per_key":4.663,
+main sort_std_100000000 rep 0: {"strategy":"sort_std","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":96.721,"banding_ns_per_key":19.350,"backsubst_ns_per_key":4.63
+main sort_ips2ra_100000000 rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":35.443,"banding_ns_per_key":19.370,"backsubst_ns_per_key":4
+main partitioned_10000000 rep 0: {"strategy":"partitioned","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":7.258,"banding_ns_per_key":23.238,"backsubst_ns_per_key":4.69
+main sort_ips2ra_10000000 rep 0: {"strategy":"sort_ips2ra","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":31.260,"banding_ns_per_key":19.391,"backsubst_ns_per_key":4.6
+main partitioned_400000000 rep 0: {"strategy":"partitioned","n":400000000,"rep":0,"num_slots":435937536,"reorder_ns_per_key":9.155,"banding_ns_per_key":23.252,"backsubst_ns_per_key":4.
+main sort_std_10000000 rep 0: {"strategy":"sort_std","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":84.185,"banding_ns_per_key":19.314,"backsubst_ns_per_key":4.660,
+main sort_radix_100000000 rep 0: {"strategy":"sort_radix","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":38.104,"banding_ns_per_key":19.407,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 0: {"strategy":"sort_radix","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":36.489,"banding_ns_per_key":19.374,"backsubst_ns_per_key":4.64
+main partitioned_100000000 rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.274,"banding_ns_per_key":23.303,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 0: {"strategy":"noprefetch","n":10000000,"rep":0,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.068,"backsubst_ns_per_key":4.707
+main noprefetch_100000000 rep 1: {"strategy":"noprefetch","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":116.933,"backsubst_ns_per_key":4.
+main reference_10000000 rep 1: {"strategy":"reference","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.619,"backsubst_ns_per_key":4.646,
+main sort_radix_400000000 rep 1: {"strategy":"sort_radix","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":37.695,"banding_ns_per_key":19.320,"backsubst_ns_per_key":4.
+main sort_std_100000000 rep 1: {"strategy":"sort_std","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":96.730,"banding_ns_per_key":19.365,"backsubst_ns_per_key":4.63
+main sort_ips2ra_10000000 rep 1: {"strategy":"sort_ips2ra","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":31.352,"banding_ns_per_key":19.242,"backsubst_ns_per_key":4.6
+main reference_400000000 rep 1: {"strategy":"reference","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.138,"backsubst_ns_per_key":4.64
+main reference_100000000 rep 1: {"strategy":"reference","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.695,"backsubst_ns_per_key":4.65
+main sort_std_10000000 rep 1: {"strategy":"sort_std","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":84.509,"banding_ns_per_key":19.329,"backsubst_ns_per_key":4.642,
+main sort_ips2ra_400000000 rep 1: {"strategy":"sort_ips2ra","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":33.873,"banding_ns_per_key":19.349,"backsubst_ns_per_key":4
+main sort_ips2ra_100000000 rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":34.420,"banding_ns_per_key":19.316,"backsubst_ns_per_key":4
+main partitioned_100000000 rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.262,"banding_ns_per_key":23.275,"backsubst_ns_per_key":4.
+main partitioned_400000000 rep 1: {"strategy":"partitioned","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":9.164,"banding_ns_per_key":23.259,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 1: {"strategy":"sort_radix","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":37.034,"banding_ns_per_key":19.292,"backsubst_ns_per_key":4.63
+main noprefetch_400000000 rep 1: {"strategy":"noprefetch","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":126.550,"backsubst_ns_per_key":4.
+main sort_radix_100000000 rep 1: {"strategy":"sort_radix","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":37.964,"banding_ns_per_key":19.377,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 1: {"strategy":"noprefetch","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.579,"backsubst_ns_per_key":4.702
+main sort_std_400000000 rep 1: {"strategy":"sort_std","n":400000000,"rep":1,"num_slots":435937536,"reorder_ns_per_key":103.917,"banding_ns_per_key":19.234,"backsubst_ns_per_key":4.6
+main partitioned_10000000 rep 1: {"strategy":"partitioned","n":10000000,"rep":1,"num_slots":10898496,"reorder_ns_per_key":7.355,"banding_ns_per_key":23.194,"backsubst_ns_per_key":4.67
+main partitioned_100000000 rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.278,"banding_ns_per_key":23.231,"backsubst_ns_per_key":4.
+main reference_10000000 rep 2: {"strategy":"reference","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.573,"backsubst_ns_per_key":4.660,
+main sort_radix_10000000 rep 2: {"strategy":"sort_radix","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":37.278,"banding_ns_per_key":19.252,"backsubst_ns_per_key":4.63
+main sort_std_400000000 rep 2: {"strategy":"sort_std","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":104.097,"banding_ns_per_key":19.321,"backsubst_ns_per_key":4.6
+main reference_100000000 rep 2: {"strategy":"reference","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":86.563,"backsubst_ns_per_key":4.65
+main partitioned_10000000 rep 2: {"strategy":"partitioned","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":7.247,"banding_ns_per_key":23.201,"backsubst_ns_per_key":4.69
+main sort_ips2ra_400000000 rep 2: {"strategy":"sort_ips2ra","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":33.959,"banding_ns_per_key":19.313,"backsubst_ns_per_key":4
+main noprefetch_10000000 rep 2: {"strategy":"noprefetch","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.270,"backsubst_ns_per_key":4.730
+main sort_ips2ra_10000000 rep 2: {"strategy":"sort_ips2ra","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":32.039,"banding_ns_per_key":19.379,"backsubst_ns_per_key":4.6
+main partitioned_400000000 rep 2: {"strategy":"partitioned","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":9.156,"banding_ns_per_key":23.248,"backsubst_ns_per_key":4.
+main noprefetch_400000000 rep 2: {"strategy":"noprefetch","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":126.200,"backsubst_ns_per_key":4.
+main sort_std_10000000 rep 2: {"strategy":"sort_std","n":10000000,"rep":2,"num_slots":10898496,"reorder_ns_per_key":84.613,"banding_ns_per_key":19.220,"backsubst_ns_per_key":4.638,
+main reference_400000000 rep 2: {"strategy":"reference","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.698,"backsubst_ns_per_key":4.63
+main sort_radix_100000000 rep 2: {"strategy":"sort_radix","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":37.994,"banding_ns_per_key":19.343,"backsubst_ns_per_key":4.
+main sort_ips2ra_100000000 rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":34.348,"banding_ns_per_key":19.315,"backsubst_ns_per_key":4
+main sort_std_100000000 rep 2: {"strategy":"sort_std","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":96.844,"banding_ns_per_key":19.353,"backsubst_ns_per_key":4.63
+main noprefetch_100000000 rep 2: {"strategy":"noprefetch","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":116.427,"backsubst_ns_per_key":4.
+main sort_radix_400000000 rep 2: {"strategy":"sort_radix","n":400000000,"rep":2,"num_slots":435937536,"reorder_ns_per_key":37.649,"banding_ns_per_key":19.264,"backsubst_ns_per_key":4.
+main partitioned_10000000 rep 3: {"strategy":"partitioned","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":7.342,"banding_ns_per_key":23.250,"backsubst_ns_per_key":4.66
+main sort_std_400000000 rep 3: {"strategy":"sort_std","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":103.578,"banding_ns_per_key":19.348,"backsubst_ns_per_key":4.6
+main reference_400000000 rep 3: {"strategy":"reference","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":91.383,"backsubst_ns_per_key":4.64
+main partitioned_100000000 rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.251,"banding_ns_per_key":23.244,"backsubst_ns_per_key":4.
+main sort_ips2ra_10000000 rep 3: {"strategy":"sort_ips2ra","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":31.853,"banding_ns_per_key":19.320,"backsubst_ns_per_key":4.6
+main sort_radix_400000000 rep 3: {"strategy":"sort_radix","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":37.643,"banding_ns_per_key":19.277,"backsubst_ns_per_key":4.
+main sort_ips2ra_400000000 rep 3: {"strategy":"sort_ips2ra","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":33.906,"banding_ns_per_key":19.363,"backsubst_ns_per_key":4
+main reference_100000000 rep 3: {"strategy":"reference","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.985,"backsubst_ns_per_key":4.65
+main sort_radix_100000000 rep 3: {"strategy":"sort_radix","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":38.013,"banding_ns_per_key":19.360,"backsubst_ns_per_key":4.
+main noprefetch_400000000 rep 3: {"strategy":"noprefetch","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":125.460,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 3: {"strategy":"sort_radix","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":37.054,"banding_ns_per_key":19.287,"backsubst_ns_per_key":4.63
+main noprefetch_100000000 rep 3: {"strategy":"noprefetch","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":114.827,"backsubst_ns_per_key":4.
+main sort_std_10000000 rep 3: {"strategy":"sort_std","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":84.632,"banding_ns_per_key":19.289,"backsubst_ns_per_key":4.646,
+main reference_10000000 rep 3: {"strategy":"reference","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.488,"backsubst_ns_per_key":4.619,
+main partitioned_400000000 rep 3: {"strategy":"partitioned","n":400000000,"rep":3,"num_slots":435937536,"reorder_ns_per_key":9.141,"banding_ns_per_key":23.269,"backsubst_ns_per_key":4.
+main sort_ips2ra_100000000 rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":34.064,"banding_ns_per_key":19.278,"backsubst_ns_per_key":4
+main sort_std_100000000 rep 3: {"strategy":"sort_std","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":96.973,"banding_ns_per_key":19.353,"backsubst_ns_per_key":4.64
+main noprefetch_10000000 rep 3: {"strategy":"noprefetch","n":10000000,"rep":3,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.189,"backsubst_ns_per_key":4.711
+main sort_std_400000000 rep 4: {"strategy":"sort_std","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":104.121,"banding_ns_per_key":19.366,"backsubst_ns_per_key":4.6
+main partitioned_100000000 rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.205,"banding_ns_per_key":23.278,"backsubst_ns_per_key":4.
+main sort_radix_400000000 rep 4: {"strategy":"sort_radix","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":37.648,"banding_ns_per_key":19.320,"backsubst_ns_per_key":4.
+main noprefetch_100000000 rep 4: {"strategy":"noprefetch","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":115.691,"backsubst_ns_per_key":4.
+main reference_400000000 rep 4: {"strategy":"reference","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.575,"backsubst_ns_per_key":4.63
+main noprefetch_400000000 rep 4: {"strategy":"noprefetch","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":124.638,"backsubst_ns_per_key":4.
+main sort_std_10000000 rep 4: {"strategy":"sort_std","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":84.216,"banding_ns_per_key":19.355,"backsubst_ns_per_key":4.654,
+main sort_ips2ra_400000000 rep 4: {"strategy":"sort_ips2ra","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":33.917,"banding_ns_per_key":19.316,"backsubst_ns_per_key":4
+main sort_std_100000000 rep 4: {"strategy":"sort_std","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":97.548,"banding_ns_per_key":19.377,"backsubst_ns_per_key":4.62
+main sort_radix_10000000 rep 4: {"strategy":"sort_radix","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":36.563,"banding_ns_per_key":19.345,"backsubst_ns_per_key":4.64
+main partitioned_400000000 rep 4: {"strategy":"partitioned","n":400000000,"rep":4,"num_slots":435937536,"reorder_ns_per_key":9.144,"banding_ns_per_key":23.265,"backsubst_ns_per_key":4.
+main reference_10000000 rep 4: {"strategy":"reference","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.811,"backsubst_ns_per_key":4.642,
+main sort_radix_100000000 rep 4: {"strategy":"sort_radix","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":38.092,"banding_ns_per_key":19.357,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 4: {"strategy":"noprefetch","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.245,"backsubst_ns_per_key":4.697
+main reference_100000000 rep 4: {"strategy":"reference","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.866,"backsubst_ns_per_key":4.65
+main partitioned_10000000 rep 4: {"strategy":"partitioned","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":7.273,"banding_ns_per_key":23.233,"backsubst_ns_per_key":4.66
+main sort_ips2ra_10000000 rep 4: {"strategy":"sort_ips2ra","n":10000000,"rep":4,"num_slots":10898496,"reorder_ns_per_key":31.214,"banding_ns_per_key":19.312,"backsubst_ns_per_key":4.6
+main sort_ips2ra_100000000 rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":34.289,"banding_ns_per_key":19.344,"backsubst_ns_per_key":4
+main sort_std_100000000 rep 5: {"strategy":"sort_std","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":96.748,"banding_ns_per_key":19.376,"backsubst_ns_per_key":4.63
+main sort_radix_10000000 rep 5: {"strategy":"sort_radix","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":36.516,"banding_ns_per_key":19.334,"backsubst_ns_per_key":4.63
+main noprefetch_400000000 rep 5: {"strategy":"noprefetch","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":126.188,"backsubst_ns_per_key":4.
+main noprefetch_100000000 rep 5: {"strategy":"noprefetch","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":116.996,"backsubst_ns_per_key":4.
+main sort_radix_400000000 rep 5: {"strategy":"sort_radix","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":37.665,"banding_ns_per_key":19.330,"backsubst_ns_per_key":4.
+main sort_ips2ra_100000000 rep 5: {"strategy":"sort_ips2ra","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":34.261,"banding_ns_per_key":19.382,"backsubst_ns_per_key":4
+main sort_std_10000000 rep 5: {"strategy":"sort_std","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":84.959,"banding_ns_per_key":19.336,"backsubst_ns_per_key":4.642,
+main partitioned_100000000 rep 5: {"strategy":"partitioned","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.263,"banding_ns_per_key":23.280,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 5: {"strategy":"noprefetch","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.076,"backsubst_ns_per_key":4.733
+main sort_std_400000000 rep 5: {"strategy":"sort_std","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":103.884,"banding_ns_per_key":19.312,"backsubst_ns_per_key":4.6
+main sort_ips2ra_10000000 rep 5: {"strategy":"sort_ips2ra","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":31.640,"banding_ns_per_key":19.380,"backsubst_ns_per_key":4.6
+main reference_400000000 rep 5: {"strategy":"reference","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.887,"backsubst_ns_per_key":4.64
+main partitioned_10000000 rep 5: {"strategy":"partitioned","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":7.356,"banding_ns_per_key":23.230,"backsubst_ns_per_key":4.66
+main partitioned_400000000 rep 5: {"strategy":"partitioned","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":9.134,"banding_ns_per_key":23.261,"backsubst_ns_per_key":4.
+main reference_10000000 rep 5: {"strategy":"reference","n":10000000,"rep":5,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.591,"backsubst_ns_per_key":4.651,
+main sort_radix_100000000 rep 5: {"strategy":"sort_radix","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":38.112,"banding_ns_per_key":19.314,"backsubst_ns_per_key":4.
+main sort_ips2ra_400000000 rep 5: {"strategy":"sort_ips2ra","n":400000000,"rep":5,"num_slots":435937536,"reorder_ns_per_key":34.825,"banding_ns_per_key":19.341,"backsubst_ns_per_key":4
+main reference_100000000 rep 5: {"strategy":"reference","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.307,"backsubst_ns_per_key":4.66
+main reference_10000000 rep 6: {"strategy":"reference","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.370,"backsubst_ns_per_key":4.646,
+main sort_std_400000000 rep 6: {"strategy":"sort_std","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":103.721,"banding_ns_per_key":19.327,"backsubst_ns_per_key":4.6
+main sort_radix_400000000 rep 6: {"strategy":"sort_radix","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":37.590,"banding_ns_per_key":19.230,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 6: {"strategy":"sort_radix","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":37.056,"banding_ns_per_key":19.227,"backsubst_ns_per_key":4.63
+main noprefetch_400000000 rep 6: {"strategy":"noprefetch","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":126.922,"backsubst_ns_per_key":4.
+main sort_radix_100000000 rep 6: {"strategy":"sort_radix","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":37.901,"banding_ns_per_key":19.300,"backsubst_ns_per_key":4.
+main partitioned_100000000 rep 6: {"strategy":"partitioned","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.200,"banding_ns_per_key":23.260,"backsubst_ns_per_key":4.
+main sort_std_10000000 rep 6: {"strategy":"sort_std","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":84.545,"banding_ns_per_key":19.299,"backsubst_ns_per_key":4.641,
+main sort_ips2ra_100000000 rep 6: {"strategy":"sort_ips2ra","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":34.125,"banding_ns_per_key":19.337,"backsubst_ns_per_key":4
+main reference_100000000 rep 6: {"strategy":"reference","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.431,"backsubst_ns_per_key":4.65
+main reference_400000000 rep 6: {"strategy":"reference","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.862,"backsubst_ns_per_key":4.64
+main sort_std_100000000 rep 6: {"strategy":"sort_std","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":97.533,"banding_ns_per_key":19.362,"backsubst_ns_per_key":4.63
+main sort_ips2ra_400000000 rep 6: {"strategy":"sort_ips2ra","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":33.907,"banding_ns_per_key":19.311,"backsubst_ns_per_key":4
+main sort_ips2ra_10000000 rep 6: {"strategy":"sort_ips2ra","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":32.002,"banding_ns_per_key":19.151,"backsubst_ns_per_key":4.6
+main noprefetch_10000000 rep 6: {"strategy":"noprefetch","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.429,"backsubst_ns_per_key":4.680
+main partitioned_400000000 rep 6: {"strategy":"partitioned","n":400000000,"rep":6,"num_slots":435937536,"reorder_ns_per_key":9.122,"banding_ns_per_key":23.259,"backsubst_ns_per_key":4.
+main partitioned_10000000 rep 6: {"strategy":"partitioned","n":10000000,"rep":6,"num_slots":10898496,"reorder_ns_per_key":7.386,"banding_ns_per_key":23.163,"backsubst_ns_per_key":4.66
+main noprefetch_100000000 rep 6: {"strategy":"noprefetch","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":117.464,"backsubst_ns_per_key":4.
+main partitioned_100000000 rep 7: {"strategy":"partitioned","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.186,"banding_ns_per_key":23.246,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 7: {"strategy":"noprefetch","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.805,"backsubst_ns_per_key":4.713
+main sort_ips2ra_10000000 rep 7: {"strategy":"sort_ips2ra","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":31.996,"banding_ns_per_key":19.213,"backsubst_ns_per_key":4.6
+main partitioned_400000000 rep 7: {"strategy":"partitioned","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":9.117,"banding_ns_per_key":23.266,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 7: {"strategy":"sort_radix","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":37.074,"banding_ns_per_key":19.292,"backsubst_ns_per_key":4.63
+main sort_std_10000000 rep 7: {"strategy":"sort_std","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":84.141,"banding_ns_per_key":19.334,"backsubst_ns_per_key":4.647,
+main partitioned_10000000 rep 7: {"strategy":"partitioned","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":7.235,"banding_ns_per_key":23.081,"backsubst_ns_per_key":4.66
+main reference_10000000 rep 7: {"strategy":"reference","n":10000000,"rep":7,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.912,"backsubst_ns_per_key":4.629,
+main sort_std_100000000 rep 7: {"strategy":"sort_std","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":96.890,"banding_ns_per_key":19.380,"backsubst_ns_per_key":4.63
+main sort_std_400000000 rep 7: {"strategy":"sort_std","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":103.595,"banding_ns_per_key":19.277,"backsubst_ns_per_key":4.6
+main sort_radix_100000000 rep 7: {"strategy":"sort_radix","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":37.880,"banding_ns_per_key":19.313,"backsubst_ns_per_key":4.
+main sort_radix_400000000 rep 7: {"strategy":"sort_radix","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":37.601,"banding_ns_per_key":19.312,"backsubst_ns_per_key":4.
+main sort_ips2ra_100000000 rep 7: {"strategy":"sort_ips2ra","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":34.197,"banding_ns_per_key":19.333,"backsubst_ns_per_key":4
+main reference_400000000 rep 7: {"strategy":"reference","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":91.400,"backsubst_ns_per_key":4.64
+main sort_ips2ra_400000000 rep 7: {"strategy":"sort_ips2ra","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":33.824,"banding_ns_per_key":19.323,"backsubst_ns_per_key":4
+main noprefetch_400000000 rep 7: {"strategy":"noprefetch","n":400000000,"rep":7,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":125.245,"backsubst_ns_per_key":4.
+main reference_100000000 rep 7: {"strategy":"reference","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":85.180,"backsubst_ns_per_key":4.65
+main noprefetch_100000000 rep 7: {"strategy":"noprefetch","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":117.018,"backsubst_ns_per_key":4.
+main reference_100000000 rep 8: {"strategy":"reference","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":85.393,"backsubst_ns_per_key":4.65
+main noprefetch_100000000 rep 8: {"strategy":"noprefetch","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":115.991,"backsubst_ns_per_key":4.
+main sort_radix_10000000 rep 8: {"strategy":"sort_radix","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":36.587,"banding_ns_per_key":19.388,"backsubst_ns_per_key":4.63
+main partitioned_400000000 rep 8: {"strategy":"partitioned","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":9.120,"banding_ns_per_key":23.256,"backsubst_ns_per_key":4.
+main sort_ips2ra_400000000 rep 8: {"strategy":"sort_ips2ra","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":33.839,"banding_ns_per_key":19.284,"backsubst_ns_per_key":4
+main reference_400000000 rep 8: {"strategy":"reference","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.111,"backsubst_ns_per_key":4.64
+main partitioned_100000000 rep 8: {"strategy":"partitioned","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.243,"banding_ns_per_key":23.256,"backsubst_ns_per_key":4.
+main sort_std_400000000 rep 8: {"strategy":"sort_std","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":104.071,"banding_ns_per_key":19.376,"backsubst_ns_per_key":4.6
+main noprefetch_10000000 rep 8: {"strategy":"noprefetch","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.199,"backsubst_ns_per_key":4.722
+main sort_ips2ra_100000000 rep 8: {"strategy":"sort_ips2ra","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":34.273,"banding_ns_per_key":19.378,"backsubst_ns_per_key":4
+main sort_std_10000000 rep 8: {"strategy":"sort_std","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":84.399,"banding_ns_per_key":19.325,"backsubst_ns_per_key":4.640,
+main reference_10000000 rep 8: {"strategy":"reference","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.653,"backsubst_ns_per_key":4.631,
+main sort_radix_400000000 rep 8: {"strategy":"sort_radix","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":37.638,"banding_ns_per_key":19.361,"backsubst_ns_per_key":4.
+main sort_radix_100000000 rep 8: {"strategy":"sort_radix","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":37.838,"banding_ns_per_key":19.361,"backsubst_ns_per_key":4.
+main sort_std_100000000 rep 8: {"strategy":"sort_std","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":96.702,"banding_ns_per_key":19.365,"backsubst_ns_per_key":4.64
+main partitioned_10000000 rep 8: {"strategy":"partitioned","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":7.267,"banding_ns_per_key":23.256,"backsubst_ns_per_key":4.69
+main noprefetch_400000000 rep 8: {"strategy":"noprefetch","n":400000000,"rep":8,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":125.930,"backsubst_ns_per_key":4.
+main sort_ips2ra_10000000 rep 8: {"strategy":"sort_ips2ra","n":10000000,"rep":8,"num_slots":10898496,"reorder_ns_per_key":31.569,"banding_ns_per_key":19.400,"backsubst_ns_per_key":4.6
+main sort_radix_10000000 rep 9: {"strategy":"sort_radix","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":36.936,"banding_ns_per_key":19.369,"backsubst_ns_per_key":4.64
+main sort_std_10000000 rep 9: {"strategy":"sort_std","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":84.757,"banding_ns_per_key":19.278,"backsubst_ns_per_key":4.644,
+main sort_std_400000000 rep 9: {"strategy":"sort_std","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":103.579,"banding_ns_per_key":19.352,"backsubst_ns_per_key":4.6
+main sort_radix_100000000 rep 9: {"strategy":"sort_radix","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":37.878,"banding_ns_per_key":19.351,"backsubst_ns_per_key":4.
+main noprefetch_10000000 rep 9: {"strategy":"noprefetch","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":50.742,"backsubst_ns_per_key":4.703
+main noprefetch_100000000 rep 9: {"strategy":"noprefetch","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":116.203,"backsubst_ns_per_key":4.
+main sort_radix_400000000 rep 9: {"strategy":"sort_radix","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":37.600,"banding_ns_per_key":19.347,"backsubst_ns_per_key":4.
+main reference_400000000 rep 9: {"strategy":"reference","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":90.098,"backsubst_ns_per_key":4.64
+main reference_10000000 rep 9: {"strategy":"reference","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":0.000,"banding_ns_per_key":38.830,"backsubst_ns_per_key":4.649,
+main reference_100000000 rep 9: {"strategy":"reference","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":0.000,"banding_ns_per_key":84.429,"backsubst_ns_per_key":4.65
+main sort_ips2ra_400000000 rep 9: {"strategy":"sort_ips2ra","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":33.828,"banding_ns_per_key":19.368,"backsubst_ns_per_key":4
+main sort_ips2ra_10000000 rep 9: {"strategy":"sort_ips2ra","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":31.568,"banding_ns_per_key":19.336,"backsubst_ns_per_key":4.6
+main sort_std_100000000 rep 9: {"strategy":"sort_std","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":97.327,"banding_ns_per_key":19.319,"backsubst_ns_per_key":4.63
+main partitioned_100000000 rep 9: {"strategy":"partitioned","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.212,"banding_ns_per_key":23.241,"backsubst_ns_per_key":4.
+main partitioned_10000000 rep 9: {"strategy":"partitioned","n":10000000,"rep":9,"num_slots":10898496,"reorder_ns_per_key":7.257,"banding_ns_per_key":23.259,"backsubst_ns_per_key":4.66
+main partitioned_400000000 rep 9: {"strategy":"partitioned","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":9.112,"banding_ns_per_key":23.269,"backsubst_ns_per_key":4.
+main sort_ips2ra_100000000 rep 9: {"strategy":"sort_ips2ra","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":34.222,"banding_ns_per_key":19.370,"backsubst_ns_per_key":4
+main noprefetch_400000000 rep 9: {"strategy":"noprefetch","n":400000000,"rep":9,"num_slots":435937536,"reorder_ns_per_key":0.000,"banding_ns_per_key":127.602,"backsubst_ns_per_key":4.
+parallel parallel_t2 rep 0: {"strategy":"parallel","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.269,"banding_ns_per_key":14.558,"backsubst_ns_per_key":4.629
+parallel partitioned_seq rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.214,"banding_ns_per_key":23.296,"backsubst_ns_per_key":4.
+parallel parallel_t8 rep 0: {"strategy":"parallel","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.221,"banding_ns_per_key":3.889,"backsubst_ns_per_key":4.628,
+parallel parallel_t4 rep 0: {"strategy":"parallel","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.182,"banding_ns_per_key":7.427,"backsubst_ns_per_key":4.626,
+parallel parallel_t16 rep 0: {"strategy":"parallel","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.196,"banding_ns_per_key":2.810,"backsubst_ns_per_key":4.642,
+parallel parallel_t1 rep 0: {"strategy":"parallel","n":100000000,"rep":0,"num_slots":108984384,"reorder_ns_per_key":8.180,"banding_ns_per_key":28.085,"backsubst_ns_per_key":4.628
+parallel parallel_t1 rep 1: {"strategy":"parallel","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.211,"banding_ns_per_key":28.088,"backsubst_ns_per_key":4.633
+parallel parallel_t4 rep 1: {"strategy":"parallel","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.199,"banding_ns_per_key":7.365,"backsubst_ns_per_key":4.624,
+parallel partitioned_seq rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.198,"banding_ns_per_key":23.280,"backsubst_ns_per_key":4.
+parallel parallel_t2 rep 1: {"strategy":"parallel","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.188,"banding_ns_per_key":14.457,"backsubst_ns_per_key":4.638
+parallel parallel_t8 rep 1: {"strategy":"parallel","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.206,"banding_ns_per_key":3.860,"backsubst_ns_per_key":4.642,
+parallel parallel_t16 rep 1: {"strategy":"parallel","n":100000000,"rep":1,"num_slots":108984384,"reorder_ns_per_key":8.150,"banding_ns_per_key":2.180,"backsubst_ns_per_key":4.639,
+parallel parallel_t1 rep 2: {"strategy":"parallel","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.195,"banding_ns_per_key":28.065,"backsubst_ns_per_key":4.630
+parallel parallel_t16 rep 2: {"strategy":"parallel","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.257,"banding_ns_per_key":2.173,"backsubst_ns_per_key":4.635,
+parallel parallel_t4 rep 2: {"strategy":"parallel","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.229,"banding_ns_per_key":7.384,"backsubst_ns_per_key":4.631,
+parallel partitioned_seq rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.169,"banding_ns_per_key":23.255,"backsubst_ns_per_key":4.
+parallel parallel_t8 rep 2: {"strategy":"parallel","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.194,"banding_ns_per_key":3.885,"backsubst_ns_per_key":4.633,
+parallel parallel_t2 rep 2: {"strategy":"parallel","n":100000000,"rep":2,"num_slots":108984384,"reorder_ns_per_key":8.224,"banding_ns_per_key":14.442,"backsubst_ns_per_key":4.630
+parallel parallel_t16 rep 3: {"strategy":"parallel","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.209,"banding_ns_per_key":2.172,"backsubst_ns_per_key":4.638,
+parallel parallel_t2 rep 3: {"strategy":"parallel","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.197,"banding_ns_per_key":14.493,"backsubst_ns_per_key":4.632
+parallel parallel_t4 rep 3: {"strategy":"parallel","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.180,"banding_ns_per_key":7.379,"backsubst_ns_per_key":4.634,
+parallel partitioned_seq rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.216,"banding_ns_per_key":23.259,"backsubst_ns_per_key":4.
+parallel parallel_t8 rep 3: {"strategy":"parallel","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.210,"banding_ns_per_key":3.890,"backsubst_ns_per_key":4.634,
+parallel parallel_t1 rep 3: {"strategy":"parallel","n":100000000,"rep":3,"num_slots":108984384,"reorder_ns_per_key":8.221,"banding_ns_per_key":28.011,"backsubst_ns_per_key":4.620
+parallel parallel_t4 rep 4: {"strategy":"parallel","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.209,"banding_ns_per_key":7.439,"backsubst_ns_per_key":4.638,
+parallel parallel_t1 rep 4: {"strategy":"parallel","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.214,"banding_ns_per_key":28.009,"backsubst_ns_per_key":4.629
+parallel parallel_t16 rep 4: {"strategy":"parallel","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.226,"banding_ns_per_key":2.178,"backsubst_ns_per_key":4.634,
+parallel parallel_t8 rep 4: {"strategy":"parallel","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.225,"banding_ns_per_key":3.900,"backsubst_ns_per_key":4.627,
+parallel partitioned_seq rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.209,"banding_ns_per_key":23.255,"backsubst_ns_per_key":4.
+parallel parallel_t2 rep 4: {"strategy":"parallel","n":100000000,"rep":4,"num_slots":108984384,"reorder_ns_per_key":8.233,"banding_ns_per_key":14.482,"backsubst_ns_per_key":4.627
+parallel parallel_t16 rep 5: {"strategy":"parallel","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.226,"banding_ns_per_key":2.179,"backsubst_ns_per_key":4.637,
+parallel partitioned_seq rep 5: {"strategy":"partitioned","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.235,"banding_ns_per_key":23.257,"backsubst_ns_per_key":4.
+parallel parallel_t2 rep 5: {"strategy":"parallel","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.205,"banding_ns_per_key":14.486,"backsubst_ns_per_key":4.629
+parallel parallel_t4 rep 5: {"strategy":"parallel","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.202,"banding_ns_per_key":7.382,"backsubst_ns_per_key":4.629,
+parallel parallel_t8 rep 5: {"strategy":"parallel","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.184,"banding_ns_per_key":3.916,"backsubst_ns_per_key":4.632,
+parallel parallel_t1 rep 5: {"strategy":"parallel","n":100000000,"rep":5,"num_slots":108984384,"reorder_ns_per_key":8.216,"banding_ns_per_key":28.021,"backsubst_ns_per_key":4.633
+parallel parallel_t16 rep 6: {"strategy":"parallel","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.267,"banding_ns_per_key":2.167,"backsubst_ns_per_key":4.641,
+parallel parallel_t8 rep 6: {"strategy":"parallel","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.232,"banding_ns_per_key":3.867,"backsubst_ns_per_key":4.635,
+parallel parallel_t2 rep 6: {"strategy":"parallel","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.219,"banding_ns_per_key":14.462,"backsubst_ns_per_key":4.628
+parallel parallel_t1 rep 6: {"strategy":"parallel","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.235,"banding_ns_per_key":28.030,"backsubst_ns_per_key":4.630
+parallel parallel_t4 rep 6: {"strategy":"parallel","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.222,"banding_ns_per_key":7.334,"backsubst_ns_per_key":4.627,
+parallel partitioned_seq rep 6: {"strategy":"partitioned","n":100000000,"rep":6,"num_slots":108984384,"reorder_ns_per_key":8.206,"banding_ns_per_key":23.267,"backsubst_ns_per_key":4.
+parallel parallel_t2 rep 7: {"strategy":"parallel","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.198,"banding_ns_per_key":14.487,"backsubst_ns_per_key":4.631
+parallel parallel_t16 rep 7: {"strategy":"parallel","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.193,"banding_ns_per_key":2.166,"backsubst_ns_per_key":4.639,
+parallel parallel_t4 rep 7: {"strategy":"parallel","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.197,"banding_ns_per_key":7.388,"backsubst_ns_per_key":4.634,
+parallel parallel_t1 rep 7: {"strategy":"parallel","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.226,"banding_ns_per_key":28.041,"backsubst_ns_per_key":4.635
+parallel parallel_t8 rep 7: {"strategy":"parallel","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.220,"banding_ns_per_key":3.894,"backsubst_ns_per_key":4.637,
+parallel partitioned_seq rep 7: {"strategy":"partitioned","n":100000000,"rep":7,"num_slots":108984384,"reorder_ns_per_key":8.201,"banding_ns_per_key":23.280,"backsubst_ns_per_key":4.
+parallel partitioned_seq rep 8: {"strategy":"partitioned","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.193,"banding_ns_per_key":23.267,"backsubst_ns_per_key":4.
+parallel parallel_t8 rep 8: {"strategy":"parallel","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.198,"banding_ns_per_key":3.893,"backsubst_ns_per_key":4.630,
+parallel parallel_t4 rep 8: {"strategy":"parallel","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.192,"banding_ns_per_key":7.387,"backsubst_ns_per_key":4.627,
+parallel parallel_t16 rep 8: {"strategy":"parallel","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.205,"banding_ns_per_key":2.173,"backsubst_ns_per_key":4.643,
+parallel parallel_t1 rep 8: {"strategy":"parallel","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.217,"banding_ns_per_key":27.947,"backsubst_ns_per_key":4.624
+parallel parallel_t2 rep 8: {"strategy":"parallel","n":100000000,"rep":8,"num_slots":108984384,"reorder_ns_per_key":8.236,"banding_ns_per_key":14.528,"backsubst_ns_per_key":4.631
+parallel parallel_t16 rep 9: {"strategy":"parallel","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.206,"banding_ns_per_key":2.178,"backsubst_ns_per_key":4.636,
+parallel parallel_t1 rep 9: {"strategy":"parallel","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.227,"banding_ns_per_key":28.017,"backsubst_ns_per_key":4.627
+parallel parallel_t4 rep 9: {"strategy":"parallel","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.205,"banding_ns_per_key":7.375,"backsubst_ns_per_key":4.638,
+parallel partitioned_seq rep 9: {"strategy":"partitioned","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.194,"banding_ns_per_key":23.257,"backsubst_ns_per_key":4.
+parallel parallel_t8 rep 9: {"strategy":"parallel","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.208,"banding_ns_per_key":3.887,"backsubst_ns_per_key":4.627,
+parallel parallel_t2 rep 9: {"strategy":"parallel","n":100000000,"rep":9,"num_slots":108984384,"reorder_ns_per_key":8.209,"banding_ns_per_key":14.441,"backsubst_ns_per_key":4.629
+counters sort_radix_400000000_raw rep 0: {"strategy":"sort_radix","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters partitioned_100000000_raw rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_400000000_raw rep 0: {"strategy":"sort_ips2ra","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_400000000_raw rep 0: {"strategy":"reference","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_radix_400000000_generic rep 0: {"strategy":"sort_radix","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_radix_100000000_generic rep 0: {"strategy":"sort_radix","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_100000000_generic rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_100000000_generic rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_ips2ra_400000000_generic rep 0: {"strategy":"sort_ips2ra","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_400000000_raw rep 0: {"strategy":"partitioned","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_100000000_raw rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_100000000_raw rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_400000000_generic rep 0: {"strategy":"reference","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_radix_100000000_raw rep 0: {"strategy":"sort_radix","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters partitioned_400000000_generic rep 0: {"strategy":"partitioned","n":400000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_generic rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_100000000_raw rep 1: {"strategy":"sort_radix","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_400000000_raw rep 1: {"strategy":"reference","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_ips2ra_400000000_raw rep 1: {"strategy":"sort_ips2ra","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_raw rep 1: {"strategy":"sort_radix","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_100000000_generic rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_400000000_generic rep 1: {"strategy":"reference","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_radix_100000000_generic rep 1: {"strategy":"sort_radix","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_400000000_generic rep 1: {"strategy":"sort_ips2ra","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_generic rep 1: {"strategy":"sort_radix","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_100000000_generic rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_100000000_raw rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters partitioned_400000000_generic rep 1: {"strategy":"partitioned","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_generic rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_raw rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_100000000_raw rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_400000000_raw rep 1: {"strategy":"partitioned","n":400000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_400000000_raw rep 2: {"strategy":"reference","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_100000000_generic rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters partitioned_400000000_raw rep 2: {"strategy":"partitioned","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_100000000_raw rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_100000000_generic rep 2: {"strategy":"sort_radix","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_radix_100000000_raw rep 2: {"strategy":"sort_radix","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_400000000_generic rep 2: {"strategy":"reference","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_100000000_raw rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters partitioned_400000000_generic rep 2: {"strategy":"partitioned","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_raw rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_100000000_generic rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_400000000_generic rep 2: {"strategy":"sort_ips2ra","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_raw rep 2: {"strategy":"sort_radix","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_400000000_raw rep 2: {"strategy":"sort_ips2ra","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_generic rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_generic rep 2: {"strategy":"sort_radix","n":400000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_100000000_generic rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_400000000_generic rep 3: {"strategy":"reference","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters reference_400000000_raw rep 3: {"strategy":"reference","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters partitioned_100000000_raw rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_400000000_raw rep 3: {"strategy":"sort_ips2ra","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_400000000_raw rep 3: {"strategy":"partitioned","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_400000000_generic rep 3: {"strategy":"partitioned","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_100000000_raw rep 3: {"strategy":"sort_radix","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_100000000_raw rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_generic rep 3: {"strategy":"sort_radix","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters partitioned_100000000_generic rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_raw rep 3: {"strategy":"sort_radix","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_100000000_raw rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_radix_100000000_generic rep 3: {"strategy":"sort_radix","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_100000000_generic rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_400000000_generic rep 3: {"strategy":"sort_ips2ra","n":400000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_100000000_generic rep 4: {"strategy":"sort_radix","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters partitioned_400000000_generic rep 4: {"strategy":"partitioned","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_100000000_raw rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_raw rep 4: {"strategy":"sort_radix","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters reference_400000000_generic rep 4: {"strategy":"reference","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters partitioned_400000000_raw rep 4: {"strategy":"partitioned","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters partitioned_100000000_generic rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_ips2ra_400000000_generic rep 4: {"strategy":"sort_ips2ra","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters sort_radix_400000000_generic rep 4: {"strategy":"sort_radix","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters partitioned_100000000_raw rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_100000000_generic rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_radix_100000000_raw rep 4: {"strategy":"sort_radix","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_s
+counters sort_ips2ra_100000000_generic rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_100000000_raw rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+counters sort_ips2ra_400000000_raw rep 4: {"strategy":"sort_ips2ra","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+counters reference_400000000_raw rep 4: {"strategy":"reference","n":400000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w128_r8_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r16_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w128_r7_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w64_r7_o1.05_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r7_o1.15_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r8_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r7_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w128_r16_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"num_
+config w64_r7_o1.15_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r8_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_sl
+config w64_r7_o1.15_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_sl
+config w64_r16_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r7_odefault_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w64_r8_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r7_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w64_r7_o1.05_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_sl
+config w64_r16_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r8_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r8_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num_s
+config w64_r7_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r16_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num_s
+config w64_r7_o1.05_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w128_r7_odefault_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num_s
+config w128_r16_odefault_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w128_r7_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num_s
+config w64_r16_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r8_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num_s
+config w128_r8_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r7_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w64_r7_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r7_o1.05_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_sl
+config w64_r7_o1.15_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_sl
+config w128_r7_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w128_r16_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r7_o1.15_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r8_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r16_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num_s
+config w64_r7_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r8_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_sl
+config w64_r7_o1.15_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r7_o1.05_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w128_r16_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"num_
+config w64_r7_o1.05_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r7_odefault_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w64_r8_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w128_r16_odefault_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r16_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r8_odefault_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r7_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num_s
+config w128_r16_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"num_
+config w64_r16_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w64_r7_o1.05_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_sl
+config w64_r8_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r8_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r7_o1.05_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w128_r8_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r7_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w128_r7_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w128_r8_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num_s
+config w128_r8_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w64_r7_o1.15_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r7_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w64_r16_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r16_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r7_o1.05_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r7_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r16_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num_s
+config w64_r7_o1.15_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r7_o1.15_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_sl
+config w128_r16_odefault_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r8_odefault_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_sl
+config w64_r7_odefault_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r7_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r16_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w64_r8_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_sl
+config w128_r7_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num_s
+config w128_r8_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w64_r7_o1.05_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r16_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num_s
+config w64_r7_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w64_r8_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r7_o1.15_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w128_r8_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num_s
+config w128_r16_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r7_o1.15_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_sl
+config w128_r7_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w128_r8_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w64_r7_o1.05_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w128_r16_odefault_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"num_
+config w64_r7_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r16_odefault_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w64_r7_o1.05_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_sl
+config w64_r8_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w128_r16_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r7_o1.15_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w128_r7_odefault_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w128_r8_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w64_r7_o1.05_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r7_o1.05_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_
+config w64_r16_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num_s
+config w64_r7_o1.05_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.050000,"num_sl
+config w64_r16_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r7_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num_s
+config w64_r8_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w128_r8_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num_s
+config w128_r8_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":128,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.046876,"num
+config w128_r7_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w64_r7_o1.15_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_sl
+config w128_r16_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w128_r16_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"nu
+config w64_r8_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_
+config w64_r7_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r7_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+config w128_r7_odefault_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":128,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.044923,"num
+config w64_r8_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":8,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.093750,"num_sl
+config w64_r16_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.125000,"num
+config w128_r16_odefault_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":128,"r":16,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.062501,"num_
+config w64_r7_o1.15_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+config w64_r7_odefault_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+config w64_r7_o1.15_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.150000,"num_
+sosd_fb 200000000
+sosd_osm 200000000
+sosd_wiki 90437011
+cc_hosts 19.70226502
+keys synth16_direct_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys cc_hosts_hashed_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys cc_hosts_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys synth16_direct_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_slot
+keys cc_hosts_direct_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth64_direct_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys sosd_fb_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys cc_hosts_direct_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_slot
+keys synth16_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys synth64_hashed_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_slo
+keys synth16_direct_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys synth16_hashed_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_direct_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys sosd_wiki_hashed_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":90000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys sosd_wiki_hashed_reference rep 0: {"strategy":"reference","n":90000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slots
+keys sosd_osm_hashed_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_direct_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_slot
+keys sosd_fb_hashed_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys synth16_hashed_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys sosd_osm_hashed_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys sosd_wiki_hashed_partitioned rep 0: {"strategy":"partitioned","n":90000000,"rep":0,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys cc_hosts_hashed_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_slo
+keys cc_hosts_direct_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth16_direct_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys sosd_osm_hashed_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys cc_hosts_hashed_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_slo
+keys sosd_wiki_hashed_reference rep 1: {"strategy":"reference","n":90000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slots
+keys sosd_fb_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys synth16_direct_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys cc_hosts_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys synth64_direct_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys sosd_osm_hashed_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys cc_hosts_direct_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth64_direct_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_slot
+keys cc_hosts_hashed_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys synth16_direct_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_slot
+keys synth16_hashed_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys synth16_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys sosd_wiki_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":90000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys cc_hosts_direct_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_slot
+keys synth64_hashed_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys sosd_wiki_hashed_partitioned rep 1: {"strategy":"partitioned","n":90000000,"rep":1,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys synth16_hashed_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_slo
+keys synth64_direct_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys cc_hosts_direct_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys sosd_wiki_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":90000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_direct_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_slot
+keys synth64_hashed_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_slo
+keys cc_hosts_hashed_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys sosd_fb_hashed_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys cc_hosts_direct_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth64_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys synth64_hashed_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys synth64_direct_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth16_hashed_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys cc_hosts_direct_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_slot
+keys cc_hosts_hashed_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_slo
+keys synth16_hashed_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_slo
+keys sosd_fb_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_osm_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys synth16_direct_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys sosd_wiki_hashed_reference rep 2: {"strategy":"reference","n":90000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slots
+keys cc_hosts_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys cc_hosts_direct_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys sosd_wiki_hashed_partitioned rep 2: {"strategy":"partitioned","n":90000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys synth64_direct_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys sosd_osm_hashed_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys synth16_direct_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth16_hashed_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys synth16_direct_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_slot
+keys synth16_hashed_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys synth64_direct_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth16_direct_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_slot
+keys cc_hosts_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys synth16_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys sosd_fb_hashed_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth16_direct_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys cc_hosts_direct_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth64_direct_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_slot
+keys cc_hosts_direct_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys synth16_hashed_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_direct_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys synth16_direct_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys cc_hosts_direct_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_slot
+keys sosd_wiki_hashed_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":90000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys cc_hosts_hashed_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_slo
+keys cc_hosts_hashed_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys sosd_osm_hashed_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys sosd_wiki_hashed_reference rep 3: {"strategy":"reference","n":90000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slots
+keys sosd_wiki_hashed_partitioned rep 3: {"strategy":"partitioned","n":90000000,"rep":3,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys cc_hosts_direct_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys cc_hosts_hashed_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_slo
+keys sosd_wiki_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":90000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys synth16_hashed_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys cc_hosts_direct_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys cc_hosts_hashed_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys synth64_hashed_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_slo
+keys sosd_wiki_hashed_reference rep 4: {"strategy":"reference","n":90000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slots
+keys synth16_hashed_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_slo
+keys synth64_direct_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys sosd_fb_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys sosd_osm_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys synth16_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":16.00,"overhead":1.089844,"num_s
+keys sosd_fb_hashed_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys cc_hosts_direct_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":19.70,"overhead":1.089844,"num_slot
+keys synth64_direct_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_slot
+keys cc_hosts_hashed_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":19.70,"overhead":1.089844,"num_s
+keys sosd_wiki_hashed_partitioned rep 4: {"strategy":"partitioned","n":90000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slo
+keys sosd_osm_hashed_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+keys synth64_hashed_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":false,"mean_key_bytes":64.00,"overhead":1.089844,"num_s
+keys sosd_osm_hashed_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"u64","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_slot
+keys synth64_direct_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":64.00,"overhead":1.089844,"num_sl
+keys synth16_direct_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth16_direct_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_sl
+keys synth16_direct_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"str","string_keys_direct":true,"mean_key_bytes":16.00,"overhead":1.089844,"num_slot
+thp madvise_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp madvise_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp madvise_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp madvise_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp madvise_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp madvise_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp always_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp always_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp always_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp always_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp always_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp always_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp never_reference rep 0: {"strategy":"reference","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp never_sort_ips2ra rep 0: {"strategy":"sort_ips2ra","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_partitioned rep 0: {"strategy":"partitioned","n":100000000,"rep":0,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_partitioned rep 1: {"strategy":"partitioned","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_sort_ips2ra rep 1: {"strategy":"sort_ips2ra","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_reference rep 1: {"strategy":"reference","n":100000000,"rep":1,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp never_reference rep 2: {"strategy":"reference","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp never_partitioned rep 2: {"strategy":"partitioned","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_sort_ips2ra rep 2: {"strategy":"sort_ips2ra","n":100000000,"rep":2,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_sort_ips2ra rep 3: {"strategy":"sort_ips2ra","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_reference rep 3: {"strategy":"reference","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+thp never_partitioned rep 3: {"strategy":"partitioned","n":100000000,"rep":3,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_partitioned rep 4: {"strategy":"partitioned","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_sort_ips2ra rep 4: {"strategy":"sort_ips2ra","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_
+thp never_reference rep 4: {"strategy":"reference","n":100000000,"rep":4,"w":64,"r":7,"keys":"synth","string_keys_direct":false,"mean_key_bytes":8.00,"overhead":1.089844,"num_sl
+compaction stock sst 256 MiB rep 0: cpu 9.39 s
+compaction pleated sst 256 MiB rep 0: cpu 8.00 s
+compaction pleated sst 256 MiB rep 1: cpu 8.03 s
+compaction stock sst 256 MiB rep 1: cpu 9.39 s
+compaction stock sst 256 MiB rep 2: cpu 9.39 s
+compaction pleated sst 256 MiB rep 2: cpu 8.03 s
+compaction pleated sst 256 MiB rep 3: cpu 8.00 s
+compaction stock sst 256 MiB rep 3: cpu 9.42 s
+compaction pleated sst 256 MiB rep 4: cpu 8.00 s
+compaction stock sst 256 MiB rep 4: cpu 9.39 s
+compaction pleated sst 256 MiB rep 5: cpu 8.04 s
+compaction stock sst 256 MiB rep 5: cpu 9.39 s
+compaction stock sst 256 MiB rep 6: cpu 9.42 s
+compaction pleated sst 256 MiB rep 6: cpu 8.02 s
+compaction stock sst 256 MiB rep 7: cpu 9.43 s
+compaction pleated sst 256 MiB rep 7: cpu 7.99 s
+compaction pleated sst 256 MiB rep 8: cpu 8.00 s
+compaction stock sst 256 MiB rep 8: cpu 9.41 s
+compaction pleated sst 256 MiB rep 9: cpu 8.02 s
+compaction stock sst 256 MiB rep 9: cpu 9.41 s
+compaction stock sst 256 MiB rep 10: cpu 9.43 s
+compaction pleated sst 256 MiB rep 10: cpu 8.00 s
+compaction pleated sst 256 MiB rep 11: cpu 7.99 s
+compaction stock sst 256 MiB rep 11: cpu 9.40 s
+compaction pleated sst 256 MiB rep 12: cpu 8.00 s
+compaction stock sst 256 MiB rep 12: cpu 9.43 s
+compaction stock sst 256 MiB rep 13: cpu 9.44 s
+compaction pleated sst 256 MiB rep 13: cpu 7.99 s
+compaction stock sst 256 MiB rep 14: cpu 9.42 s
+compaction pleated sst 256 MiB rep 14: cpu 8.01 s
+compaction pleated sst 256 MiB rep 15: cpu 8.03 s
+compaction stock sst 256 MiB rep 15: cpu 9.44 s
+compaction stock sst 256 MiB rep 16: cpu 9.41 s
+compaction pleated sst 256 MiB rep 16: cpu 8.05 s
+compaction stock sst 256 MiB rep 17: cpu 9.42 s
+compaction pleated sst 256 MiB rep 17: cpu 8.00 s
+compaction pleated sst 256 MiB rep 18: cpu 8.03 s
+compaction stock sst 256 MiB rep 18: cpu 9.44 s
+compaction pleated sst 256 MiB rep 19: cpu 8.01 s
+compaction stock sst 256 MiB rep 19: cpu 9.42 s
+compaction pleated sst 64 MiB rep 0: cpu 7.91 s
+compaction stock sst 64 MiB rep 0: cpu 8.31 s
+compaction stock sst 64 MiB rep 1: cpu 8.31 s
+compaction pleated sst 64 MiB rep 1: cpu 7.92 s
+compaction pleated sst 64 MiB rep 2: cpu 7.92 s
+compaction stock sst 64 MiB rep 2: cpu 8.29 s
+compaction pleated sst 64 MiB rep 3: cpu 8.00 s
+compaction stock sst 64 MiB rep 3: cpu 8.29 s
+compaction pleated sst 64 MiB rep 4: cpu 7.98 s
+compaction stock sst 64 MiB rep 4: cpu 8.47 s
+compaction pleated sst 1024 MiB rep 0: cpu 8.01 s
+compaction stock sst 1024 MiB rep 0: cpu 9.81 s
+compaction stock sst 1024 MiB rep 1: cpu 9.83 s
+compaction pleated sst 1024 MiB rep 1: cpu 8.08 s
+compaction stock sst 1024 MiB rep 2: cpu 9.83 s
+compaction pleated sst 1024 MiB rep 2: cpu 8.05 s
+compaction pleated sst 1024 MiB rep 3: cpu 8.07 s
+compaction stock sst 1024 MiB rep 3: cpu 9.83 s
+compaction stock sst 1024 MiB rep 4: cpu 9.82 s
+compaction pleated sst 1024 MiB rep 4: cpu 8.06 s

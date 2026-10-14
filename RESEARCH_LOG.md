@@ -786,3 +786,40 @@ protocol is frozen:
   hypervisor; the three Intel events resolve (`0x10d1`, `0x20d1`, `0xe12`).
 
 Next: commit the protocol, then run `scripts/e7_remote.sh` on the three machines.
+
+## 2026-10-14 — E7 results: primary machine (Intel, bare metal) and Graviton4 replication
+
+`results/e7/x86-intel/ANALYSIS.md` (decides) and `results/e7/arm-graviton4/ANALYSIS.md`
+(replication). Protocol `experiments/e7_rigour/README.md`, committed in a6ad7de before any
+registered run; both runs are from that commit. Every rule line, primary machine (Xeon Platinum
+8488C, c7i.metal-24xl, no hypervisor):
+
+- **H1 holds.** Reference / partitioned total: 2.47× [2.46, 2.49] at 100M keys, 2.57× [2.56,
+  2.59] at 400M (medians of 10; partitioned 36.1 and 37.0 ns/key). At 10M keys, which has no
+  rule, it is 1.23×.
+- **H1b holds.** Best full sort (ips2ra) / partitioned: 1.61× at 100M, 1.56× at 400M.
+- **H2 fails.** Recovery of the best sort's reduction in `mem_load_retired.l2_miss`: 85.0%
+  [84.9, 85.1] at 100M and 84.9% at 400M, below the registered 90%. On the same runs the generic
+  cache-miss event gives 100.0%, `mem_load_retired.l3_miss` 83.3% and 84.9%, and dTLB walks
+  99.8%. The named events count retired loads that missed; the reference build prefetches each
+  key's start, so it has only about 0.11 such misses per key against 3.2 generic misses. My
+  reading, not tested: the named event sees the demand misses that the prefetch does not cover,
+  and partitioning removes a smaller share of those. By the protocol the paper's "98%" sentence
+  goes and the measured figures are stated.
+- **H3 holds.** Reference / partitioned in all eight configurations: 2.28× to 2.66×.
+- **H4 holds.** Every integer set and every string set hashed once: 2.22× (64-byte strings) to
+  2.52× (SOSD sets); Common Crawl host names 2.35×. As expected but now measured: with the
+  string itself as the key (hashed in every pass), partitioning does not help: 0.96× for host
+  names, 1.04× for 16-byte and 0.79× for 64-byte strings.
+- **H5 holds.** Compaction CPU, pleated / stock at the 256 MiB target: 0.850× [0.849, 0.852]
+  over 20 runs per arm (9.42 → 8.01 s). At 64 MiB 0.954×, at 1 GiB 0.820× (5 runs each).
+- **H6 holds.** 16-thread banding / sequential partitioned banding: 10.69×.
+- Huge pages (no rule): reference / partitioned 2.52× (madvise), 2.48× (always), 2.52× (never).
+- Checks: no false negatives, equal fingerprints across strategies in every repetition, bits
+  per key at or above log2(1/FPR) everywhere; the cross-check passed (within 1.1%).
+
+Graviton4 (replication; H1, H1b, H2, H6 evaluated): all hold. Reference / partitioned 2.17× and
+2.27×; best sort / partitioned 1.29× and 1.30×; recovery in `l2d_cache_lmiss_rd` 96.7% and
+97.5%; 16-thread banding 10.57× sequential.
+
+The AMD replication runs next.

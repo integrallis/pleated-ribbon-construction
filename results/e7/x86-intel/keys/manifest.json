@@ -1,0 +1,70 @@
+{
+ "n": 100000000,
+ "numpy": "1.26.4",
+ "sets": {
+  "sosd_fb": {
+   "file": "sosd_fb.u64",
+   "source": "https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/EATHF7",
+   "source_title": "fb_200M_uint64",
+   "source_sha256": "cbff2be264ad89bdbbda455a62882d3de3bb2a29dfd01ad5e661c134696c9036",
+   "keys_in_source": 200000000,
+   "distinct_in_source": 200000000,
+   "keys_written": 100000000,
+   "order": "ascending (the source's order)",
+   "sha256": "d470318e9fffbed287338e4a4ab7a63b434e77f91d7e4ecc7a2fcaafe223c8cf"
+  },
+  "sosd_osm": {
+   "file": "sosd_osm.u64",
+   "source": "https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/8FX9BV",
+   "source_title": "osm_cellids_200M_uint64",
+   "source_sha256": "06c42a0aa1ea45eb53914560b50833f5f1cb2852f28b4fce05e9a704912b610b",
+   "keys_in_source": 200000000,
+   "distinct_in_source": 200000000,
+   "keys_written": 100000000,
+   "order": "ascending (the source's order)",
+   "sha256": "870351017c8b067633654d8cb2314cba6e06cad7a0c99f7d9a6bd35dc13fbe7f"
+  },
+  "sosd_wiki": {
+   "file": "sosd_wiki.u64",
+   "source": "https://dataverse.harvard.edu/api/access/datafile/:persistentId?persistentId=doi:10.7910/DVN/JGVF9A/SVN8PI",
+   "source_title": "wiki_ts_200M_uint64",
+   "source_sha256": "47bab046b0eb739388f4818711de6437fe99566d32ffde24a7b2d27e79094aa2",
+   "keys_in_source": 200000000,
+   "distinct_in_source": 90437011,
+   "keys_written": 90000000,
+   "order": "ascending (the source's order)",
+   "sha256": "f4da5e122d258400d9092e61a5173e3f986774614c04020e8a72655877fa1e14"
+  },
+  "cc_hosts": {
+   "file": "cc_hosts.str",
+   "source": "https://data.commoncrawl.org/projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/cc-main-2025-mar-apr-may-host-vertices.paths.gz",
+   "release": "cc-main-2025-mar-apr-may",
+   "parts_used": [
+    "projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/vertices/part-00000-da2c076c-35cb-48d4-b63b-ddf2e5b76314-c000.txt.gz",
+    "projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/vertices/part-00001-da2c076c-35cb-48d4-b63b-ddf2e5b76314-c000.txt.gz",
+    "projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/vertices/part-00002-da2c076c-35cb-48d4-b63b-ddf2e5b76314-c000.txt.gz",
+    "projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/vertices/part-00003-da2c076c-35cb-48d4-b63b-ddf2e5b76314-c000.txt.gz",
+    "projects/hyperlinkgraph/cc-main-2025-mar-apr-may/host/vertices/part-00004-da2c076c-35cb-48d4-b63b-ddf2e5b76314-c000.txt.gz"
+   ],
+   "keys_written": 100000000,
+   "adjacent_duplicates_skipped": 0,
+   "mean_bytes": 19.70226502,
+   "order": "the release's order",
+   "sha256": "b8d707cfedd0d1eb8bf7856b4793c27eb76088eecd190848e2e92bf02501e538"
+  },
+  "synth16": {
+   "file": "synth16.str",
+   "source": "numpy default_rng(247); first 8 bytes are the index",
+   "keys_written": 100000000,
+   "mean_bytes": 16.0,
+   "sha256": "602489bfacf4e1af2748596fe71fecc6b9342b92cccee5fbaac4fd10198c31c4"
+  },
+  "synth64": {
+   "file": "synth64.str",
+   "source": "numpy default_rng(295); first 8 bytes are the index",
+   "keys_written": 100000000,
+   "mean_bytes": 64.0,
+   "sha256": "60690e2787e8f508ac943f16daacce40a619f81acef8b1b89cbd722a0f5b6cd6"
+  }
+ }
+}
