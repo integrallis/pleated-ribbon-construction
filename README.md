@@ -137,8 +137,8 @@ To rebuild the paper: `cd paper && latexmk -pdf main.tex` (or `tectonic main.tex
 ## How to cite
 
 The paper is archived as a preprint on Zenodo (DOI [10.5281/zenodo.23222458](https://doi.org/10.5281/zenodo.23222458),
-which always resolves to the latest version; version 2, of 2026-10-13, is 10.5281/zenodo.23350180
-and version 1 is 10.5281/zenodo.23222459):
+which always resolves to the latest version; version 3, of 2026-10-14, is 10.5281/zenodo.23358246,
+version 2 is 10.5281/zenodo.23350180 and version 1 is 10.5281/zenodo.23222459):
 
 ```bibtex
 @misc{sambodden2026pleated,

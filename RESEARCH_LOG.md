@@ -841,3 +841,11 @@ exist only from the laptop are labelled. New numbers come from
 `experiments/e7_rigour/paper_tables.py` (in `reproduce.sh`); figures 1, 2 and 4 are drawn from
 E7's raw files (the access-pattern diagram previously carried hand-typed laptop numbers).
 `paper/main.pdf` is 17 pages; the anonymous LIPIcs build is 21.
+
+## 2026-10-14 — Zenodo version 3
+
+The paper revised to E7's measurements is published as version 3 of the Zenodo preprint: DOI
+10.5281/zenodo.23358246, under the concept DOI 10.5281/zenodo.23222458. The archived
+`main.pdf` is the file committed in e43909a (177,867 bytes, md5
+4c9bc9f065236530559d9ad91f7b09fe; checked by downloading the public file); the record's
+description carries the revised abstract.
